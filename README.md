@@ -24,6 +24,7 @@ Documentation: https://github.com/binance/binance-spot-api-docs/blob/master/web-
 
 {"e":"trade","E":1610381857151,"s":"BTCUSDT","t":563913029,"p":"30709.20000000","q":"0.00000900","b":4266992903,"a":4266993001,"T":1610381857150,"m":true,"M":true}
 
+````json
 {
 "e": "trade", // Event type
 "E": 123456789, // Event time
@@ -69,7 +70,7 @@ Documentation: https://github.com/binance/binance-spot-api-docs/blob/master/web-
     "B": "0"
   }
 }
-```
+````
 
 # Adding Javascript to the mix (with React)
 

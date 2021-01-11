@@ -1,36 +1,48 @@
 import React, { useEffect, useState } from "react";
+import Coin from "./Coin";
+import BinanceChart from ".//BinanceChart";
 
 const App = () => {
-  const [symbolOne, setSymbolOne] = useState([]);
-  const [symbolTwo, setSymbolTwo] = useState([]);
+  const [coinOne, setCoinOne] = useState("");
+  const [coinTwo, setCoinTwo] = useState("");
+  const [coinThree, setCoinThree] = useState("");
+  const [coinFour, setCoinFour] = useState("");
+  const [coinFive, setCoinFive] = useState("");
 
-  const wes = (url, pushState) => {
-    const ws = new WebSocket(url);
-    //const readyState = ws.readyState;
+  const SYMBOLS = ["BTCUSDT", "ETHUSDT"];
 
-    ws.onopen = (event) => {
-      console.log("Stream connected.");
+  const sockets = () => {
+    const CHANNELS = ["btcusdt@trade", "ethusdt@trade"];
+
+    const ws = new WebSocket(
+      "wss://stream.binance.com:9443/ws/" + CHANNELS.join("/")
+    );
+
+    ws.onopen = () => {
+      console.log("Binance connected.");
     };
 
-    ws.onmessage = (event) => {
-      //console.log("WebSocket message received:", event);
-      pushState(JSON.parse(event.data));
+    ws.onclose = function () {
+      console.log("Binance disconnected.");
+    };
+
+    ws.onmessage = (evt) => {
+      const response = JSON.parse(evt.data);
+
+      if (response.s === "BTCUSDT") setCoinOne(response);
+      if (response.s === "ETHUSDT") setCoinTwo(response);
     };
   };
 
   useEffect(() => {
-    wes("wss://stream.binance.com:9443/ws/btcusdt@trade", setSymbolOne);
-    wes("wss://stream.binance.com:9443/ws/ethusdt@trade", setSymbolTwo);
+    sockets();
   }, []);
 
   return (
     <div className="ui container">
-      <div>
-        <i className="bitcoin icon" />= {symbolOne.p} ({symbolOne.s})
-      </div>
-      <div>
-        <i className="ethereum icon" />= {symbolTwo.p} ({symbolTwo.s})
-      </div>
+      <Coin s={coinOne.s} p={coinOne.p} />
+      <Coin s={coinTwo.s} p={coinTwo.p} />
+      <BinanceChart />
     </div>
   );
 };
