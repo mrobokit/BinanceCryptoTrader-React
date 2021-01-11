@@ -8,63 +8,99 @@ In the project directory, you can run:
 
 ### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## INFO
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Binance Part 1 - Web Sockets and Real Time Lightweight Charts
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Documentation: https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md
 
-### `yarn eject`
+- The base endpoint for the public web socket stream is: wss://stream.binance.com:9443
+- npm install -g wscat
+- `wscat -c wss://stream.binance.com:9443/ws/btcusdt@trade`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+{"e":"trade","E":1610381857151,"s":"BTCUSDT","t":563913029,"p":"30709.20000000","q":"0.00000900","b":4266992903,"a":4266993001,"T":1610381857150,"m":true,"M":true}
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+{
+"e": "trade", // Event type
+"E": 123456789, // Event time
+"s": "BNBBTC", // Symbol
+"t": 12345, // Trade ID
+"p": "0.001", // Price
+"q": "100", // Quantity
+"b": 88, // Buyer order ID
+"a": 50, // Seller order ID
+"T": 123456785, // Trade time
+"m": true, // Is the buyer the market maker?
+"M": true // Ignore
+}
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+## Candleline/ Stick Stream
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`wscat -c wss://stream.binance.com:9443/ws/btcusdt@kline_5m`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```json
+{
+  "e": "kline",
+  "E": 1610382137707,
+  "s": "BTCUSDT",
+  "k": {
+    "t": 1610382000000,
+    "T": 1610382299999,
+    "s": "BTCUSDT",
+    "i": "5m",
+    "f": 563928112,
+    "L": 563945278,
+    "o": "30951.39000000",
+    "c": "31317.74000000",
+    "h": "31517.59000000",
+    "l": "30614.22000000",
+    "v": "1244.62170500",
+    "n": 17167,
+    "x": false,
+    "q": "38676686.05247512",
+    "V": "622.62344100",
+    "Q": "19377024.31596843",
+    "B": "0"
+  }
+}
+```
 
-### Code Splitting
+# Adding Javascript to the mix (with React)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+JS WebSocket Documentation - https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
 
-### Analyzing the Bundle Size
+- Create new component file called WebSocket.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```js
+import React from "react";
 
-### Making a Progressive Web App
+class WebSocket extends React.Component {
+  componentDidMount() {
+    const socket = new WebSocket(
+      "wss://stream.binance.com:9443/ws/btcusdt@trade"
+    );
+    console.log(socket);
+  }
+  render() {
+    return <div className="ui container">PLACEHOLDER</div>;
+  }
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+export default WebSocket;
+```
 
-### Advanced Configuration
+- Import it into App.js and call it in return statement as <WebSocket />. Check console and voilla, you have a websocket connection.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Now we need to receive messages from it - WebSocket.onmessage
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```js
+aWebSocket.onmessage = function (event) {
+  console.debug("WebSocket message received:", event);
+};
+```
