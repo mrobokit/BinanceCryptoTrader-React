@@ -105,3 +105,30 @@ aWebSocket.onmessage = function (event) {
   console.debug("WebSocket message received:", event);
 };
 ```
+
+# 2. Binance Part 2 - Technical Analysis with NodeJs and TALib
+
+- Create a seaparate folder called backend and cd into it.
+- npm i binance-api-node nodemon dotenv
+
+nodemon is for auto restart server, dot env to read your api key from .env file
+make sure .env file is listed in .gtignore - NEVER EXPOSE YOUR API, if you do, delete the api key and start over
+
+then create server.js inside backend folder
+
+```js server.js
+require("dotenv").config();
+
+const client = Binance({
+  apiKey: process.env.API_KEY,
+  apiSecret: process.env.API_SECRET,
+});
+
+async function run() {
+  console.log(await client.time());
+}
+
+run();
+```
+
+- We are now connected to the binance api using a nodejs server

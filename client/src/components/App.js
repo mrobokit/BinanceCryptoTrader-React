@@ -1,47 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Coin from "./Coin";
-import BinanceChart from ".//BinanceChart";
+import Table from "../components/Table";
+import BinanceChart from "./BinanceChart";
 
 const App = () => {
-  const [coinOne, setCoinOne] = useState("");
-  const [coinTwo, setCoinTwo] = useState("");
-  const [coinThree, setCoinThree] = useState("");
-  const [coinFour, setCoinFour] = useState("");
-  const [coinFive, setCoinFive] = useState("");
-
-  const SYMBOLS = ["BTCUSDT", "ETHUSDT"];
-
-  const sockets = () => {
-    const CHANNELS = ["btcusdt@trade", "ethusdt@trade"];
-
-    const ws = new WebSocket(
-      "wss://stream.binance.com:9443/ws/" + CHANNELS.join("/")
-    );
-
-    ws.onopen = () => {
-      console.log("Binance connected.");
-    };
-
-    ws.onclose = function () {
-      console.log("Binance disconnected.");
-    };
-
-    ws.onmessage = (evt) => {
-      const response = JSON.parse(evt.data);
-
-      if (response.s === "BTCUSDT") setCoinOne(response);
-      if (response.s === "ETHUSDT") setCoinTwo(response);
-    };
-  };
-
-  useEffect(() => {
-    sockets();
-  }, []);
-
   return (
-    <div className="ui container">
-      <Coin s={coinOne.s} p={coinOne.p} />
-      <Coin s={coinTwo.s} p={coinTwo.p} />
+    <div className="ui container container-style">
+      <Table />
       <BinanceChart />
     </div>
   );

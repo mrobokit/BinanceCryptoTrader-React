@@ -1,3 +1,5 @@
+// Populate it with historical data first, then append what is live now
+
 import React from "react";
 import Chart from "kaktana-react-lightweight-charts";
 
