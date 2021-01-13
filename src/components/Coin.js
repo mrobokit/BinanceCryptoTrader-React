@@ -1,11 +1,10 @@
 import React from "react";
 import "./Coin.css";
 
-export const CoinPair = ({ pair }) => {
-  if (pair) {
-    return <div>{pair}</div>;
+export const CoinPair = ({ symbol }) => {
+  if (symbol) {
+    return <div>{symbol}</div>;
   }
-
   return <div>Loading...</div>;
 };
 
@@ -21,7 +20,7 @@ export const CoinPrice = ({ price }) => {
   return <div>Loading...</div>;
 };
 
-export const Change24H = ({ price, percentage, baseV, quoteV }) => {
+export const Change24H = ({ price, percentage }) => {
   if (price && price >= 0) {
     return (
       <div>

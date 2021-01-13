@@ -41,7 +41,7 @@ const Balance = () => {
   };
 
   const list = account.map((acc) => {
-    if (acc.free > 0) {
+    if (acc && acc.free > 0) {
       return (
         <tr key={acc.asset} data-bound={acc.asset}>
           <td data-label="Name">
@@ -76,7 +76,18 @@ const Balance = () => {
           <th>Ammount</th>
         </tr>
       </thead>
-      <tbody>{list}</tbody>
+      <tbody>
+        {list.length > 0 ? (
+          list
+        ) : (
+          <div class="ui segment">
+            <div class="ui active dimmer">
+              <div class="ui text loader">Loading</div>
+            </div>
+            <p></p>
+          </div>
+        )}
+      </tbody>
     </table>
   );
 };
