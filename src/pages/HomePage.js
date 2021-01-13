@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import OpenOrders from "../components/OpenOrders";
+import { OpenOrders, AllOrders } from "../components/Orders";
 import Table from "../components/Table";
 
 //import BinanceChart from "./BinanceChart";
@@ -61,14 +61,7 @@ const HomePage = () => {
               <p></p>
             </div>
           )}
-        </div>
-        <div className="seven wide column">
-          <p> Previous Actions</p>
-          You bought BTC for ... at... <br />
-          You sold ETH for... at...
-        </div>
 
-        <div className="nine wide column">
           {coinOne && coinTwo && tickerOne && tickerTwo ? (
             <OpenOrders symbol={coinTwo.s} />
           ) : (
@@ -77,7 +70,16 @@ const HomePage = () => {
               <p></p>
             </div>
           )}
-          {/* Above line is very important AS IS, otherwise it passes undefined to component and it won't query the API */}
+        </div>
+        <div className="seven wide column">
+          {coinOne && coinTwo && tickerOne && tickerTwo ? (
+            <AllOrders symbol={coinTwo.s} />
+          ) : (
+            <div className="ui segment" style={{ height: "120px" }}>
+              <div className="ui active loader"></div>
+              <p></p>
+            </div>
+          )}
         </div>
       </div>
     </div>

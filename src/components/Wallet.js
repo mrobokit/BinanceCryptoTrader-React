@@ -53,7 +53,7 @@ const Wallet = () => {
       );
     }
 
-    return <div>Loading...</div>;
+    return "";
   });
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const Wallet = () => {
     const secretKey = process.env.REACT_APP_API_SECRET;
     const hash = CryptoJS.HmacSHA256(timestamp, secretKey);
 
-    const axiosAccount = async (term) => {
+    const axiosAccount = async () => {
       const response = await binance.get(
         `/account?${timestamp}&signature=${hash}`
       );
@@ -73,26 +73,30 @@ const Wallet = () => {
   }, []);
 
   return (
-    <table className="ui selectable celled table" style={{ maxWidth: "300px" }}>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Ammount</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.length > 0 ? (
-          list
-        ) : (
-          <div class="ui segment">
-            <div class="ui active dimmer">
-              <div class="ui text loader">Loading</div>
-            </div>
-            <p></p>
-          </div>
-        )}
-      </tbody>
-    </table>
+    <div>
+      {list.length > 0 ? (
+        <table
+          className="ui selectable celled table"
+          style={{ maxWidth: "300px" }}
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Ammount</th>
+            </tr>
+          </thead>
+          <tbody>{list}</tbody>
+        </table>
+      ) : (
+        <div
+          className="ui segment"
+          style={{ minHeight: "300px", maxWidth: "265px" }}
+        >
+          <div className="ui active loader"></div>
+          <p></p>
+        </div>
+      )}
+    </div>
   );
 };
 

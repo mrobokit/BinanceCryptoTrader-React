@@ -10,7 +10,7 @@ const App = () => {
     <BrowserRouter>
       <div className="ui container container-style hundredvh">
         <Navbar />
-        <div class="ui segment ">
+        <div className="ui segment ">
           <Route path="/" exact component={HomePage} />
           <Route path="/account" exact component={AccountPage} />
         </div>
