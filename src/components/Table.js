@@ -1,5 +1,5 @@
 // Very Important - If you see in order book more orders for selling than buying, price goes down??
-import React, { useEffect } from "react";
+import React from "react";
 import { CoinPrice, CoinPair, Change24H } from "./Coin";
 import "./Table.css";
 import { Actions } from "./Actions";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import OpenOrders from "../components/OpenOrders";
 import Table from "../components/Table";
-import { Link } from "react-router-dom";
+
 //import BinanceChart from "./BinanceChart";
 
 const HomePage = () => {
@@ -12,10 +12,11 @@ const HomePage = () => {
 
   const symbolOne = "btcusdt";
   const symbolTwo = "ethusdt";
-  const TRADE = [`${symbolOne}@trade`, `${symbolTwo}@trade`];
-  const TICKER = [`${symbolOne}@ticker`, `${symbolTwo}@ticker`];
 
   useEffect(() => {
+    const TRADE = [`${symbolOne}@trade`, `${symbolTwo}@trade`];
+    const TICKER = [`${symbolOne}@ticker`, `${symbolTwo}@ticker`];
+
     const ws = new WebSocket(
       "wss://stream.binance.com:9443/stream?streams=" +
         TRADE.join("/") +
@@ -47,13 +48,19 @@ const HomePage = () => {
     <div className="ui container">
       <div className="ui grid">
         <div className="nine wide column">
-          <Link to="/account">Wallet</Link>
-          <Table
-            coinOne={coinOne}
-            coinTwo={coinTwo}
-            tickerOne={tickerOne}
-            tickerTwo={tickerTwo}
-          />
+          {coinOne && coinTwo && tickerOne && tickerTwo ? (
+            <Table
+              coinOne={coinOne}
+              coinTwo={coinTwo}
+              tickerOne={tickerOne}
+              tickerTwo={tickerTwo}
+            />
+          ) : (
+            <div className="ui segment" style={{ height: "320px" }}>
+              <div className="ui active loader"></div>
+              <p></p>
+            </div>
+          )}
         </div>
         <div className="seven wide column">
           <p> Previous Actions</p>
@@ -62,7 +69,15 @@ const HomePage = () => {
         </div>
 
         <div className="nine wide column">
-          <OpenOrders symbol={symbolTwo} />
+          {coinOne && coinTwo && tickerOne && tickerTwo ? (
+            <OpenOrders symbol={coinTwo.s} />
+          ) : (
+            <div className="ui segment" style={{ height: "120px" }}>
+              <div className="ui active loader"></div>
+              <p></p>
+            </div>
+          )}
+          {/* Above line is very important AS IS, otherwise it passes undefined to component and it won't query the API */}
         </div>
       </div>
     </div>

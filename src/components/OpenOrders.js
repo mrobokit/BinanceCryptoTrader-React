@@ -1,22 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
-import binance from "../components/api/binance";
 
-const OpenOrders = (symbol) => {
-  const [account, setAccount] = useState([]);
-  const timestamp = `timestamp=${Date.now()}`;
-  const secretKey = process.env.REACT_APP_API_SECRET;
-  const hash = CryptoJS.HmacSHA256(timestamp, secretKey);
+const OpenOrders = ({ symbol }) => {
+  const [openOrders, setOpenOrders] = useState("");
 
-  const axiosOpenOrders = async () => {
-    const response = await binance.get(
-      `/account?${symbol}&${timestamp}&signature=${hash}`
-    );
-    //console.log(JSON.stringify(response.data.balances)); // To have it return a string, like fetch does above
-    setAccount(response.data);
-  };
+  useEffect(() => {
+    const fetchOpenOrders = async () => {
+      const query = `symbol=${symbol}&timestamp=${Date.now()}`;
+      const secretKey = process.env.REACT_APP_API_SECRET;
+      const hash = CryptoJS.HmacSHA256(query, secretKey);
 
-  return <div className="ui header"> Open Orders</div>;
+      const myHeaders = new Headers();
+      myHeaders.append("X-MBX-APIKEY", `${process.env.REACT_APP_API_KEY}`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      fetch(
+        `https://api.binance.com/api/v3/openOrders?${query}&signature=${hash}`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setOpenOrders(result);
+          console.log(result);
+        })
+        .catch((error) => console.log("error", error));
+    };
+
+    fetchOpenOrders();
+  }, [symbol]);
+
+  return (
+    <div>
+      <div className="ui header">
+        Open Orders (
+        {openOrders.length ? (
+          <span>{openOrders.length}</span>
+        ) : (
+          <span className="ui mini active inline loader"></span>
+        )}
+        )
+      </div>
+    </div>
+  );
 };
 
 export default OpenOrders;

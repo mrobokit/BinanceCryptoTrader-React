@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
-import binance from "../components/api/binance";
+import binance from "./api/binance";
 
 // api/v3/account?${parameters}&signature=${hash}
 // You need to hash using CryptoJS.HmacSHA256 the parameters string together with secret key e.g const hash = CryptoJS.HmacSHA256(parameters, secretKey) then pass the hash together with params
@@ -8,38 +8,28 @@ import binance from "../components/api/binance";
 // You need import CryptoJS from "crypto-js";
 // Same thing, getting the balance, both with axios and fetch ( axios much more sleek)
 
-const Balance = () => {
+const Wallet = () => {
   const [account, setAccount] = useState([]);
-  const timestamp = `timestamp=${Date.now()}`;
-  const secretKey = process.env.REACT_APP_API_SECRET;
-  const hash = CryptoJS.HmacSHA256(timestamp, secretKey);
 
-  const fetchAccount = async () => {
-    var myHeaders = new Headers();
-    myHeaders.append("X-MBX-APIKEY", `${process.env.REACT_APP_API_KEY}`);
+  // Better error handling, don't remove
+  // const fetchAccount = async () => {
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("X-MBX-APIKEY", `${process.env.REACT_APP_API_KEY}`);
 
-    var requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
+  //   var requestOptions = {
+  //     method: "GET",
+  //     headers: myHeaders,
+  //     redirect: "follow",
+  //   };
 
-    fetch(
-      `https://api.binance.com/api/v3/account?${timestamp}&signature=${hash}`,
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-  };
-  const axiosAccount = async (term) => {
-    const response = await binance.get(
-      `/account?${timestamp}&signature=${hash}`
-    );
-    //console.log(JSON.stringify(response.data.balances)); // To have it return a string, like fetch does above
-    setAccount(response.data.balances);
-  };
-
+  //   fetch(
+  //     `https://api.binance.com/api/v3/account?${timestamp}&signature=${hash}`,
+  //     requestOptions
+  //   )
+  //     .then((response) => response.text())
+  //     .then((result) => console.log(result))
+  //     .catch((error) => console.log("error", error));
+  // };
   const list = account.map((acc) => {
     if (acc && acc.free > 0) {
       return (
@@ -62,9 +52,23 @@ const Balance = () => {
         </tr>
       );
     }
+
+    return <div>Loading...</div>;
   });
 
   useEffect(() => {
+    const timestamp = `timestamp=${Date.now()}`;
+    const secretKey = process.env.REACT_APP_API_SECRET;
+    const hash = CryptoJS.HmacSHA256(timestamp, secretKey);
+
+    const axiosAccount = async (term) => {
+      const response = await binance.get(
+        `/account?${timestamp}&signature=${hash}`
+      );
+      //console.log(JSON.stringify(response.data.balances)); // To have it return a string, like fetch does above
+      setAccount(response.data.balances);
+    };
+
     axiosAccount();
   }, []);
 
@@ -92,4 +96,4 @@ const Balance = () => {
   );
 };
 
-export default Balance;
+export default Wallet;

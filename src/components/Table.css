@@ -18,5 +18,6 @@
 
 .custom-table td {
   min-width: 105px !important;
+  height: 120px !important;
   /* background: red; */
 }
