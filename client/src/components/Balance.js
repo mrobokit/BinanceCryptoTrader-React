@@ -6,8 +6,8 @@ const Balance = () => {
 
   const search = async () => {
     const response = await binance.get("/ticker/price?symbol=ETHUSDT"); // means i get the data property from the response
-    console.log(response);
     setData(response);
+    console.log(data);
   };
 
   useEffect(() => {

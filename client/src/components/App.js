@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Table from "../components/Table";
 
 import { BrowserRouter, Route, Link } from "react-router-dom";
