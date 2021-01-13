@@ -5,22 +5,24 @@ import { BrowserRouter, Route, Link } from "react-router-dom";
 import Balance from "../components/Balance";
 //import BinanceChart from "./BinanceChart";
 
+import OpenOrders from "../components/OpenOrders";
+
 const HomePage = () => {
   return (
     <div className="ui container">
-      <div class="ui grid">
-        <div class="nine wide column">
-          <Link to="/account">Go to Account</Link>
+      <div className="ui grid">
+        <div className="nine wide column">
+          <Link to="/account">Wallet</Link>
           <Table />
         </div>
-        <div class="seven wide column">
+        <div className="seven wide column">
           <p> Previous Actions</p>
           You bought BTC for ... at... <br />
           You sold ETH for... at...
         </div>
 
-        <div class="nine wide column">
-          <div className="ui header"> Active Orders</div>
+        <div className="nine wide column">
+          <OpenOrders symbol={symb} />
         </div>
       </div>
     </div>
@@ -30,8 +32,12 @@ const HomePage = () => {
 const AccountPage = () => {
   return (
     <div>
-      AccountPage <Link to="/">Go back</Link>
+      <div className="ui header">Wallet</div>
+
+      <Link to="/">Go back</Link>
       <Balance />
+
+      <OpenOrders />
     </div>
   );
 };

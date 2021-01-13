@@ -73,7 +73,7 @@ const Table = () => {
           <th>Pair</th>
           <th>Live Trades</th>
           <th>Last 24H Data</th>
-          <th></th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
