@@ -1,3 +1,22 @@
-.custom-table {
-  max-width: 400px !important;
+.m-lr {
+  margin-right: 15px !important;
+  margin-left: 15px !important;
+}
+
+.m-tb {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+}
+
+.m-all {
+  margin: 15px !important;
+}
+
+.ml {
+  margin-left: 10px !important;
+}
+
+.custom-table td {
+  min-width: 105px !important;
+  /* background: red; */
 }
