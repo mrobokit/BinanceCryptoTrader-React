@@ -20,11 +20,8 @@ export const fetchOrder = async (endpoint, symbol, setter = null) => {
   )
     .then((response) => response.json())
     .then((result) => {
-      //setter(result);
-      //console.log(result);
-      return (result) => {
-        return result;
-      };
+      setter(result); //crucial for rerendering
+      console.log(result);
     })
     .catch((error) => console.log("error", error));
 };
@@ -59,7 +56,6 @@ export const tradeOrder = async (
       //perform event and pass the info
       setter(result);
       console.log(result);
-      return result;
     })
     .catch((error) => console.log("error", error));
 };

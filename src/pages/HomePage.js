@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { OpenOrders, OrderHistory } from "../components/Orders";
+import ActiveOrders from "../components/ActiveOrders";
 import Table from "../components/Table";
 
 //import BinanceChart from "./BinanceChart";
@@ -68,7 +68,7 @@ const HomePage = () => {
 
         <div className="seven wide column">
           {coinOne && coinTwo && tickerOne && tickerTwo ? (
-            <OpenOrders symbol={coinTwo.s} />
+            <ActiveOrders symbol={coinTwo.s} />
           ) : (
             <div className="ui segment" style={{ height: "120px" }}>
               <div className="ui active loader"></div>

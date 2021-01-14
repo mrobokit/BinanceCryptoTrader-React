@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { tradeOrder } from "../helpers/fetch";
 
-const Actions = ({ symbol, passEvent }) => {
+const Actions = ({ symbol, onActionPerformed }) => {
   const [buySellPrice, setBuySellPrice] = useState("");
   const [quantity, setQuantity] = useState(0.01);
+  const [actionPerformed, setActionPerformed] = useState([]);
 
   useEffect(() => {
-    console.log(passEvent);
+    onActionPerformed(actionPerformed);
   }, []);
 
   if (symbol) {
@@ -33,7 +34,15 @@ const Actions = ({ symbol, passEvent }) => {
           <br />
           <button
             className="ui button negative mr"
-            onClick={() => tradeOrder("BUY", symbol, quantity, buySellPrice)}
+            onClick={() =>
+              tradeOrder(
+                "BUY",
+                symbol,
+                quantity,
+                buySellPrice,
+                setActionPerformed
+              )
+            }
           >
             Buy
           </button>
