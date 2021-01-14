@@ -8,7 +8,29 @@ import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import reducers from "./reducers";
 
-const store = createStore(reducers, applyMiddleware(thunk));
+// Websockets
+import { createWebSocketMiddleware } from "react-websockets-middleware";
+
+// Websocket needed only ( createEndpoint i did)
+const createEndpoint = () => {
+  const symbolOne = "btcusdt";
+  const symbolTwo = "ethusdt";
+  const TRADE = [`${symbolOne}@trade`, `${symbolTwo}@trade`];
+  const TICKER = [`${symbolOne}@ticker`, `${symbolTwo}@ticker`];
+
+  return (
+    "wss://stream.binance.com:9443/stream?streams=" +
+    TRADE.join("/") +
+    "/" +
+    TICKER.join("/")
+  );
+};
+const socketMiddleware = createWebSocketMiddleware({
+  endpoint: createEndpoint(),
+});
+
+//Redux stoe
+const store = createStore(reducers, applyMiddleware(socketMiddleware, thunk));
 
 ReactDOM.render(
   <Provider store={store}>
@@ -16,3 +38,7 @@ ReactDOM.render(
   </Provider>,
   document.querySelector("#root")
 );
+
+// ✅ console.log(createEndpoint);
+// ✅ console.log(socketMiddleware);
+// ✅ console.log(store);

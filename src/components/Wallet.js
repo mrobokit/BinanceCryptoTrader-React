@@ -2,13 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchWallet } from "../actions";
 
-// api/v3/wallet?${parameters}&signature=${hash}
-// You need to hash using CryptoJS.HmacSHA256 the parameters string together with secret key e.g const hash = CryptoJS.HmacSHA256(parameters, secretKey) then pass the hash together with params
-// you need to have the chrome extension Allow Cors : Access Control Allow Origin turned ON
-// You need import CryptoJS from "crypto-js";
-// Same thing, getting the balance, both with axios and fetch ( axios much more sleek)
-
-//1
 class Wallet extends React.Component {
   componentDidMount() {
     this.props.fetchWallet();
@@ -73,10 +66,7 @@ class Wallet extends React.Component {
   }
 }
 
-//2
 const mapStateToProps = (state) => {
   return { wallet: state.wallet };
 };
-
-//3
 export default connect(mapStateToProps, { fetchWallet })(Wallet);
