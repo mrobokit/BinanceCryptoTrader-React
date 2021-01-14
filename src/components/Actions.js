@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { tradeOrder } from "../helpers/fetch";
 
 const Actions = ({ symbol, onActionPerformed }) => {
@@ -6,9 +6,9 @@ const Actions = ({ symbol, onActionPerformed }) => {
   const [quantity, setQuantity] = useState(0.01);
   const [actionPerformed, setActionPerformed] = useState([]);
 
-  useEffect(() => {
-    onActionPerformed(actionPerformed);
-  }, []);
+  // useEffect(() => {
+  //   onActionPerformed(actionPerformed);
+  // }, []);
 
   if (symbol) {
     return (
