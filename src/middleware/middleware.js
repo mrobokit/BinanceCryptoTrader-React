@@ -39,7 +39,7 @@ const socketMiddleware = () => {
 
         break;
       default:
-        console.log("the next action:", action);
+        //console.log("the next action:", action); - DEBUGGER switch!
         return next(action);
     }
   };

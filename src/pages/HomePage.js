@@ -25,14 +25,46 @@ class HomePage extends React.Component {
 
   render() {
     return (
-      <div>
-        <button onClick={() => this.props.socketConnect(this.endpoint())}>
-          Connect
-        </button>
+      <div className="ui container">
+        <div className="ui grid">
+          <div className="nine wide column">
+            <button onClick={() => this.props.socketConnect(this.endpoint())}>
+              Connect
+            </button>
 
-        <button onClick={() => this.props.socketDisconnect()}>
-          Disconnect
-        </button>
+            <button onClick={() => this.props.socketDisconnect()}>
+              Disconnect
+            </button>
+            {/* {coinOne && coinTwo && tickerOne && tickerTwo ? (
+              <Table
+                coinOne={coinOne}
+                coinTwo={coinTwo}
+                tickerOne={tickerOne}
+                tickerTwo={tickerTwo}
+              />
+            ) : (
+              <div className="ui segment" style={{ height: "320px" }}>
+                <div className="ui active loader"></div>
+                <p></p>
+              </div>
+            )} */}
+          </div>
+
+          <div className="seven wide column">Graph</div>
+          <div className="nine wide column">
+            {console.log(this.props.socket)}
+          </div>
+          {/* <div className="seven wide column">
+            {coinOne && coinTwo && tickerOne && tickerTwo ? (
+              <ActiveOrders symbol={coinTwo.s} />
+            ) : (
+              <div className="ui segment" style={{ height: "120px" }}>
+                <div className="ui active loader"></div>
+                <p></p>
+              </div>
+            )}
+          </div> */}
+        </div>
       </div>
     );
   }
@@ -46,41 +78,4 @@ export default connect(mapStateToProps, { socketConnect, socketDisconnect })(
   HomePage
 );
 
-// const HomePage = () => {
-//   return
-//   return (
-//     <div className="ui container">
-//       <div className="ui grid">
-//         <div className="nine wide column">
-//           {coinOne && coinTwo && tickerOne && tickerTwo ? (
-//             <Table
-//               coinOne={coinOne}
-//               coinTwo={coinTwo}
-//               tickerOne={tickerOne}
-//               tickerTwo={tickerTwo}
-//             />
-//           ) : (
-//             <div className="ui segment" style={{ height: "320px" }}>
-//               <div className="ui active loader"></div>
-//               <p></p>
-//             </div>
-//           )}
-//         </div>
-//         <div className="seven wide column">Graph</div>
-
-//         <div className="nine wide column"></div>
-
-//         <div className="seven wide column">
-//           {coinOne && coinTwo && tickerOne && tickerTwo ? (
-//             <ActiveOrders symbol={coinTwo.s} />
-//           ) : (
-//             <div className="ui segment" style={{ height: "120px" }}>
-//               <div className="ui active loader"></div>
-//               <p></p>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
+//{console.log(this.props.socket)} - Store debugger!
