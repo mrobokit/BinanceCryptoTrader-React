@@ -11,11 +11,11 @@ const socketMiddleware = () => {
 
         socket = new WebSocket(action.host);
 
-        socket.onopen = () =>
-          dispatch({
-            type: "SOCKET_CONNECTED",
-            payload: "Socket is open now.",
-          });
+        socket.onopen = () => console.log("Socket open.");
+        dispatch({
+          type: "SOCKET_CONNECTED",
+          payload: "Socket is open now.",
+        });
 
         socket.onmessage = (event) =>
           dispatch({
@@ -23,11 +23,11 @@ const socketMiddleware = () => {
             payload: JSON.parse(event.data),
           });
 
-        socket.onclose = () =>
-          dispatch({
-            type: "SOCKET_DISCONNECTED",
-            payload: "Socket has fully closed down.",
-          });
+        socket.onclose = () => console.log("Socket closed.");
+        dispatch({
+          type: "SOCKET_DISCONNECTED",
+          payload: "Socket has fully closed down.",
+        });
 
         break;
       case "SOCKET_DISCONNECT":
