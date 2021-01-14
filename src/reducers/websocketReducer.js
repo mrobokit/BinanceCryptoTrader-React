@@ -1,6 +1,6 @@
 // These only return messages
-// eslint-disable-next-line
-export default (state = [], action) => {
+
+const websocketReducer = (state = [], action) => {
   switch (action.type) {
     case "SOCKET_CONNECT":
       return action;
@@ -11,9 +11,23 @@ export default (state = [], action) => {
     case "SOCKET_DISCONNECTED":
       return action.payload;
     case "SOCKET_MESSAGE":
-      return action.payload;
+      if (
+        action.payload.data &&
+        action.payload.data.e === "trade" &&
+        action.payload.data.s === "ETHUSDT"
+      ) {
+        return { ethereum_trade: action.payload.data }; /// VERY IMPORTANT HERE !!!!!!!!!!
+      } else if (
+        action.payload.data &&
+        action.payload.data.e === "trade" &&
+        action.payload.data.s === "BTCUSDT"
+      ) {
+        return { bitcoin_trade: action.payload.data };
+      }
 
     default:
       return state;
   }
 };
+
+export default websocketReducer;
