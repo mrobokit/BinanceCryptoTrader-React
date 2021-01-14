@@ -12,6 +12,14 @@ export const fetchWallet = () => async (dispatch) => {
 
 // In-house Websockets Middleware
 // Step 1 ✅- Create an action that returns an object of type .... Go to Home Page step 2, link back to here
-export const wsConnect = (host) => ({ type: "WS_CONNECT", host });
-export const wsDisconnect = (host) => ({ type: "WS_DISCONNECT", host });
-export const wsNewMessage = (payload) => ({ type: "WS_NEW_MESSAGE", payload });
+export const socketConnect = (host) => ({ type: "SOCKET_CONNECT", host });
+export const socketConnected = () => ({ type: "SOCKET_CONNECTED" });
+export const socketDisconnect = () => ({
+  type: "SOCKET_DISCONNECT",
+});
+export const socketDisconnected = () => ({
+  type: "SOCKET_DISCONNECTED",
+});
+export const socketReceiveMessage = () => ({
+  type: "SOCKET_MESSAGE",
+});

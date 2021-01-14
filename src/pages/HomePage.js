@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { wsConnect } from "../actions";
+import { socketConnect, socketDisconnect } from "../actions";
 
 // When nothing is happening, check to see if you are missing this.props. before the functions or variables u use !!!!!!!!!!!!!!!!!!!!!!!
 class HomePage extends React.Component {
   componentDidMount() {
     console.log("Munted");
-    this.props.wsConnect(this.endpoint()); // Step 2 : ✅ Pass the action of wConnect and i give it the host. Console log shows is correct
+    // Step 2 : ✅ Pass the action of wConnect and i give it the host. Console log shows is correct
   }
 
   endpoint = () => {
@@ -25,9 +25,15 @@ class HomePage extends React.Component {
 
   render() {
     return (
-      <button onClick={() => this.props.wsConnect(this.endpoint())}>
-        Action
-      </button>
+      <div>
+        <button onClick={() => this.props.socketConnect(this.endpoint())}>
+          Connect
+        </button>
+
+        <button onClick={() => this.props.socketDisconnect()}>
+          Disconnect
+        </button>
+      </div>
     );
   }
 }
@@ -36,7 +42,9 @@ const mapStateToProps = (state) => {
   return { socket: state.socket };
 };
 
-export default connect(mapStateToProps, { wsConnect })(HomePage);
+export default connect(mapStateToProps, { socketConnect, socketDisconnect })(
+  HomePage
+);
 
 // const HomePage = () => {
 //   return

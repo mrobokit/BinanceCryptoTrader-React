@@ -1,11 +1,15 @@
 // eslint-disable-next-line
 export default (state = [], action) => {
   switch (action.type) {
-    case "WS_CONNECT":
+    case "SOCKET_CONNECT":
       return action.host;
-    case "WS_DISCONNECT":
-      return action.host;
-    case "WS_NEW_MESSAGE":
+    case "SOCKET_CONNECTED":
+      return action;
+    case "SOCKET_DISCONNECT":
+      return action;
+    case "SOCKET_DISCONNECTED":
+      return action.payload;
+    case "SOCKET_MESSAGE":
       return action.payload;
 
     default:
