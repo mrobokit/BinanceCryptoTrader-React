@@ -1,32 +1,59 @@
-import React from "react";
-import RangeSlider from "./RangeSlider";
+import React, { useEffect, useState } from "react";
+import { tradeOrder } from "../helpers/fetch";
 
-export const Actions = ({ coinTwo }) => {
-  if (coinTwo.p) {
+const Actions = ({ symbol, passEvent }) => {
+  const [buySellPrice, setBuySellPrice] = useState("");
+  const [quantity, setQuantity] = useState(0.01);
+
+  useEffect(() => {
+    console.log(passEvent);
+  }, []);
+
+  if (symbol) {
     return (
       <div className="ui grid">
         <div className="twelve wide column ml">
-          <div className="ui mini labeled input m-tb ">
-            <div className="ui label">Price</div>
+          <div className="ui  labeled input m-tb ">
+            <div className="ui label">PRI</div>
             <input
               type="text"
-              value={parseFloat(coinTwo.p)}
-              onChange={() => null}
+              value={buySellPrice}
+              onChange={(e) => setBuySellPrice(e.target.value)}
             />
           </div>
-          <RangeSlider />
+          {/* <RangeSlider onChangeSetQuantity={handler} /> */}
+          <div className="ui  labeled input m-tb ">
+            <div className="ui label">QTY</div>
+            <input
+              type="text"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+            />
+          </div>
           <br />
-          <button className="ui button negative">Buy</button>
-          <button className="ui button positive">Sell</button>
-          <div className="ui checkbox ">
-            <input type="checkbox" name="example" defaultChecked />
+          <button
+            className="ui button negative mr"
+            onClick={() => tradeOrder("BUY", symbol, quantity, buySellPrice)}
+          >
+            Buy
+          </button>
+          <br /> <br />
+          <div className="ui checkbox">
+            <input type="checkbox" name="stopLoss" />
             <label>Stop loss</label>
           </div>
+          <br />
+          <div className="ui checkbox ">
+            <input type="checkbox" name="currentPrice" />
+            <label>Current price</label>
+          </div>
         </div>
-        <div className="four wide column"></div>
+        <div className="four wide column">{}</div>
       </div>
     );
   }
 
   return <div>Loading...</div>; // have a spinner instead or smthing :)
 };
+
+export default Actions;

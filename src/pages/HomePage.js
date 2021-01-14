@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { OpenOrders, AllOrders } from "../components/Orders";
+import { OpenOrders, OrderHistory } from "../components/Orders";
 import Table from "../components/Table";
 
 //import BinanceChart from "./BinanceChart";
@@ -61,7 +61,12 @@ const HomePage = () => {
               <p></p>
             </div>
           )}
+        </div>
+        <div className="seven wide column">Graph</div>
 
+        <div className="nine wide column"></div>
+
+        <div className="seven wide column">
           {coinOne && coinTwo && tickerOne && tickerTwo ? (
             <OpenOrders symbol={coinTwo.s} />
           ) : (
@@ -70,16 +75,15 @@ const HomePage = () => {
               <p></p>
             </div>
           )}
-        </div>
-        <div className="seven wide column">
-          {coinOne && coinTwo && tickerOne && tickerTwo ? (
-            <AllOrders symbol={coinTwo.s} />
+
+          {/* {coinOne && coinTwo && tickerOne && tickerTwo ? (
+            <OrderHistory symbol={coinTwo.s} />
           ) : (
             <div className="ui segment" style={{ height: "120px" }}>
               <div className="ui active loader"></div>
               <p></p>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

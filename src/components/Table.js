@@ -1,8 +1,8 @@
 // Very Important - If you see in order book more orders for selling than buying, price goes down??
 import React from "react";
 import { CoinPrice, CoinPair, Change24H } from "./Coin";
+
 import "./Table.css";
-import { Actions } from "./Actions";
 
 const Table = ({ coinOne, coinTwo, tickerOne, tickerTwo }) => {
   return (
@@ -10,9 +10,8 @@ const Table = ({ coinOne, coinTwo, tickerOne, tickerTwo }) => {
       <thead>
         <tr>
           <th>Pair</th>
-          <th>Live Trades</th>
           <th>Last 24H Data</th>
-          <th>Actions</th>
+          <th>Live Trades</th>
         </tr>
       </thead>
       <tbody>
@@ -21,14 +20,13 @@ const Table = ({ coinOne, coinTwo, tickerOne, tickerTwo }) => {
             <CoinPair symbol={coinOne.s} />
           </td>
 
-          <td data-label="Live Trades">
-            <CoinPrice price={coinOne.p} />
-          </td>
-
           <td data-label="Last 24H Change">
             <Change24H price={tickerOne.p} percentage={tickerOne.P} />
           </td>
-          <td></td>
+
+          <td data-label="Live Trades">
+            <CoinPrice price={coinOne.p} />
+          </td>
         </tr>
 
         {/* ETHEREUM */}
@@ -37,16 +35,12 @@ const Table = ({ coinOne, coinTwo, tickerOne, tickerTwo }) => {
             <CoinPair symbol={coinTwo.s} />
           </td>
 
-          <td data-label="Live Trades">
-            <CoinPrice price={coinTwo.p} />
-          </td>
-
           <td data-label="Last 24H Change">
             <Change24H price={tickerTwo.p} percentage={tickerTwo.P} />
           </td>
 
-          <td>
-            <Actions coinTwo={coinTwo} />
+          <td data-label="Live Trades">
+            <CoinPrice price={coinTwo.p} />
           </td>
         </tr>
       </tbody>

@@ -1,74 +1,105 @@
 import React, { useEffect, useState } from "react";
-import { fetchOrders } from "../helpers/fetch";
+import { fetchOrder, tradeOrder, cancelOrder } from "../helpers/fetch";
 import { formatDate } from "../helpers/general";
+import Actions from "./Actions";
+// import RangeSlider from "./RangeSlider";
 
-export const AllOrders = ({ symbol }) => {
-  const [allOrders, setAllOrders] = useState([]);
+// export const OrderHistory = ({ symbol }) => {
+//   const [allOrders, setAllOrders] = useState([]);
 
-  const run = () => {
-    fetchOrders("allOrders", setAllOrders, symbol);
-  };
+//   const run = () => {
+//     fetchOrder("allOrders", setAllOrders, symbol);
+//   };
 
-  const orders = allOrders.map(
-    ({
-      time,
-      type,
-      symbol,
-      origQty,
-      side,
-      executedQty,
-      orderId,
-      price,
-      status,
-    }) => {
-      if (orderId) {
-        return (
-          <div key={orderId}>
-            <span> {formatDate(time)}</span>
+//   const orders = allOrders.map(
+//     ({
+//       time,
+//       type,
+//       symbol,
+//       origQty,
+//       side,
+//       executedQty,
+//       orderId,
+//       price,
+//       status,
+//     }) => {
+//       if (orderId) {
+//         return (
+//           <div key={orderId}>
+//             <span> {formatDate(time)}</span>
 
-            <span className="m-lr"> {status}</span>
+//             <span className="m-lr"> {status}</span>
 
-            {side === "BUY" ? (
-              <span className={`ui red sub header m-lr`}>
-                {side} {type}
-              </span>
-            ) : (
-              <span className={`ui  green sub header m-lr`}>
-                {side} {type}
-              </span>
-            )}
+//             {side === "BUY" ? (
+//               <span className={`ui red sub header m-lr`}>
+//                 {side} {type}
+//               </span>
+//             ) : (
+//               <span className={`ui  green sub header m-lr`}>
+//                 {side} {type}
+//               </span>
+//             )}
 
-            <span className="m-lr"> {symbol}</span>
-            <span className="m-lr">
-              {executedQty}/ {origQty}
-            </span>
+//             <span className="m-lr"> {symbol}</span>
+//             <span className="m-lr">
+//               {executedQty}/ {origQty}
+//             </span>
 
-            <span className="m-lr">
-              {parseFloat(price)} {symbol.slice(symbol.length - 4)}
-            </span>
-          </div>
-        );
-      }
+//             <span className="m-lr">
+//               {parseFloat(price)} {symbol.slice(symbol.length - 4)}
+//             </span>
+//           </div>
+//         );
+//       }
 
-      return "";
-    }
-  );
+//       return "";
+//     }
+//   );
 
-  return (
-    <div>
-      <div> Order History</div>
-      <button onClick={run}>Show</button>
-      <div>{orders}</div>
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <div className="ui header"> Order History</div>
+//       <button onClick={run}>Run</button>
+//       <button
+//         className="ml"
+//         onClick={() =>
+//           (document.getElementById("orders").style.display = "none")
+//         }
+//       >
+//         Hide
+//       </button>
+//       <button
+//         className="ml"
+//         onClick={() =>
+//           (document.getElementById("orders").style.display = "block")
+//         }
+//       >
+//         Show
+//       </button>
+//       <div id="orders">{orders}</div>
+//     </div>
+//   );
+// };
 
 export const OpenOrders = ({ symbol }) => {
   const [openOrders, setOpenOrders] = useState([]);
 
   useEffect(() => {
-    fetchOrders("openOrders", setOpenOrders, symbol);
-  }, [symbol]);
+    const run = async () => {
+      const result = await fetchOrder("openOrders", symbol);
+      console.log(result);
+    };
+
+    run();
+  }, []);
+
+  useEffect(() => {
+    console.log(`Rerendered, fetching orders API for symbol ${symbol} ...`);
+  }, [openOrders]);
+
+  const notifyMe = (data) => {
+    setOpenOrders(data);
+  };
 
   const list = openOrders.map(
     ({ time, type, symbol, origQty, side, executedQty, orderId, price }) => {
@@ -90,25 +121,24 @@ export const OpenOrders = ({ symbol }) => {
               {parseFloat(price)} {symbol.slice(symbol.length - 4)}
             </span>
 
-            <button className="ui right item info">Cancel</button>
+            <button
+              className="ui button yellow mr"
+              onClick={() => cancelOrder(orderId, symbol, setOpenOrders)}
+            >
+              Cancel
+            </button>
           </div>
         );
       }
-
-      return "";
     }
   );
-
   return (
     <div>
+      <Actions symbol={symbol} />
+
       <div className="ui header">
         Open Orders (
-        {openOrders.length ? (
-          <span>{openOrders.length}</span>
-        ) : (
-          <span className="ui mini active inline loader"></span>
-        )}
-        )
+        {openOrders.length ? <span>{openOrders.length}</span> : <span>0</span>})
       </div>
 
       <div> {list}</div>

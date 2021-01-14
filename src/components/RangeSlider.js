@@ -6,11 +6,10 @@ class RangeSlider extends React.Component {
     this.state = { value: 100 };
     this.handleChange = this.handleChange.bind(this);
   }
-
   handleChange(event) {
     this.setState({ value: event.target.value });
+    this.props.onChangeSetQuantity(event.target.value);
   }
-
   render() {
     return (
       <div>
