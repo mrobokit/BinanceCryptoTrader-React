@@ -4,16 +4,13 @@ import App from "./components/App";
 
 //Redux + Redux Async(Thunk)
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 
 import thunk from "redux-thunk";
 import reducers from "./reducers";
-import socketMiddleware from "./middleware/middleware";
+// import socketMiddleware from "./middleware/middleware";
 
-const store = createStore(
-  reducers,
-  compose(applyMiddleware(thunk, socketMiddleware))
-);
+const store = createStore(reducers, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>
