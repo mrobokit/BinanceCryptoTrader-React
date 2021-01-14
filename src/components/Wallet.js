@@ -1,103 +1,82 @@
-import React, { useEffect, useState } from "react";
-import CryptoJS from "crypto-js";
-import binance from "./api/binance";
+import React from "react";
+import { connect } from "react-redux";
+import { fetchWallet } from "../actions";
 
-// api/v3/account?${parameters}&signature=${hash}
+// api/v3/wallet?${parameters}&signature=${hash}
 // You need to hash using CryptoJS.HmacSHA256 the parameters string together with secret key e.g const hash = CryptoJS.HmacSHA256(parameters, secretKey) then pass the hash together with params
 // you need to have the chrome extension Allow Cors : Access Control Allow Origin turned ON
 // You need import CryptoJS from "crypto-js";
 // Same thing, getting the balance, both with axios and fetch ( axios much more sleek)
 
-const Wallet = () => {
-  const [account, setAccount] = useState([]);
+//1
+class Wallet extends React.Component {
+  componentDidMount() {
+    this.props.fetchWallet();
+  }
 
-  // Better error handling, don't remove
-  // const fetchAccount = async () => {
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("X-MBX-APIKEY", `${process.env.REACT_APP_API_KEY}`);
+  renderList() {
+    return this.props.wallet.balances.map((acc) => {
+      if (acc && acc.free > 0) {
+        return (
+          <tr key={acc.asset} data-bound={acc.asset}>
+            <td data-label="Name">
+              <div>
+                {/*  These come from iconify*/}
+                <span
+                  style={{ marginRight: "5px" }}
+                  className="iconify"
+                  data-icon={`cryptocurrency:${acc.asset.toLowerCase()}`}
+                  data-inline="false"
+                ></span>
+                {acc.asset}
+              </div>
+            </td>
+            <td data-label="Ammount">
+              <div>{acc.free}</div>
+            </td>
+          </tr>
+        );
+      }
 
-  //   var requestOptions = {
-  //     method: "GET",
-  //     headers: myHeaders,
-  //     redirect: "follow",
-  //   };
+      return null;
+    });
+  }
 
-  //   fetch(
-  //     `https://api.binance.com/api/v3/account?${timestamp}&signature=${hash}`,
-  //     requestOptions
-  //   )
-  //     .then((response) => response.text())
-  //     .then((result) => console.log(result))
-  //     .catch((error) => console.log("error", error));
-  // };
-  const list = account.map((acc) => {
-    if (acc && acc.free > 0) {
-      return (
-        <tr key={acc.asset} data-bound={acc.asset}>
-          <td data-label="Name">
-            <div>
-              {/*  These come from iconify*/}
-              <span
-                style={{ marginRight: "5px" }}
-                className="iconify"
-                data-icon={`cryptocurrency:${acc.asset.toLowerCase()}`}
-                data-inline="false"
-              ></span>
-              {acc.asset}
-            </div>
-          </td>
-          <td data-label="Ammount">
-            <div>{acc.free}</div>
-          </td>
-        </tr>
-      );
-    }
+  render() {
+    return (
+      <div>
+        {/* {console.log(this.props.wallet)} */}
+        {this.props.wallet.balances ? (
+          <table
+            className="ui selectable celled table"
+            style={{ maxWidth: "300px" }}
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Ammount</th>
+              </tr>
+            </thead>
+            <tbody>{this.renderList()}</tbody>
+          </table>
+        ) : (
+          <div
+            className="ui segment"
+            style={{ minHeight: "300px", maxWidth: "265px" }}
+          >
+            <div className="ui active loader"></div>
+            <p></p>
+          </div>
+        )}
+      </div>
+    );
+  }
+}
 
-    return "";
-  });
-
-  useEffect(() => {
-    const timestamp = `timestamp=${Date.now()}`;
-    const secretKey = process.env.REACT_APP_API_SECRET;
-    const hash = CryptoJS.HmacSHA256(timestamp, secretKey);
-
-    const axiosAccount = async () => {
-      const response = await binance.get(
-        `/account?${timestamp}&signature=${hash}`
-      );
-      //console.log(JSON.stringify(response.data.balances)); // To have it return a string, like fetch does above
-      setAccount(response.data.balances);
-    };
-
-    axiosAccount();
-  }, []);
-
-  return (
-    <div>
-      {list.length > 0 ? (
-        <table
-          className="ui selectable celled table"
-          style={{ maxWidth: "300px" }}
-        >
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Ammount</th>
-            </tr>
-          </thead>
-          <tbody>{list}</tbody>
-        </table>
-      ) : (
-        <div
-          className="ui segment"
-          style={{ minHeight: "300px", maxWidth: "265px" }}
-        >
-          <div className="ui active loader"></div>
-          <p></p>
-        </div>
-      )}
-    </div>
-  );
+//2
+const mapStateToProps = (state) => {
+  return { wallet: state.wallet };
 };
 
-export default Wallet;
+//3
+export default connect(mapStateToProps, { fetchWallet })(Wallet);
