@@ -4,33 +4,16 @@ import App from "./components/App";
 
 //Redux + Redux Async(Thunk)
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
+
 import thunk from "redux-thunk";
 import reducers from "./reducers";
+import socketMiddleware from "./middleware/middleware";
 
-// Websockets
-import { createWebSocketMiddleware } from "react-websockets-middleware";
-
-// Websocket needed only ( createEndpoint i did)
-const createEndpoint = () => {
-  const symbolOne = "btcusdt";
-  const symbolTwo = "ethusdt";
-  const TRADE = [`${symbolOne}@trade`, `${symbolTwo}@trade`];
-  const TICKER = [`${symbolOne}@ticker`, `${symbolTwo}@ticker`];
-
-  return (
-    "wss://stream.binance.com:9443/stream?streams=" +
-    TRADE.join("/") +
-    "/" +
-    TICKER.join("/")
-  );
-};
-const socketMiddleware = createWebSocketMiddleware({
-  endpoint: createEndpoint(),
-});
-
-//Redux stoe
-const store = createStore(reducers, applyMiddleware(socketMiddleware, thunk));
+const store = createStore(
+  reducers,
+  compose(applyMiddleware(thunk, socketMiddleware))
+);
 
 ReactDOM.render(
   <Provider store={store}>

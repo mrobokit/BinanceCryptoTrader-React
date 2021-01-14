@@ -1,27 +1,42 @@
 import React from "react";
-// import ActiveOrders from "../components/ActiveOrders";
-// import Table from "../components/Table";
 import { connect } from "react-redux";
+import { wsConnect } from "../actions";
 
+// When nothing is happening, check to see if you are missing this.props. before the functions or variables u use !!!!!!!!!!!!!!!!!!!!!!!
 class HomePage extends React.Component {
   componentDidMount() {
-    console.log("Homepage mounted");
-    console.log(this.props.socket);
+    console.log("Munted");
+    this.props.wsConnect(this.endpoint()); // Step 2 : ✅ Pass the action of wConnect and i give it the host. Console log shows is correct
   }
+
+  endpoint = () => {
+    const symbolOne = "btcusdt";
+    const symbolTwo = "ethusdt";
+    const TRADE = [`${symbolOne}@trade`, `${symbolTwo}@trade`];
+    const TICKER = [`${symbolOne}@ticker`, `${symbolTwo}@ticker`];
+
+    return (
+      "wss://stream.binance.com:9443/stream?streams=" +
+      TRADE.join("/") +
+      "/" +
+      TICKER.join("/")
+    );
+  };
 
   render() {
     return (
-      <button onClick={() => console.log(this.props.socket)}>Action</button>
+      <button onClick={() => this.props.wsConnect(this.endpoint())}>
+        Action
+      </button>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  // console.log(state);
   return { socket: state.socket };
 };
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps, { wsConnect })(HomePage);
 
 // const HomePage = () => {
 //   return

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+
 import { fetchWallet } from "../actions";
 
 class Wallet extends React.Component {
