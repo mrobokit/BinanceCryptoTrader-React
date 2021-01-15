@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchWallet } from "../actions";
 
 const Wallet = ({ wallet, order, fetchWallet }) => {
   useEffect(() => {
+    fetchMe();
+  }, []); // This component will rerender if order store changes <3
+
+  const fetchMe = useCallback(() => {
     console.log("From Wallet", "Render");
     fetchWallet();
-  }, [order.BUY]); // This component will rerender if order store changes <3
+  });
 
   const renderList = () => {
     return wallet.balances.map((acc) => {

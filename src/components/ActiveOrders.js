@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { formatDate } from "../helpers/general";
 
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { activeOrder, cancelOrder } from "../actions";
 
 import "./ActiveOrders.css";
 
-const ActiveOrders = ({ symbol, activeOrder, cancelOrder, order }) => {
-  useEffect(() => {
-    console.log("From Active Orders", "Render");
-    activeOrder(symbol);
-  }, [order.BUY, order.CANCEL_ORDER]); // Rerender, and perform the activeOrder request whenever one of these 2 occur :)
+const ActiveOrders = ({ symbol }) => {
+  const BUY = useSelector((state) => state.order["BUY"]);
+  const CANCEL_ORDER = useSelector((state) => state.order["CANCEL_ORDER"]);
+  const ACTIVE_ORDER = useSelector((state) => state.order["ACTIVE_ORDER"]);
+  const dispatch = useDispatch();
 
-  const list = order.ACTIVE_ORDER?.map(
+  useEffect(() => {
+    dispatch(activeOrder(symbol));
+  }, [BUY, CANCEL_ORDER]);
+
+  const list = ACTIVE_ORDER?.map(
     // LET THE ?. in place otherwise i am screwed
     ({ time, type, symbol, origQty, side, executedQty, orderId, price }) => {
       return (
@@ -57,7 +61,7 @@ const ActiveOrders = ({ symbol, activeOrder, cancelOrder, order }) => {
             <div>
               <button
                 className="ui button yellow mr"
-                onClick={() => cancelOrder(orderId, symbol)}
+                onClick={() => dispatch(cancelOrder(orderId, symbol))}
               >
                 Cancel
               </button>
@@ -72,46 +76,31 @@ const ActiveOrders = ({ symbol, activeOrder, cancelOrder, order }) => {
     <div>
       <div className="ui header">
         Open Orders (
-        {order.ACTIVE_ORDER ? (
-          <span>{order.ACTIVE_ORDER.length}</span>
-        ) : (
-          <span>0</span>
-        )}
-        )
+        {ACTIVE_ORDER ? <span>{ACTIVE_ORDER.length}</span> : <span>0</span>})
       </div>
 
       <div>
-        {order.ACTIVE_ORDER ? (
-          <table
-            className="ui selectable celled table"
-            style={{ maxWidth: "300px" }}
-          >
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Type/Side</th>
-                <th>Pair</th>
-                <th>Price</th>
-                <th>Ammount</th>
-                <th>Filled</th>
-                <th>Total</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>{list}</tbody>
-          </table>
-        ) : (
-          ""
-        )}
+        <table
+          className="ui selectable celled table"
+          style={{ maxWidth: "300px" }}
+        >
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type/Side</th>
+              <th>Pair</th>
+              <th>Price</th>
+              <th>Ammount</th>
+              <th>Filled</th>
+              <th>Total</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>{list}</tbody>
+        </table>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  return { order: state.order };
-};
-
-export default connect(mapStateToProps, { activeOrder, cancelOrder })(
-  ActiveOrders
-);
+export default ActiveOrders;

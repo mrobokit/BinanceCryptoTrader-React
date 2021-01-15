@@ -80,7 +80,7 @@ const HomePage = () => {
     };
 
     return () => {
-      // ws.close();
+      ws.close();
       clearInterval(interval);
     };
   }, []);
