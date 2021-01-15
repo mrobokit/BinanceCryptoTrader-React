@@ -8,7 +8,7 @@ export const fetchWallet = () => async (dispatch) => {
 
   const response = await binance.get(`/account?${query}&signature=${hash}`);
   dispatch({ type: "FETCH_WALLET", payload: response.data });
-  console.log("Fetched wallet", response.data);
+  //console.log("Fetched wallet", response.data);
 };
 
 export const tradeOrder = (side, symbol, qt, price, type = "LIMIT") => async (
@@ -28,7 +28,7 @@ export const activeOrder = (symbol) => async (dispatch) => {
 
   const response = await binance.get(`/openOrders?${query}&signature=${hash}`); // must be GET
   dispatch({ type: `ACTIVE_ORDER`, payload: response.data }); // BUY_ORDER or SELL_ORDER effectively
-  console.log(response.data);
+  //console.log(response.data);
 };
 
 export const cancelOrder = (orderId, symbol) => async (dispatch) => {
@@ -37,7 +37,7 @@ export const cancelOrder = (orderId, symbol) => async (dispatch) => {
 
   const response = await binance.delete(`/order?${query}&signature=${hash}`); // must be DELETE
   dispatch({ type: `CANCEL_ORDER`, payload: response.data });
-  console.log(response.data);
+  //console.log(response.data);
 };
 
 // In-house Websockets Middleware

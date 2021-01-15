@@ -4,8 +4,9 @@ import { fetchWallet } from "../actions";
 
 const Wallet = ({ wallet, order, fetchWallet }) => {
   useEffect(() => {
+    console.log("From Wallet", "Render");
     fetchWallet();
-  }, [order.BUY, order.CANCEL_ORDER]); // This component will rerender if order store changes <3
+  }, [order.BUY]); // This component will rerender if order store changes <3
 
   const renderList = () => {
     return wallet.balances.map((acc) => {
@@ -27,6 +28,13 @@ const Wallet = ({ wallet, order, fetchWallet }) => {
             <td data-label="Ammount">
               <div>{acc.free}</div>
             </td>
+            <td data-label="Locked">
+              {acc.locked > 0 ? (
+                <div>{parseFloat(acc.locked).toFixed(2)}</div>
+              ) : (
+                <div>N/A</div>
+              )}
+            </td>
           </tr>
         );
       }
@@ -47,6 +55,7 @@ const Wallet = ({ wallet, order, fetchWallet }) => {
             <tr>
               <th>Name</th>
               <th>Ammount</th>
+              <th>Locked</th>
             </tr>
           </thead>
           <tbody>{renderList()}</tbody>
