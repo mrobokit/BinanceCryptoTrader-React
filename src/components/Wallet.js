@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-
 import { fetchWallet } from "../actions";
 
-class Wallet extends React.Component {
-  componentDidMount() {
-    this.props.fetchWallet();
-  }
+const Wallet = ({ wallet, order, fetchWallet }) => {
+  useEffect(() => {
+    fetchWallet();
+  }, [order.BUY]); // This component will rerender if order store changes <3
 
-  renderList() {
-    return this.props.wallet.balances.map((acc) => {
+  const renderList = () => {
+    return wallet.balances.map((acc) => {
       if (acc && acc.free > 0) {
         return (
           <tr key={acc.asset} data-bound={acc.asset}>
@@ -34,40 +33,38 @@ class Wallet extends React.Component {
 
       return null;
     });
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        {/* {console.log(this.props.wallet)} */}
-        {this.props.wallet.balances ? (
-          <table
-            className="ui selectable celled table"
-            style={{ maxWidth: "300px" }}
-          >
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Ammount</th>
-              </tr>
-            </thead>
-            <tbody>{this.renderList()}</tbody>
-          </table>
-        ) : (
-          <div
-            className="ui segment"
-            style={{ minHeight: "300px", maxWidth: "265px" }}
-          >
-            <div className="ui active loader"></div>
-            <p></p>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {/* {console.log(this.props.wallet)} */}
+      {wallet.balances ? (
+        <table
+          className="ui selectable celled table"
+          style={{ maxWidth: "300px" }}
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Ammount</th>
+            </tr>
+          </thead>
+          <tbody>{renderList()}</tbody>
+        </table>
+      ) : (
+        <div
+          className="ui segment"
+          style={{ minHeight: "300px", maxWidth: "265px" }}
+        >
+          <div className="ui active loader"></div>
+          <p></p>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
-  return { wallet: state.wallet };
+  return { wallet: state.wallet, order: state.order };
 };
 export default connect(mapStateToProps, { fetchWallet })(Wallet);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ActiveOrders from "../components/ActiveOrders";
 import Table from "../components/Table";
-
+import Wallet from "../components/Wallet";
 //import BinanceChart from "./BinanceChart";
 
 const HomePage = () => {
@@ -49,12 +49,15 @@ const HomePage = () => {
       <div className="ui grid">
         <div className="nine wide column">
           {coinOne && coinTwo && tickerOne && tickerTwo ? (
-            <Table
-              coinOne={coinOne}
-              coinTwo={coinTwo}
-              tickerOne={tickerOne}
-              tickerTwo={tickerTwo}
-            />
+            <div>
+              <div className="ui header">Price Tracker</div>
+              <Table
+                coinOne={coinOne}
+                coinTwo={coinTwo}
+                tickerOne={tickerOne}
+                tickerTwo={tickerTwo}
+              />
+            </div>
           ) : (
             <div className="ui segment" style={{ height: "320px" }}>
               <div className="ui active loader"></div>
@@ -62,7 +65,10 @@ const HomePage = () => {
             </div>
           )}
         </div>
-        <div className="seven wide column">Graph</div>
+        <div className="seven wide column">
+          <div className="ui header">My Balance</div>
+          <Wallet />
+        </div>
 
         <div className="nine wide column">
           {coinOne && coinTwo && tickerOne && tickerTwo ? (

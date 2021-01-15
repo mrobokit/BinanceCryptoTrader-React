@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { tradeOrder } from "../helpers/fetch";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { tradeOrder } from "../actions";
 
-const Actions = ({ symbol, onActionPerformed }) => {
+const Actions = ({ symbol, wallet, order, tradeOrder }) => {
   const [buySellPrice, setBuySellPrice] = useState("");
   const [quantity, setQuantity] = useState(0.01);
-  const [actionPerformed, setActionPerformed] = useState([]);
 
-  // useEffect(() => {
-  //   onActionPerformed(actionPerformed);
-  // }, []);
+  useEffect(() => {
+    console.log("Order Store", order);
+  });
 
   if (symbol) {
     return (
@@ -34,15 +34,7 @@ const Actions = ({ symbol, onActionPerformed }) => {
           <br />
           <button
             className="ui button negative mr"
-            onClick={() =>
-              tradeOrder(
-                "BUY",
-                symbol,
-                quantity,
-                buySellPrice,
-                setActionPerformed
-              )
-            }
+            onClick={() => tradeOrder("BUY", symbol, quantity, buySellPrice)} // DONT foRGET PROPS PFFF
           >
             Buy
           </button>
@@ -57,7 +49,7 @@ const Actions = ({ symbol, onActionPerformed }) => {
             <label>Current price</label>
           </div>
         </div>
-        <div className="four wide column">{}</div>
+        <div className="four wide column"></div>
       </div>
     );
   }
@@ -65,4 +57,7 @@ const Actions = ({ symbol, onActionPerformed }) => {
   return <div>Loading...</div>; // have a spinner instead or smthing :)
 };
 
-export default Actions;
+const mapStateToProps = (state) => {
+  return { order: state.order, wallet: state.wallet };
+};
+export default connect(mapStateToProps, { tradeOrder })(Actions);

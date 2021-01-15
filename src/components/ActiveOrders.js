@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { fetchOrder, tradeOrder, cancelOrder } from "../helpers/fetch";
 import { formatDate } from "../helpers/general";
 import Actions from "./Actions";
 
@@ -7,7 +6,7 @@ const ActiveOrders = ({ symbol }) => {
   const [openOrders, setOpenOrders] = useState([]);
 
   useEffect(() => {
-    fetchOrder("openOrders", symbol, setOpenOrders);
+    // fetchOrder("openOrders", symbol, setOpenOrders);
   }, []);
 
   const list = openOrders.map(
@@ -32,7 +31,7 @@ const ActiveOrders = ({ symbol }) => {
 
             <button
               className="ui button yellow mr"
-              onClick={() => cancelOrder(orderId, symbol, setOpenOrders)}
+              // onClick={() => cancelOrder(orderId, symbol, setOpenOrders)}
             >
               Cancel
             </button>
