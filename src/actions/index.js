@@ -7,7 +7,7 @@ export const fetchWallet = () => async (dispatch) => {
 
   const response = await binance.get(`/account?${query}&signature=${hash}`);
   dispatch({ type: "FETCH_WALLET", payload: response.data });
-  //console.log("Fetched wallet", response.data);
+  console.log("Fetched wallet", response.data);
 };
 export const tradeOrder = (side, symbol, qt, price, type = "LIMIT") => async (
   dispatch

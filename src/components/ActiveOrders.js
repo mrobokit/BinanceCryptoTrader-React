@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect } from "react";
 import { formatDate } from "../helpers/general";
-
 import { useSelector, useDispatch } from "react-redux";
 import { activeOrder, cancelOrder } from "../actions";
-
 import "./ActiveOrders.css";
 
 const ActiveOrders = ({ symbol }) => {
@@ -13,6 +11,7 @@ const ActiveOrders = ({ symbol }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("From Active Order", "Render");
     dispatch(activeOrder(symbol));
   }, [BUY, CANCEL_ORDER]);
 
