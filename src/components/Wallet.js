@@ -5,7 +5,7 @@ import { fetchWallet } from "../actions";
 const Wallet = ({ wallet, order, fetchWallet }) => {
   useEffect(() => {
     fetchWallet();
-  }, [order.BUY]); // This component will rerender if order store changes <3
+  }, [order.BUY, order.CANCEL_ORDER]); // This component will rerender if order store changes <3
 
   const renderList = () => {
     return wallet.balances.map((acc) => {

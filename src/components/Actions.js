@@ -7,13 +7,13 @@ const Actions = ({ symbol, wallet, order, tradeOrder }) => {
   const [quantity, setQuantity] = useState(0.01);
 
   useEffect(() => {
-    console.log("Order Store", order);
-  });
+    // console.log("Order Store", order);
+  }, []);
 
   if (symbol) {
     return (
       <div className="ui grid">
-        <div className="twelve wide column ml">
+        <div className="seven wide column ml">
           <div className="ui  labeled input m-tb ">
             <div className="ui label">PRI</div>
             <input

@@ -30,35 +30,14 @@ export const activeOrder = (symbol) => async (dispatch) => {
   dispatch({ type: `ACTIVE_ORDER`, payload: response.data }); // BUY_ORDER or SELL_ORDER effectively
   console.log(response.data);
 };
-//
-//
-//
-//
-export const cancelOrder = async (orderId, symbol, setter = null) => {
+
+export const cancelOrder = (orderId, symbol) => async (dispatch) => {
   const query = `symbol=${symbol}&orderId=${orderId}&timestamp=${Date.now()}`;
-  const secretKey = process.env.REACT_APP_API_SECRET;
-  const hash = CryptoJS.HmacSHA256(query, secretKey);
+  const hash = CryptoJS.HmacSHA256(query, process.env.REACT_APP_API_SECRET);
 
-  const myHeaders = new Headers();
-  myHeaders.append("X-MBX-APIKEY", `${process.env.REACT_APP_API_KEY}`);
-
-  const requestOptions = {
-    method: "DELETE",
-    headers: myHeaders,
-    redirect: "follow",
-  };
-
-  fetch(
-    `https://api.binance.com/api/v3/order?${query}&signature=${hash}`,
-    requestOptions
-  )
-    .then((response) => response.json())
-    .then((result) => {
-      //setter(result);
-      console.log(result);
-      return result;
-    })
-    .catch((error) => console.log("error", error));
+  const response = await binance.delete(`/order?${query}&signature=${hash}`); // must be DELETE
+  dispatch({ type: `CANCEL_ORDER`, payload: response.data });
+  console.log(response.data);
 };
 
 // In-house Websockets Middleware

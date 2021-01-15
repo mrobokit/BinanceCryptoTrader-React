@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import { formatDate } from "../helpers/general";
 import Actions from "./Actions";
 import { connect } from "react-redux";
-import { activeOrder } from "../actions";
+import { activeOrder, cancelOrder } from "../actions";
 
-const ActiveOrders = ({ symbol, activeOrder, order }) => {
-  const [openOrders, setOpenOrders] = useState([]);
-
+const ActiveOrders = ({ symbol, activeOrder, cancelOrder, order }) => {
   useEffect(() => {
     activeOrder(symbol);
-  }, []); // when order changes, rerender!
+  }, [order.CANCEL_ORDER, order.BUY]); // Rerender, and perform the activeOrder request whenever one of these 2 occur :)
 
-  const list = order.ACTIVE_ORDER.map(
+  const list = order.ACTIVE_ORDER?.map(
+    // LET THE ?. in place otherwise i am screwed
     ({ time, type, symbol, origQty, side, executedQty, orderId, price }) => {
       if (orderId) {
         return (
@@ -33,7 +32,7 @@ const ActiveOrders = ({ symbol, activeOrder, order }) => {
 
             <button
               className="ui button yellow mr"
-              // onClick={() => cancelOrder(orderId, symbol, setOpenOrders)}
+              onClick={() => cancelOrder(orderId, symbol)}
             >
               Cancel
             </button>
@@ -49,7 +48,7 @@ const ActiveOrders = ({ symbol, activeOrder, order }) => {
 
       <div className="ui header">
         Open Orders (
-        {order.ACTIVE_ORDER.length ? (
+        {order.ACTIVE_ORDER ? (
           <span>{order.ACTIVE_ORDER.length}</span>
         ) : (
           <span>0</span>
@@ -65,4 +64,6 @@ const mapStateToProps = (state) => {
   return { order: state.order };
 };
 
-export default connect(mapStateToProps, { activeOrder })(ActiveOrders);
+export default connect(mapStateToProps, { activeOrder, cancelOrder })(
+  ActiveOrders
+);
