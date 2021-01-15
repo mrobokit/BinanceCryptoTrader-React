@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import ActiveOrders from "../components/ActiveOrders";
 import Table from "../components/Table";
 import Wallet from "../components/Wallet";
-//import BinanceChart from "./BinanceChart";
 
 const HomePage = () => {
   const [coinOne, setCoinOne] = useState("");

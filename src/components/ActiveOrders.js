@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { formatDate } from "../helpers/general";
 import Actions from "./Actions";
+import { connect } from "react-redux";
+import { activeOrder } from "../actions";
 
-const ActiveOrders = ({ symbol }) => {
+const ActiveOrders = ({ symbol, activeOrder, order }) => {
   const [openOrders, setOpenOrders] = useState([]);
 
   useEffect(() => {
-    // fetchOrder("openOrders", symbol, setOpenOrders);
-  }, []);
+    activeOrder(symbol);
+  }, []); // when order changes, rerender!
 
-  const list = openOrders.map(
+  const list = order.ACTIVE_ORDER.map(
     ({ time, type, symbol, origQty, side, executedQty, orderId, price }) => {
       if (orderId) {
         return (
@@ -47,12 +49,20 @@ const ActiveOrders = ({ symbol }) => {
 
       <div className="ui header">
         Open Orders (
-        {openOrders.length ? <span>{openOrders.length}</span> : <span>0</span>})
+        {order.ACTIVE_ORDER.length ? (
+          <span>{order.ACTIVE_ORDER.length}</span>
+        ) : (
+          <span>0</span>
+        )}
+        )
       </div>
-
-      <div> {list}</div>
+      {order.ACTIVE_ORDER ? <div> {list}</div> : ""}
     </div>
   );
 };
 
-export default ActiveOrders;
+const mapStateToProps = (state) => {
+  return { order: state.order };
+};
+
+export default connect(mapStateToProps, { activeOrder })(ActiveOrders);
