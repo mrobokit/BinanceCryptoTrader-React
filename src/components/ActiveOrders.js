@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { formatDate } from "../helpers/general";
-import Actions from "./Actions";
+
 import { connect } from "react-redux";
 import { activeOrder, cancelOrder } from "../actions";
 
@@ -44,8 +44,6 @@ const ActiveOrders = ({ symbol, activeOrder, cancelOrder, order }) => {
 
   return (
     <div>
-      <Actions symbol={symbol} />
-
       <div className="ui header">
         Open Orders (
         {order.ACTIVE_ORDER ? (

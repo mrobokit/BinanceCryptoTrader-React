@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { tradeOrder } from "../actions";
 
-const Actions = ({ symbol, wallet, order, tradeOrder }) => {
+const Actions = ({ symbol, order, tradeOrder }) => {
   const [buySellPrice, setBuySellPrice] = useState("");
   const [quantity, setQuantity] = useState(0.01);
 
@@ -14,6 +14,7 @@ const Actions = ({ symbol, wallet, order, tradeOrder }) => {
     return (
       <div className="ui grid">
         <div className="seven wide column ml">
+          <div className="ui header"> Actions </div>
           <div className="ui  labeled input m-tb ">
             <div className="ui label">PRI</div>
             <input
@@ -58,6 +59,6 @@ const Actions = ({ symbol, wallet, order, tradeOrder }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { order: state.order, wallet: state.wallet };
+  return { order: state.order };
 };
 export default connect(mapStateToProps, { tradeOrder })(Actions);

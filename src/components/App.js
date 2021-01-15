@@ -10,7 +10,7 @@ const App = () => {
     <BrowserRouter>
       <div className="ui container container-style hundredvh">
         <Navbar />
-        <div className="ui segment ">
+        <div className="ui segment " style={{ height: "calc(100% - 65px)" }}>
           <Route path="/" exact component={HomePage} />
           <Route path="/account" exact component={AccountPage} />
         </div>

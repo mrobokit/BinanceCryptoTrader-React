@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ActiveOrders from "../components/ActiveOrders";
 import Table from "../components/Table";
 import Wallet from "../components/Wallet";
+// import Actions from "../components/Actions";
 
 const HomePage = () => {
   const [coinOne, setCoinOne] = useState("");
@@ -68,7 +69,7 @@ const HomePage = () => {
           <div className="ui header">My Balance</div>
           <Wallet />
         </div>
-
+        {/* <Actions symbol={coinTwo.s} /> */}
         <div className="nine wide column">
           {coinOne && coinTwo && tickerOne && tickerTwo ? (
             <ActiveOrders symbol={coinTwo.s} />
