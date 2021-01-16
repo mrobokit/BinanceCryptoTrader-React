@@ -1,17 +1,14 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchWallet } from "../actions";
 
-const Wallet = () => {
-  const BALANCE = useSelector((state) => state.wallet.BALANCE);
-  const BUY = useSelector((state) => state.order.BUY);
-  const CANCEL_ORDER = useSelector((state) => state.order.CANCEL_ORDER);
+const Wallet = ({ BALANCE, executionReport }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("From Wallet", "Render");
     dispatch(fetchWallet());
-  }, [BUY]);
+  }, [executionReport]);
 
   const renderList = BALANCE?.map((acc) => {
     if (acc && acc.free > 0) {

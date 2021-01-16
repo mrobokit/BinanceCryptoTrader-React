@@ -3,7 +3,7 @@ import ActiveOrders from "../components/ActiveOrders";
 import Table from "../components/Table";
 import Wallet from "../components/Wallet";
 import Actions from "../components/Actions";
-
+import { useSelector, useDispatch } from "react-redux";
 import binance from "../components/api/binance";
 
 import Snackbar from "../components/Snackbar";
@@ -18,6 +18,9 @@ const HomePage = () => {
 
   const symbolOne = "btcusdt";
   const symbolTwo = "ethusdt";
+
+  const ACTIVE_ORDER = useSelector((state) => state.order["ACTIVE_ORDER"]);
+  const BALANCE = useSelector((state) => state.wallet["BALANCE"]);
 
   useEffect(() => {
     console.log("From HomePage", "Render");
@@ -112,7 +115,7 @@ const HomePage = () => {
         </div>
         <div className="seven wide column">
           <div className="ui header">My Balance</div>
-          <Wallet />
+          <Wallet BALANCE={BALANCE} executionReport={executionReport} />
         </div>
 
         <div className="five wide column">
@@ -121,7 +124,11 @@ const HomePage = () => {
 
         <div className="eleven wide column">
           {coinOne && coinTwo && tickerOne && tickerTwo ? (
-            <ActiveOrders symbol={coinTwo.s} />
+            <ActiveOrders
+              symbol={coinTwo.s}
+              ACTIVE_ORDER={ACTIVE_ORDER}
+              executionReport={executionReport}
+            />
           ) : (
             <div className="ui segment" style={{ height: "120px" }}>
               <div className="ui active loader"></div>

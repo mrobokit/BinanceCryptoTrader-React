@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
 import { formatDate } from "../helpers/general";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { activeOrder, cancelOrder } from "../actions";
 import "./ActiveOrders.css";
 
-const ActiveOrders = ({ symbol }) => {
-  const ACTIVE_ORDER = useSelector((state) => state.order["ACTIVE_ORDER"]);
+const ActiveOrders = ({ symbol, executionReport, ACTIVE_ORDER }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("From Active Order", "Render");
     dispatch(activeOrder(symbol));
-  }, []);
+  }, [executionReport]);
 
   const list = ACTIVE_ORDER?.map(
     // LET THE ?. in place otherwise i am screwed
