@@ -5,15 +5,13 @@ import { activeOrder, cancelOrder } from "../actions";
 import "./ActiveOrders.css";
 
 const ActiveOrders = ({ symbol }) => {
-  const BUY = useSelector((state) => state.order["BUY"]);
-  const CANCEL_ORDER = useSelector((state) => state.order["CANCEL_ORDER"]);
   const ACTIVE_ORDER = useSelector((state) => state.order["ACTIVE_ORDER"]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("From Active Order", "Render");
     dispatch(activeOrder(symbol));
-  }, [BUY, CANCEL_ORDER]);
+  }, []);
 
   const list = ACTIVE_ORDER?.map(
     // LET THE ?. in place otherwise i am screwed

@@ -72,11 +72,15 @@ const HomePage = () => {
       else if (response.stream === TRADE[1]) setCoinTwo(response.data);
       else if (response.stream === TICKER[0]) setTickerOne(response.data);
       else if (response.stream === TICKER[1]) setTickerTwo(response.data);
-      else if (response.data.e === "executionReport")
+      else if (response.data.e === "executionReport") {
         setExecutionReport(response.data);
-      else if (response.data.e === "outboundAccountPosition")
+        console.log(response.data);
+      } else if (response.data.e === "outboundAccountPosition") {
         setOutboundAccountPosition(response.data);
-      else console.log("NEW", response.data);
+        console.log(response.data);
+      } else {
+        console.log("NEW", response.data);
+      }
     };
 
     return () => {
