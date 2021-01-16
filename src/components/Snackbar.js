@@ -1,7 +1,7 @@
 import React from "react";
 
-const Snackbar = () => {
-  return <div>SNACK</div>;
+const Snackbar = ({ data }) => {
+  return <div>{JSON.stringify(data)}</div>;
 };
 
 export default Snackbar;

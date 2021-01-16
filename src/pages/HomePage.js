@@ -3,7 +3,7 @@ import ActiveOrders from "../components/ActiveOrders";
 import Table from "../components/Table";
 import Wallet from "../components/Wallet";
 import Actions from "../components/Actions";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import binance from "../components/api/binance";
 
 import Snackbar from "../components/Snackbar";
@@ -137,7 +137,8 @@ const HomePage = () => {
           )}
         </div>
 
-        <Snackbar />
+        <Snackbar data={executionReport} />
+        <Snackbar data={outboundAccountPosition} />
       </div>
     </div>
   );
