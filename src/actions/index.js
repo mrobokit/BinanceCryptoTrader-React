@@ -26,7 +26,7 @@ export const activeOrder = (symbol) => async (dispatch) => {
 
   const response = await binance.get(`/openOrders?${query}&signature=${hash}`); // must be GET
   dispatch({ type: `ACTIVE_ORDER`, payload: response.data }); // BUY_ORDER or SELL_ORDER effectively
-  console.log(response.data);
+  //console.log(response.data);
 };
 export const cancelOrder = (orderId, symbol) => async (dispatch) => {
   const query = `symbol=${symbol}&orderId=${orderId}&timestamp=${Date.now()}`;

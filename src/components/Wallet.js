@@ -6,13 +6,12 @@ const Wallet = () => {
   const BALANCE = useSelector((state) => state.wallet["BALANCE"]);
   const BUY = useSelector((state) => state.order["BUY"]);
   const CANCEL_ORDER = useSelector((state) => state.order["CANCEL_ORDER"]);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("From Wallet", "Render");
     dispatch(fetchWallet());
-  }, [BUY, CANCEL_ORDER]); // This component will rerender if order store changes <3
+  }, [BUY, CANCEL_ORDER]);
 
   const renderList = BALANCE?.map((acc) => {
     if (acc && acc.free > 0) {
@@ -20,7 +19,6 @@ const Wallet = () => {
         <tr key={acc.asset} data-bound={acc.asset}>
           <td data-label="Name">
             <div>
-              {/*  These come from iconify*/}
               <span
                 style={{ marginRight: "5px" }}
                 className="iconify"

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { tradeOrder } from "../actions";
 
-const Actions = ({ symbol, order, tradeOrder }) => {
-  const [buySellPrice, setBuySellPrice] = useState("");
-  const [quantity, setQuantity] = useState(0.01);
+const Actions = ({ symbol }) => {
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log("Order Store", order);
+    // console.log("Action", "Render");
   }, []);
 
   if (symbol) {
@@ -17,25 +16,21 @@ const Actions = ({ symbol, order, tradeOrder }) => {
           <div className="ui header"> Actions </div>
           <div className="ui  labeled input m-tb ">
             <div className="ui label">PRI</div>
-            <input
-              type="text"
-              value={buySellPrice}
-              onChange={(e) => setBuySellPrice(e.target.value)}
-            />
+            <input type="text" value={"900"} />
           </div>
           {/* <RangeSlider onChangeSetQuantity={handler} /> */}
           <div className="ui  labeled input m-tb ">
             <div className="ui label">QTY</div>
             <input
               type="text"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              value={"0.12"}
+              // onChange={(e) => setQuantity(e.target.value)}
             />
           </div>
           <br />
           <button
             className="ui button negative mr"
-            onClick={() => tradeOrder("BUY", symbol, quantity, buySellPrice)} // DONT foRGET PROPS PFFF
+            onClick={() => dispatch(tradeOrder("BUY", symbol, "0.12", "900"))} // DONT foRGET PROPS PFFF
           >
             Buy
           </button>
@@ -58,7 +53,4 @@ const Actions = ({ symbol, order, tradeOrder }) => {
   return <div>Loading...</div>; // have a spinner instead or smthing :)
 };
 
-const mapStateToProps = (state) => {
-  return { order: state.order };
-};
-export default connect(mapStateToProps, { tradeOrder })(Actions);
+export default Actions;
