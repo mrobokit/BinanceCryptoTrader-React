@@ -1,22 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { formatDate } from "../helpers/general";
 import { useDispatch } from "react-redux";
 import { activeOrder, cancelOrder } from "../actions";
 import "./ActiveOrders.css";
 
-const ActiveOrders = ({ symbol, executionReport, ACTIVE_ORDER }) => {
+const ActiveOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
   const dispatch = useDispatch();
+  const [height, setHeight] = useState(0);
+  const ref = useRef(null);
 
   useEffect(() => {
+    // console.log(pair);
+    setHeight(ref.current.clientHeight);
+    //console.log(height);
     console.log("From Active Order", "Render");
-    dispatch(activeOrder(symbol));
+    dispatch(activeOrder(pair));
   }, [executionReport]);
 
   const list = ACTIVE_ORDER?.map(
     // LET THE ?. in place otherwise i am screwed
     ({ time, type, symbol, origQty, side, executedQty, orderId, price }) => {
       return (
-        <tr key={orderId} data-bound={symbol}>
+        <tr key={orderId} data-bound={pair}>
           <td data-label="Date">
             <div>{formatDate(time)}</div>
           </td>
@@ -30,12 +35,10 @@ const ActiveOrders = ({ symbol, executionReport, ACTIVE_ORDER }) => {
               <span
                 style={{ marginRight: "5px" }}
                 className="iconify"
-                data-icon={`cryptocurrency:${symbol
-                  .substring(0, 3)
-                  .toLowerCase()}`}
+                data-icon={`cryptocurrency:${symbol.toLowerCase()}`}
                 data-inline="false"
               ></span>
-              {symbol.substring(0, 3)}
+              {pair.substring(0, 3)}
             </div>
           </td>
           <td data-label="Price">
@@ -50,14 +53,14 @@ const ActiveOrders = ({ symbol, executionReport, ACTIVE_ORDER }) => {
           <td data-label="Total">
             <span>
               {parseFloat(origQty * price).toFixed(2)}{" "}
-              {symbol.slice(symbol.length - 4)}
+              {pair.slice(pair.length - 4)}
             </span>
           </td>
           <td data-label="Action">
             <div>
               <button
                 className="ui button yellow mr"
-                onClick={() => dispatch(cancelOrder(orderId, symbol))}
+                onClick={() => dispatch(cancelOrder(orderId, pair))}
               >
                 Cancel
               </button>
@@ -69,13 +72,12 @@ const ActiveOrders = ({ symbol, executionReport, ACTIVE_ORDER }) => {
   );
 
   return (
-    <div>
+    <div ref={ref}>
       <div className="ui header">
         Open Orders (
         {ACTIVE_ORDER ? <span>{ACTIVE_ORDER.length}</span> : <span>0</span>})
       </div>
-
-      <div>
+      {list ? (
         <table
           className="ui selectable celled table"
           style={{ maxWidth: "300px" }}
@@ -94,7 +96,17 @@ const ActiveOrders = ({ symbol, executionReport, ACTIVE_ORDER }) => {
           </thead>
           <tbody>{list}</tbody>
         </table>
-      </div>
+      ) : (
+        <div
+          className="ui segment"
+          style={{
+            height: height + "px",
+          }}
+        >
+          <div className="ui active loader"></div>
+          <p></p>
+        </div>
+      )}
     </div>
   );
 };

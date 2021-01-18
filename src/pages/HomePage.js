@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from "react";
 import ActiveOrders from "../components/ActiveOrders";
-import Table from "../components/Table";
+import SymbolTracker from "../components/SymbolTracker";
 import Wallet from "../components/Wallet";
-import Actions from "../components/Actions";
+import BuySell from "../components/BuySell";
 import { useSelector } from "react-redux";
 import binance from "../components/api/binance";
 
 import Snackbar from "../components/Snackbar";
 
 const HomePage = () => {
-  const [coinOne, setCoinOne] = useState("");
-  const [coinTwo, setCoinTwo] = useState("");
-  const [tickerOne, setTickerOne] = useState("");
-  const [tickerTwo, setTickerTwo] = useState("");
+  //Currencies
+  const [pair] = useState("ETHUSDT");
+  const [fiat] = useState("USDT");
+  const [symbol] = useState(pair.replace(fiat, "")); // "ETH"
+
+  //Streams
+  const [trade, setTrade] = useState("");
+  const [ticker, setTicker] = useState("");
+
+  // Server Notifications
   const [executionReport, setExecutionReport] = useState("");
   const [outboundAccountPosition, setOutboundAccountPosition] = useState("");
 
-  const symbolOne = "btcusdt";
-  const symbolTwo = "ethusdt";
-
+  //Redux Store
   const ACTIVE_ORDER = useSelector((state) => state.order["ACTIVE_ORDER"]);
   const BALANCE = useSelector((state) => state.wallet["BALANCE"]);
 
   useEffect(() => {
     console.log("From HomePage", "Render");
-
-    const TRADE = [`${symbolOne}@trade`, `${symbolTwo}@trade`];
-    const TICKER = [`${symbolOne}@ticker`, `${symbolTwo}@ticker`];
 
     // localStorage.clear();
     const streamKey = localStorage.getItem("streamKey");
@@ -54,12 +55,7 @@ const HomePage = () => {
     }, 1800000); //30 min
 
     const ws = new WebSocket(
-      "wss://stream.binance.com:9443/stream?streams=" +
-        TRADE.join("/") +
-        "/" +
-        TICKER.join("/") +
-        "/" +
-        streamKey
+      `wss://stream.binance.com:9443/stream?streams=${pair.toLowerCase()}@trade/${pair.toLowerCase()}@ticker/${streamKey}`
     );
 
     ws.onopen = () => {
@@ -71,10 +67,10 @@ const HomePage = () => {
     ws.onmessage = (evt) => {
       const response = JSON.parse(evt.data);
 
-      if (response.stream === TRADE[0]) setCoinOne(response.data);
-      else if (response.stream === TRADE[1]) setCoinTwo(response.data);
-      else if (response.stream === TICKER[0]) setTickerOne(response.data);
-      else if (response.stream === TICKER[1]) setTickerTwo(response.data);
+      if (response.stream === `${pair.toLowerCase()}@trade`)
+        setTrade(response.data);
+      else if (response.stream === `${pair.toLowerCase()}@ticker`)
+        setTicker(response.data);
       else if (response.data.e === "executionReport") {
         setExecutionReport(response.data);
         console.log(response.data);
@@ -95,37 +91,38 @@ const HomePage = () => {
   return (
     <div className="ui container">
       <div className="ui grid">
-        <div className="nine wide column">
-          {coinOne && coinTwo && tickerOne && tickerTwo ? (
+        <div className="five wide column">
+          {trade && ticker ? (
             <div>
               <div className="ui header">Price Tracker</div>
-              <Table
-                coinOne={coinOne}
-                coinTwo={coinTwo}
-                tickerOne={tickerOne}
-                tickerTwo={tickerTwo}
-              />
+              <SymbolTracker trade={trade} ticker={ticker} />
             </div>
           ) : (
-            <div className="ui segment" style={{ height: "320px" }}>
+            <div className="ui segment" style={{ height: "100%" }}>
               <div className="ui active loader"></div>
               <p></p>
             </div>
           )}
         </div>
-        <div className="seven wide column">
-          <div className="ui header">My Balance</div>
-          <Wallet BALANCE={BALANCE} executionReport={executionReport} />
+        <div className="eleven wide column">
+          <div className="ui header">Funds Available</div>
+          <Wallet
+            BALANCE={BALANCE}
+            executionReport={executionReport}
+            symbol={symbol}
+            fiat={fiat}
+          />
         </div>
 
         <div className="five wide column">
-          <Actions symbol={coinTwo.s} />
+          <BuySell pair={pair} symbol={symbol} fiat={fiat} />{" "}
+          {/*// gotta ait for pair to update  to not be able to buy before it loads*/}
         </div>
 
         <div className="eleven wide column">
-          {coinOne && coinTwo && tickerOne && tickerTwo ? (
+          {trade && ticker ? (
             <ActiveOrders
-              symbol={coinTwo.s}
+              pair={pair}
               ACTIVE_ORDER={ACTIVE_ORDER}
               executionReport={executionReport}
             />

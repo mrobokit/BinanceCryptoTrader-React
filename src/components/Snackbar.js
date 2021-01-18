@@ -1,7 +1,11 @@
 import React from "react";
 
 const Snackbar = ({ data }) => {
-  return <div>{JSON.stringify(data)}</div>;
+  if (data) {
+    return <div>{JSON.stringify(data)}</div>;
+  } else {
+    return "";
+  }
 };
 
 export default Snackbar;

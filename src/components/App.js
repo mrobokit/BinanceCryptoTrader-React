@@ -13,6 +13,7 @@ const App = () => {
         <div className="ui segment " style={{ height: "calc(100% - 65px)" }}>
           <Route path="/" exact component={HomePage} />
           <Route path="/account" exact component={AccountPage} />
+          {/* // dynamic route here, if i type in bar LINKUSDT, it shall create that page for me */}
         </div>
       </div>
     </BrowserRouter>

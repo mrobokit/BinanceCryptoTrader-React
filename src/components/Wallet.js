@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchWallet } from "../actions";
 
-const Wallet = ({ BALANCE, executionReport }) => {
+const Wallet = ({ BALANCE, executionReport, symbol, fiat }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -11,7 +11,10 @@ const Wallet = ({ BALANCE, executionReport }) => {
   }, [executionReport]);
 
   const renderList = BALANCE?.map((acc) => {
-    if (acc && acc.free > 0) {
+    if (
+      (acc && acc.free > 0 && acc.asset === symbol?.replace(fiat, "")) ||
+      acc.asset === fiat
+    ) {
       return (
         <tr key={acc.asset} data-bound={acc.asset}>
           <td data-label="Name">
@@ -44,7 +47,7 @@ const Wallet = ({ BALANCE, executionReport }) => {
 
   return (
     <div>
-      {BALANCE ? (
+      {BALANCE && symbol ? (
         <table
           className="ui selectable celled table"
           style={{ maxWidth: "300px" }}
