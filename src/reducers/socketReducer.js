@@ -9,12 +9,12 @@ export default (state = [], action) => {
       return action;
     case "disconnected":
       return action;
-    case "tradeSocket":
-      return { tradeSocket: action.payload };
-    case "tickerSocket":
-      return { tickerSocket: action.payload };
-    case "serverEventsSocket":
-      return { serverEventsSocket: action.payload };
+    case "tradeStream":
+      return { tradeStream: action.payload };
+    case "tickerStream":
+      return { tickerStream: action.payload };
+    case "serverEventsStream":
+      return { serverEventsStream: action.payload };
     default:
       return state;
   }

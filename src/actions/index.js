@@ -58,21 +58,21 @@ export const connectToSocket = (host, save) => ({
   save,
 });
 export const disconnectFromSocket = (host) => ({ type: "disconnect", host });
-export const storeTradeSocket = (data) => async (dispatch) => {
+export const storeTradeStream = (data) => async (dispatch) => {
   dispatch({
-    type: `tradeSocket`,
+    type: `tradeStream`,
     payload: data,
   });
 };
-export const storeTickerSocket = (data) => async (dispatch) => {
+export const storeTickerStream = (data) => async (dispatch) => {
   dispatch({
-    type: `tickerSocket`,
+    type: `tickerStream`,
     payload: data,
   });
 };
-export const storeServerEventsSocket = (data) => async (dispatch) => {
+export const storeServerEventsStream = (data) => async (dispatch) => {
   dispatch({
-    type: `serverEventsSocket`,
+    type: `serverEventsStream`,
     payload: data,
   });
 };

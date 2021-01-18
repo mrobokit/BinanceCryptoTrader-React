@@ -2,23 +2,22 @@ import React, { useEffect } from "react";
 import {
   connectToSocket,
   disconnectFromSocket,
-  storeTickerSocket,
+  storeTickerStream,
+  storeTradeStream,
 } from "../actions";
 import "./SymbolStream.css";
 import { useSelector, useDispatch } from "react-redux";
-import { CoinPair } from "../components/Coin";
+import { CoinPair, CoinPrice, Change24H } from "../components/Coin";
 
 const SymbolStream = () => {
   const dispatch = useDispatch();
   const config = useSelector((state) => state.config);
-  //const socket = useSelector((state) => state.socket); - if i were connected to socket, it would rerender whole component!
 
-  // const connectToTrade();
   const connectToTicker = () => {
     dispatch(
       connectToSocket(
         `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@ticker`,
-        storeTickerSocket
+        storeTickerStream
       )
     );
   };
@@ -29,7 +28,14 @@ const SymbolStream = () => {
       )
     );
   };
-  // const connectToEvents();
+  const connectToTrade = () => {
+    dispatch(
+      connectToSocket(
+        `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@trade`,
+        storeTradeStream
+      )
+    );
+  };
 
   useEffect(() => {
     console.log("Dobby is a free elf!");
@@ -48,21 +54,13 @@ const SymbolStream = () => {
         </thead>
         <tbody>
           <tr>
-            <td data-label="Pair">
-              <CoinPair />
+            <td data-label="Pair">{/* <CoinPair /> */}</td>
+
+            <td data-label="Live Trades">{/* <CoinPrice /> */}</td>
+
+            <td data-label="Last 24H Change">
+              <Change24H />
             </td>
-
-            {/*
-          <td data-label="Live Trades">
-            <CoinPrice price={filteredTrade().p} />
-          </td>
-
-          <td data-label="Last 24H Change">
-            <Change24H
-              price={filteredTicker().p}
-              percentage={filteredTicker().P}
-            />
-          </td> */}
           </tr>
         </tbody>
       </table>
