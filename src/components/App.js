@@ -4,8 +4,10 @@ import HomePage from "../pages/HomePage";
 import AccountPage from "../pages/AccountPage";
 import Navbar from "../components/Navbar";
 import "./App.css";
+import SymbolPage from "../pages/SymbolPage";
 
 const App = () => {
+  const location = window.location.pathname;
   return (
     <BrowserRouter>
       <div className="ui container container-style hundredvh">
@@ -13,6 +15,7 @@ const App = () => {
         <div className="ui segment " style={{ height: "calc(100% - 65px)" }}>
           <Route path="/" exact component={HomePage} />
           <Route path="/account" exact component={AccountPage} />
+          <Route path="/:pair" component={SymbolPage} />
           {/* // dynamic route here, if i type in bar LINKUSDT, it shall create that page for me */}
         </div>
       </div>
