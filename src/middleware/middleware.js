@@ -31,7 +31,7 @@ const socketMiddleware = () => {
           socket.close();
         }
 
-        socket = null;
+        // socket = null;
         dispatch({
           type: "wipe",
           payload: null,

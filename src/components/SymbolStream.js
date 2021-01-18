@@ -3,6 +3,7 @@ import {
   connectToSocket,
   connectToSocket2,
   disconnectFromSocket,
+  disconnectFromSocket2,
   storeTickerStream,
   storeTradeStream,
 } from "../actions";
@@ -43,7 +44,7 @@ const SymbolStream = () => {
   };
   const disconnectFromTicker = () => {
     dispatch(
-      disconnectFromSocket(
+      disconnectFromSocket2(
         `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@ticker`
       )
     );
@@ -53,6 +54,11 @@ const SymbolStream = () => {
     console.log("Dobby is a free elf!");
     connectToTicker();
     connectToTrade();
+
+    return () => {
+      disconnectFromTrade();
+      disconnectFromTicker();
+    };
   }, []);
 
   return (
