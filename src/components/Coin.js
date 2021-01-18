@@ -3,13 +3,13 @@ import { useSelector } from "react-redux";
 import "./Coin.css";
 
 export const CoinPair = () => {
-  const socket = useSelector((state) => state.socket);
-  return <div>{socket.tickerStream?.s}</div>;
+  const trade = useSelector((state) => state.socket.tradeStream);
+  return <div>{trade?.s}</div>;
 };
 
 export const CoinPrice = () => {
-  const socket = useSelector((state) => state.socket);
-  return <div> {parseFloat(socket.tickerStream?.p)}</div>;
+  const trade = useSelector((state) => state.socket.tradeStream);
+  return <div> {parseFloat(trade?.p)}</div>;
 };
 
 export const Change24H = () => {

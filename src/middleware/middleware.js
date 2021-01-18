@@ -4,9 +4,9 @@ const socketMiddleware = () => {
   return ({ dispatch }) => (next) => (action) => {
     switch (action.type) {
       case "connect":
-        if (socket !== null) {
-          socket.close();
-        }
+        // if (socket !== null) {
+        //   socket.close();
+        // }
 
         socket = new WebSocket(action.host);
 

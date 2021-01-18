@@ -13,6 +13,25 @@ const SymbolStream = () => {
   const dispatch = useDispatch();
   const config = useSelector((state) => state.config);
 
+  //Trade
+  const connectToTrade = () => {
+    dispatch(
+      connectToSocket(
+        `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@trade`,
+        storeTradeStream
+      )
+    );
+  };
+  const disconnectFromTrade = () => {
+    dispatch(
+      disconnectFromSocket(
+        `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@trade`,
+        storeTradeStream
+      )
+    );
+  };
+
+  //Ticker
   const connectToTicker = () => {
     dispatch(
       connectToSocket(
@@ -28,18 +47,11 @@ const SymbolStream = () => {
       )
     );
   };
-  const connectToTrade = () => {
-    dispatch(
-      connectToSocket(
-        `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@trade`,
-        storeTradeStream
-      )
-    );
-  };
 
   useEffect(() => {
     console.log("Dobby is a free elf!");
-    connectToTicker();
+    // connectToTicker();
+    // connectToTrade();
   }, []);
 
   return (
@@ -54,9 +66,13 @@ const SymbolStream = () => {
         </thead>
         <tbody>
           <tr>
-            <td data-label="Pair">{/* <CoinPair /> */}</td>
+            <td data-label="Pair">
+              <CoinPair />
+            </td>
 
-            <td data-label="Live Trades">{/* <CoinPrice /> */}</td>
+            <td data-label="Live Trades">
+              <CoinPrice />
+            </td>
 
             <td data-label="Last 24H Change">
               <Change24H />
@@ -70,6 +86,14 @@ const SymbolStream = () => {
       <br />
       <button onClick={() => disconnectFromTicker()}>
         Disconnect From Ticker Stream
+      </button>
+      <br />
+      <br />
+
+      <button onClick={() => connectToTrade()}>Connect To Trade Stream</button>
+      <br />
+      <button onClick={() => disconnectFromTrade()}>
+        Disconnect From Trade Stream
       </button>
     </div>
   );
