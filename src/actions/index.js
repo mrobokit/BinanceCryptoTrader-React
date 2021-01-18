@@ -57,6 +57,11 @@ export const connectToSocket = (host, save) => ({
   host,
   save,
 });
+export const connectToSocket2 = (host, save) => ({
+  type: "connect",
+  host,
+  save,
+});
 export const disconnectFromSocket = (host) => ({ type: "disconnect", host });
 export const storeTradeStream = (data) => async (dispatch) => {
   dispatch({

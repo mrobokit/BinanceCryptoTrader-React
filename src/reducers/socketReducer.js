@@ -8,6 +8,8 @@ export const serverEventsStreamReducer = (state = [], action) => {
       return action;
     case "disconnected":
       return action;
+    case "wipe":
+      return action;
     case "serverEventsStream":
       return { data: action.payload };
     default:
@@ -24,6 +26,8 @@ export const tickerSocketReducer = (state = [], action) => {
       return action;
     case "disconnected":
       return action;
+    case "wipe":
+      return action;
     case "tickerStream":
       return { data: action.payload };
     default:
@@ -39,6 +43,8 @@ export const tradeSocketReducer = (state = [], action) => {
     case "disconnect":
       return action;
     case "disconnected":
+      return action;
+    case "wipe":
       return action;
     case "tradeStream":
       return { data: action.payload };

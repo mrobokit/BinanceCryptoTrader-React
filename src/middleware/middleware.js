@@ -32,6 +32,10 @@ const socketMiddleware = () => {
         }
 
         socket = null;
+        dispatch({
+          type: "wipe",
+          payload: null,
+        });
 
         break;
       default:

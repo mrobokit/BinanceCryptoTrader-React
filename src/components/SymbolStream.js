@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {
   connectToSocket,
+  connectToSocket2,
   disconnectFromSocket,
   storeTickerStream,
   storeTradeStream,
@@ -34,7 +35,7 @@ const SymbolStream = () => {
   //Ticker
   const connectToTicker = () => {
     dispatch(
-      connectToSocket(
+      connectToSocket2(
         `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@ticker`,
         storeTickerStream
       )
@@ -50,8 +51,8 @@ const SymbolStream = () => {
 
   useEffect(() => {
     console.log("Dobby is a free elf!");
-    // connectToTicker();
-    // connectToTrade();
+    connectToTicker();
+    connectToTrade();
   }, []);
 
   return (
@@ -79,7 +80,8 @@ const SymbolStream = () => {
             </td>
           </tr>
         </tbody>
-      </table>
+      </table>{" "}
+      :
       <button onClick={() => connectToTicker()}>
         Connect To Ticker Stream
       </button>
@@ -89,7 +91,6 @@ const SymbolStream = () => {
       </button>
       <br />
       <br />
-
       <button onClick={() => connectToTrade()}>Connect To Trade Stream</button>
       <br />
       <button onClick={() => disconnectFromTrade()}>
