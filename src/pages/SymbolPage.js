@@ -9,7 +9,7 @@ import binance from "../components/api/binance";
 import Snackbar from "../components/Snackbar";
 
 const SymbolPage = ({ match, location }) => {
-  const path = location.pathname.replace("/", "").toUpperCase();
+  const path = location.pathname.replace("/trade/", "").toUpperCase();
 
   //Currencies
   const [pair] = useState(path);

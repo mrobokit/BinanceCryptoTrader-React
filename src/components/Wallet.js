@@ -11,10 +11,7 @@ const Wallet = ({ BALANCE, executionReport, symbol, fiat }) => {
   }, [executionReport]);
 
   const renderList = BALANCE?.map((acc) => {
-    if (
-      (acc && acc.free > 0 && acc.asset === symbol?.replace(fiat, "")) ||
-      acc.asset === fiat
-    ) {
+    if (acc && acc.free > 0) {
       return (
         <tr key={acc.asset} data-bound={acc.asset}>
           <td data-label="Name">
