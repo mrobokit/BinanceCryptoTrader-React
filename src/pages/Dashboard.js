@@ -2,23 +2,28 @@ import React, { useState, useEffect } from "react";
 import ActiveOrders from "../components/ActiveOrders";
 import SymbolTracker from "../components/SymbolTracker";
 import BuySell from "../components/BuySell";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import binance from "../components/api/binance";
+
+// Store Server Notifications
 import { storeExecutionReport, storeOutboundAccountPosition } from "../actions";
 
 import Snackbar from "../components/Snackbar";
 
 const Dashboard = () => {
   //Redux Store - Config Object
+  const dispatch = useDispatch();
   const config = useSelector((state) => state.config);
+  const report = useSelector((state) => state.report);
+  const balance = useSelector((state) => state.wallet.balance);
 
   //Streams
   const [trade, setTrade] = useState("");
   const [ticker, setTicker] = useState("");
 
   // Server Notifications
-  const [executionReport, setExecutionReport] = useState("");
-  const [outboundAccountPosition, setOutboundAccountPosition] = useState("");
+  // const [executionReport, setExecutionReport] = useState("");
+  // const [outboundAccountPosition, setOutboundAccountPosition] = useState("");
 
   //Redux Store
   const ACTIVE_ORDER = useSelector((state) => state.order["ACTIVE_ORDER"]);
@@ -70,11 +75,11 @@ const Dashboard = () => {
       else if (response.stream === `${config.pair.toLowerCase()}@ticker`)
         setTicker(response.data);
       else if (response.data.e === "executionReport") {
-        storeExecutionReport(response.data);
-        console.log(response.data);
+        dispatch(storeExecutionReport(response.data));
+        // console.log(response.data);
       } else if (response.data.e === "outboundAccountPosition") {
-        storeOutboundAccountPosition(response.data);
-        console.log(response.data);
+        dispatch(storeOutboundAccountPosition(response.data));
+        // console.log(response.data);
       } else {
         console.log("NEW", response.data);
       }
@@ -108,6 +113,8 @@ const Dashboard = () => {
             pair={config.pair}
             symbol={config.symbol}
             fiat={config.fiat}
+            trade={trade}
+            balance={balance}
           />
           {/*// gotta ait for config.pair to update  to not be able to buy before it loads*/}
         </div>
@@ -117,7 +124,7 @@ const Dashboard = () => {
             <ActiveOrders
               pair={config.pair}
               ACTIVE_ORDER={ACTIVE_ORDER}
-              executionReport={executionReport}
+              executionReport={report.executionReport}
             />
           ) : (
             <div className="ui segment" style={{ height: "120px" }}>
@@ -127,8 +134,8 @@ const Dashboard = () => {
           )}
         </div>
 
-        <Snackbar data={executionReport} />
-        <Snackbar data={outboundAccountPosition} />
+        <Snackbar data={report.executionReport} />
+        <Snackbar data={report.outboundAccountPosition} />
       </div>
     </div>
   );

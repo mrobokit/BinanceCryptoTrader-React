@@ -1,70 +1,137 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { tradeOrder } from "../actions";
+import React, { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { tradeOrder, fetchWallet } from "../actions";
+import { ReportContext } from "../context/ReportContext";
+import "./BuySell.css";
 
 //Put wallet usdt and symbol here too, above buy sell, like Binance
-const Actions = ({ symbol }) => {
+const Actions = ({ trade, symbol, fiat, pair, balance }) => {
+  const [buyPrice, setBuyPrice] = useState(850);
+  const [buyQuantity, setBuyQuantity] = useState(0.12);
+  const [sellPrice, setSellPrice] = useState(850);
+  const [sellQuantity, setSellQuantity] = useState(0.12);
   const dispatch = useDispatch();
-  const [buySellPrice, setBuySellPrice] = useState(850);
-  const [quantity, setQuantity] = useState(0.12);
+
+  const report = useSelector((state) => state.report);
+  const execution = report.executionReport;
 
   useEffect(() => {
-    // console.log("Action", "Render");
+    dispatch(fetchWallet());
   }, []);
 
-  if (symbol) {
-    return (
-      <div className="ui grid">
-        <div className="seven wide column">
-          <div className="ui  labeled input m-tb ">
-            <div className="ui label">PRI</div>
-            <input
-              type="text"
-              value={buySellPrice}
-              onChange={(e) => setBuySellPrice(e.target.value)}
-            />
-          </div>
-          {/* <RangeSlider onChangeSetQuantity={handler} /> */}
-          <div className="ui  labeled input m-tb ">
-            <div className="ui label">QTY</div>
-            <input
-              type="text"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-            />
-          </div>
-          <br />
-          <div Name="inline" style={{ minWidth: "250px" }}>
-            <button
-              className="ui button negative mr "
-              onClick={() =>
-                dispatch(tradeOrder("BUY", symbol, quantity, buySellPrice))
-              } // DONT foRGET PROPS PFFF
-            >
-              Buy
-            </button>
-            <button
-              className="ui button positive mr "
-              onClick={() =>
-                dispatch(tradeOrder("BUY", symbol, quantity, buySellPrice))
-              } // DONT foRGET PROPS PFFF
-            >
-              Sell
-            </button>
-          </div>
-          <br /> <br />
-          <div className="ui checkbox">
-            <input type="checkbox" name="stopLoss" />
-            <label>Stop loss</label>
-          </div>
-          <br />
-          <div className="ui checkbox ">
-            <input type="checkbox" name="currentPrice" />
-            <label>Current price</label>
-          </div>
+  const symbolBalance = balance?.map((acc) => {
+    if (acc.asset === symbol) {
+      return (
+        <div className="inline" key={acc.asset}>
+          Available <span>{parseFloat(acc.free)}</span>
+          <span
+            style={{ marginRight: "5px" }}
+            className="iconify"
+            data-icon={`cryptocurrency:${acc.asset.toLowerCase()}`}
+            data-inline="false"
+          ></span>
+          {acc.asset}
         </div>
-        <div className="four wide column"></div>
-      </div>
+      );
+    }
+
+    return null;
+  });
+
+  const fiatBalance = balance?.map((acc) => {
+    if (acc.asset === fiat) {
+      return (
+        <div className="inline" key={acc.asset}>
+          Available <span>{parseFloat(acc.free)}</span>
+          <span
+            style={{ marginRight: "5px" }}
+            className="iconify"
+            data-icon={`cryptocurrency:${acc.asset.toLowerCase()}`}
+            data-inline="false"
+          ></span>
+          {acc.asset}
+        </div>
+      );
+    }
+
+    return null;
+  });
+
+  if (trade) {
+    return (
+      <>
+        <div className="ui  mini labeled input m-tb buySell">
+          <div className="ui label">{`Price (${fiat})`}</div>
+          <input
+            type="text"
+            value={buyPrice}
+            onChange={(e) => setBuyPrice(e.target.value)}
+          />
+        </div>
+        <br />
+        <div className="ui  mini labeled input m-tb buySell">
+          <div className="ui label">{`Amount (${symbol})`}</div>
+          <input
+            type="text"
+            value={buyQuantity}
+            onChange={(e) => setBuyQuantity(e.target.value)}
+          />
+        </div>
+        <br />
+        {fiatBalance}
+        <div className="inline" style={{ minWidth: "250px" }}>
+          <button
+            className="ui button positive mr "
+            onClick={() =>
+              dispatch(tradeOrder("BUY", pair, buyQuantity, buyPrice))
+            }
+          >
+            Buy
+          </button>
+        </div>
+        <br />
+        {/*  Sell  */}
+        <div className="ui mini labeled input m-tb buySell">
+          <div className="ui label">PRI</div>
+          <input
+            type="text"
+            value={sellPrice}
+            onChange={(e) => setSellPrice(e.target.value)}
+          />
+        </div>
+        <br />
+        <div className="ui mini labeled input m-tb buySell">
+          <div className="ui label">QTY</div>
+          <input
+            type="text"
+            value={sellQuantity}
+            onChange={(e) => setSellQuantity(e.target.value)}
+          />
+        </div>
+        <br />
+        {symbolBalance}
+        <div className="inline" style={{ minWidth: "250px" }}>
+          <button
+            className="ui button negative mr "
+            onClick={() =>
+              dispatch(tradeOrder("SELL", pair, sellQuantity, sellPrice))
+            }
+          >
+            Sell
+          </button>
+        </div>
+        <br /> <br />
+        {/* Extra Options */}
+        <div className="ui checkbox">
+          <input type="checkbox" name="stopLoss" />
+          <label>Stop loss</label>
+        </div>
+        <br />
+        <div className="ui checkbox ">
+          <input type="checkbox" name="currentPrice" />
+          <label>Current price</label>
+        </div>
+      </>
     );
   }
 
@@ -72,53 +139,6 @@ const Actions = ({ symbol }) => {
 };
 
 export default Actions;
-
-// import React, { useEffect } from "react";
-// import { useDispatch } from "react-redux";
-// import { fetchWallet } from "../actions";
-
-// const Wallet = ({ BALANCE, executionReport, symbol, fiat }) => {
-//   const dispatch = useDispatch();
-
-//   useEffect(() => {
-//     console.log("From Wallet", "Render");
-//     dispatch(fetchWallet());
-//   }, [executionReport]);
-
-//   const renderList = BALANCE?.map((acc) => {
-//     if (
-//       (acc && acc.free > 0 && acc.asset === symbol?.replace(fiat, "")) ||
-//       acc.asset === fiat
-//     ) {
-//       return (
-//         <tr key={acc.asset} data-bound={acc.asset}>
-//           <td data-label="Name">
-//             <div>
-//               <span
-//                 style={{ marginRight: "5px" }}
-//                 className="iconify"
-//                 data-icon={`cryptocurrency:${acc.asset.toLowerCase()}`}
-//                 data-inline="false"
-//               ></span>
-//               {acc.asset}
-//             </div>
-//           </td>
-//           <td data-label="Ammount">
-//             <div>{acc.free}</div>
-//           </td>
-//           <td data-label="Locked">
-//             {acc.locked > 0 ? (
-//               <div>{parseFloat(acc.locked).toFixed(2)}</div>
-//             ) : (
-//               <div>N/A</div>
-//             )}
-//           </td>
-//         </tr>
-//       );
-//     }
-
-//     return null;
-//   });
 
 //   return (
 //     <div>
