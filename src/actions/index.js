@@ -36,3 +36,30 @@ export const cancelOrder = (orderId, symbol) => async (dispatch) => {
   dispatch({ type: `CANCEL_ORDER`, payload: response.data });
   //console.log(response.data);
 };
+
+// Config Reducer - Actions
+export const storeFiat = (fiat) => async (dispatch) => {
+  dispatch({ type: `STORE_FIAT`, payload: fiat });
+  //console.log(response.data);
+};
+export const storeSymbol = (symbol) => async (dispatch) => {
+  dispatch({ type: `STORE_SYMBOL`, payload: symbol });
+  //console.log(response.data);
+};
+export const storePair = (pair) => async (dispatch) => {
+  dispatch({ type: `STORE_PAIR`, payload: pair });
+  //console.log(response.data);
+};
+
+// Report Reducer - Actions
+export const storeExecutionReport = (data) => async (dispatch) => {
+  dispatch({ type: `executionReport`, payload: data });
+  //console.log(response.data);
+};
+export const storeOutboundAccountPosition = (data) => async (dispatch) => {
+  dispatch({
+    type: `outboundAccountPosition`,
+    payload: data,
+  });
+  //console.log(response.data);
+};

@@ -34,7 +34,7 @@ const Actions = ({ symbol }) => {
             />
           </div>
           <br />
-          <div class="inline" style={{ minWidth: "250px" }}>
+          <div Name="inline" style={{ minWidth: "250px" }}>
             <button
               className="ui button negative mr "
               onClick={() =>

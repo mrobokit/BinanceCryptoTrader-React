@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import ActiveOrders from "../components/ActiveOrders";
 import SymbolTracker from "../components/SymbolTracker";
-import Wallet from "../components/Wallet";
 import BuySell from "../components/BuySell";
 import { useSelector } from "react-redux";
 import binance from "../components/api/binance";
+import { storeExecutionReport, storeOutboundAccountPosition } from "../actions";
 
 import Snackbar from "../components/Snackbar";
 
-const HomePage = () => {
-  //Currencies
-  const [pair] = useState("ETHUSDT");
-  const [fiat] = useState("USDT");
-  const [symbol] = useState(pair.replace(fiat, "")); // "ETH"
+const Dashboard = () => {
+  //Redux Store - Config Object
+  const config = useSelector((state) => state.config);
 
   //Streams
   const [trade, setTrade] = useState("");
@@ -27,7 +25,7 @@ const HomePage = () => {
   const BALANCE = useSelector((state) => state.wallet["BALANCE"]);
 
   useEffect(() => {
-    console.log("From HomePage", "Render");
+    console.log("From Dashboard", "Render");
 
     // localStorage.clear();
     const streamKey = localStorage.getItem("streamKey");
@@ -55,7 +53,7 @@ const HomePage = () => {
     }, 1800000); //30 min
 
     const ws = new WebSocket(
-      `wss://stream.binance.com:9443/stream?streams=${pair.toLowerCase()}@trade/${pair.toLowerCase()}@ticker/${streamKey}`
+      `wss://stream.binance.com:9443/stream?streams=${config.pair.toLowerCase()}@trade/${config.pair.toLowerCase()}@ticker/${streamKey}`
     );
 
     ws.onopen = () => {
@@ -67,15 +65,15 @@ const HomePage = () => {
     ws.onmessage = (evt) => {
       const response = JSON.parse(evt.data);
 
-      if (response.stream === `${pair.toLowerCase()}@trade`)
+      if (response.stream === `${config.pair.toLowerCase()}@trade`)
         setTrade(response.data);
-      else if (response.stream === `${pair.toLowerCase()}@ticker`)
+      else if (response.stream === `${config.pair.toLowerCase()}@ticker`)
         setTicker(response.data);
       else if (response.data.e === "executionReport") {
-        setExecutionReport(response.data);
+        storeExecutionReport(response.data);
         console.log(response.data);
       } else if (response.data.e === "outboundAccountPosition") {
-        setOutboundAccountPosition(response.data);
+        storeOutboundAccountPosition(response.data);
         console.log(response.data);
       } else {
         console.log("NEW", response.data);
@@ -104,25 +102,20 @@ const HomePage = () => {
             </div>
           )}
         </div>
-        <div className="eleven wide column">
-          <div className="ui header">Funds Available</div>
-          <Wallet
-            BALANCE={BALANCE}
-            executionReport={executionReport}
-            symbol={symbol}
-            fiat={fiat}
-          />
-        </div>
 
         <div className="five wide column">
-          <BuySell pair={pair} symbol={symbol} fiat={fiat} />{" "}
-          {/*// gotta ait for pair to update  to not be able to buy before it loads*/}
+          <BuySell
+            pair={config.pair}
+            symbol={config.symbol}
+            fiat={config.fiat}
+          />
+          {/*// gotta ait for config.pair to update  to not be able to buy before it loads*/}
         </div>
 
         <div className="eleven wide column">
           {trade && ticker ? (
             <ActiveOrders
-              pair={pair}
+              pair={config.pair}
               ACTIVE_ORDER={ACTIVE_ORDER}
               executionReport={executionReport}
             />
@@ -141,4 +134,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Dashboard;

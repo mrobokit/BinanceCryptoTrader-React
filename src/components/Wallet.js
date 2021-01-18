@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchWallet } from "../actions";
 
-const Wallet = ({ BALANCE, executionReport, symbol, fiat }) => {
+const Wallet = ({ balance, executionReport }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -10,7 +10,7 @@ const Wallet = ({ BALANCE, executionReport, symbol, fiat }) => {
     dispatch(fetchWallet());
   }, [executionReport]);
 
-  const renderList = BALANCE?.map((acc) => {
+  const renderList = balance?.map((acc) => {
     if (acc && acc.free > 0) {
       return (
         <tr key={acc.asset} data-bound={acc.asset}>
@@ -44,7 +44,7 @@ const Wallet = ({ BALANCE, executionReport, symbol, fiat }) => {
 
   return (
     <div>
-      {BALANCE && symbol ? (
+      {balance ? (
         <table
           className="ui selectable celled table"
           style={{ maxWidth: "300px" }}
