@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from "react";
-import ActiveOrders from "../components/ActiveOrders";
+import React from "react";
 import SymbolStream from "../components/SymbolStream";
-import BuySell from "../components/BuySell";
-import { useSelector } from "react-redux";
-import { CoinPair } from "../components/Coin";
 
 // Store Server Notifications
-import { storeExecutionReport, storeOutboundAccountPosition } from "../actions";
-
-import Snackbar from "../components/Snackbar";
 
 const Dashboard = () => {
   //Redux Store - Config Object
-  const config = useSelector((state) => state.config);
-  const report = useSelector((state) => state.report);
-  const balance = useSelector((state) => state.wallet.balance);
-  const ACTIVE_ORDER = useSelector((state) => state.order["ACTIVE_ORDER"]);
-  const socket = useSelector((state) => state.socket);
+  // const config = useSelector((state) => state.config);
+  // const report = useSelector((state) => state.report);
+  // const balance = useSelector((state) => state.wallet.balance);
+  // const ACTIVE_ORDER = useSelector((state) => state.order["ACTIVE_ORDER"]);
+  // const socket = useSelector((state) => state.socket);
   //Streams
   // Server Notifications
   // const [executionReport, setExecutionReport] = useState("");
@@ -59,7 +52,6 @@ const Dashboard = () => {
         {/* <Snackbar data={report.executionReport} />
         <Snackbar data={report.outboundAccountPosition} /> */}
       </div>
-      <CoinPair />
     </div>
   );
 };

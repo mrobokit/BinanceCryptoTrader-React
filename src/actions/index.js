@@ -52,21 +52,27 @@ export const storePair = (pair) => async (dispatch) => {
 };
 
 // Socket Actions
+export const connectToSocket = (host, save) => ({
+  type: "connect",
+  host,
+  save,
+});
+export const disconnectFromSocket = (host) => ({ type: "disconnect", host });
 export const storeTradeSocket = (data) => async (dispatch) => {
   dispatch({
-    type: `storeTradeSocket`,
+    type: `tradeSocket`,
     payload: data,
   });
 };
 export const storeTickerSocket = (data) => async (dispatch) => {
   dispatch({
-    type: `storeTickerSocket`,
+    type: `tickerSocket`,
     payload: data,
   });
 };
 export const storeServerEventsSocket = (data) => async (dispatch) => {
   dispatch({
-    type: `storeServerEventsSocket`,
+    type: `serverEventsSocket`,
     payload: data,
   });
 };

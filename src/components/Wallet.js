@@ -8,7 +8,7 @@ const Wallet = ({ balance, executionReport }) => {
   useEffect(() => {
     console.log("From Wallet", "Render");
     dispatch(fetchWallet());
-  }, [executionReport]);
+  }, [executionReport, dispatch]);
 
   const renderList = balance?.map((acc) => {
     if (acc && acc.free > 0) {

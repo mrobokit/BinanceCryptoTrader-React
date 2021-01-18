@@ -1,10 +1,9 @@
 const socketMiddleware = () => {
   let socket = null;
 
-  // store = > next => action
   return ({ dispatch }) => (next) => (action) => {
     switch (action.type) {
-      case "SOCKET_CONNECT":
+      case "connect":
         if (socket !== null) {
           socket.close();
         }
@@ -13,24 +12,21 @@ const socketMiddleware = () => {
 
         socket.onopen = () => console.log("Socket open.");
         dispatch({
-          type: "SOCKET_CONNECTED",
+          type: "connected",
           payload: "Socket is open now.",
         });
 
         socket.onmessage = (event) =>
-          dispatch({
-            type: "SOCKET_MESSAGE",
-            payload: JSON.parse(event.data),
-          });
+          dispatch(action.save(JSON.parse(event.data)));
 
         socket.onclose = () => console.log("Socket closed.");
         dispatch({
-          type: "SOCKET_DISCONNECTED",
+          type: "disconnected",
           payload: "Socket has fully closed down.",
         });
 
         break;
-      case "SOCKET_DISCONNECT":
+      case "disconnect":
         if (socket !== null) {
           socket.close();
         }

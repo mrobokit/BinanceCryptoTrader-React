@@ -1,28 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "./Coin.css";
-import Socket from "../components/Socket";
-
-import {
-  storeTradeSocket,
-  storeTickerSocket,
-  storeServerEventsSocket,
-} from "../actions";
 
 export const CoinPair = () => {
-  const tradeSocket = useSelector((state) => state.socket.storeTradeSocket);
-  const config = useSelector((state) => state.config);
+  const socket = useSelector((state) => state.socket);
 
-  return (
-    <div>
-      <Socket
-        href={`wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@trade`}
-        action={storeTradeSocket}
-      />
-
-      {tradeSocket?.s}
-    </div>
-  );
+  return <div>{socket.tickerSocket?.s}</div>;
 };
 
 export const CoinPrice = ({ price }) => {

@@ -88,7 +88,7 @@ const SymbolPage = ({ match, location }) => {
       ws.close();
       clearInterval(interval);
     };
-  }, []);
+  }, [pair]);
 
   return (
     <div className="ui container">

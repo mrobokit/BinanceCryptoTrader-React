@@ -15,7 +15,7 @@ const ActiveOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
     //console.log(height);
     console.log("From Active Order", "Render");
     dispatch(activeOrder(pair));
-  }, []);
+  }, [dispatch, pair]);
 
   const list = ACTIVE_ORDER?.map(
     // LET THE ?. in place otherwise i am screwed
