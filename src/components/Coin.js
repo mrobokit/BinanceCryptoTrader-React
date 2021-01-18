@@ -1,23 +1,39 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import "./Coin.css";
+import Socket from "../components/Socket";
 
-export const CoinPair = ({ symbol }) => {
-  if (symbol) {
-    return <div>{symbol}</div>;
-  }
-  return <div>Loading...</div>;
+import {
+  storeTradeSocket,
+  storeTickerSocket,
+  storeServerEventsSocket,
+} from "../actions";
+
+export const CoinPair = () => {
+  const tradeSocket = useSelector((state) => state.socket.storeTradeSocket);
+  const config = useSelector((state) => state.config);
+
+  return (
+    <div>
+      <Socket
+        href={`wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@trade`}
+        action={storeTradeSocket}
+      />
+
+      {tradeSocket?.s}
+    </div>
+  );
 };
 
 export const CoinPrice = ({ price }) => {
   //Take the price number, create new piece of state as array that stores 30 sec, 1 min, 3 min, 5 min, 30 min worth of data
   // It can then calculate if arrow goes up or down, control when to update on screen, and show by percentage how much it went up or down
   // in those past periods of time.
-
   if (price) {
     return <div> {parseFloat(price)}</div>;
   }
 
-  return <div>Loading...</div>;
+  return "";
 };
 
 export const Change24H = ({ price, percentage }) => {
@@ -51,7 +67,7 @@ export const Change24H = ({ price, percentage }) => {
     );
   }
 
-  return <div>Loading...</div>;
+  return "";
 };
 
 /* <h2 className="ui sub header m-tb">

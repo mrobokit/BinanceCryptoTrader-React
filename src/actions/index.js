@@ -51,15 +51,22 @@ export const storePair = (pair) => async (dispatch) => {
   //console.log(response.data);
 };
 
-// Report Reducer - Actions
-export const storeExecutionReport = (data) => async (dispatch) => {
-  dispatch({ type: `executionReport`, payload: data });
-  //console.log(response.data);
-};
-export const storeOutboundAccountPosition = (data) => async (dispatch) => {
+// Socket Actions
+export const storeTradeSocket = (data) => async (dispatch) => {
   dispatch({
-    type: `outboundAccountPosition`,
+    type: `storeTradeSocket`,
     payload: data,
   });
-  //console.log(response.data);
+};
+export const storeTickerSocket = (data) => async (dispatch) => {
+  dispatch({
+    type: `storeTickerSocket`,
+    payload: data,
+  });
+};
+export const storeServerEventsSocket = (data) => async (dispatch) => {
+  dispatch({
+    type: `storeServerEventsSocket`,
+    payload: data,
+  });
 };

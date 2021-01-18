@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ActiveOrders from "../components/ActiveOrders";
-import SymbolTracker from "../components/SymbolTracker";
+import SymbolStream from "../components/SymbolStream";
 import Wallet from "../components/Wallet";
 import BuySell from "../components/BuySell";
 import { useSelector } from "react-redux";
@@ -97,7 +97,7 @@ const SymbolPage = ({ match, location }) => {
           {trade && ticker ? (
             <div>
               <div className="ui header">Price Tracker</div>
-              <SymbolTracker trade={trade} ticker={ticker} />
+              <SymbolStream trade={trade} ticker={ticker} />
             </div>
           ) : (
             <div className="ui segment" style={{ height: "100%" }}>

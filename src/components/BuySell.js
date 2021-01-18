@@ -17,7 +17,7 @@ const Actions = ({ trade, symbol, fiat, pair, balance }) => {
 
   useEffect(() => {
     dispatch(fetchWallet());
-  }, []);
+  }, [execution]);
 
   const symbolBalance = balance?.map((acc) => {
     if (acc.asset === symbol) {
