@@ -1,5 +1,36 @@
-// eslint-disable-next-line
-export default (state = [], action) => {
+export const serverEventsStreamReducer = (state = [], action) => {
+  switch (action.type) {
+    case "connect":
+      return action;
+    case "connected":
+      return action;
+    case "disconnect":
+      return action;
+    case "disconnected":
+      return action;
+    case "serverEventsStream":
+      return { data: action.payload };
+    default:
+      return state;
+  }
+};
+export const tickerSocketReducer = (state = [], action) => {
+  switch (action.type) {
+    case "connect":
+      return action;
+    case "connected":
+      return action;
+    case "disconnect":
+      return action;
+    case "disconnected":
+      return action;
+    case "tickerStream":
+      return { data: action.payload };
+    default:
+      return state;
+  }
+};
+export const tradeSocketReducer = (state = [], action) => {
   switch (action.type) {
     case "connect":
       return action;
@@ -10,11 +41,7 @@ export default (state = [], action) => {
     case "disconnected":
       return action;
     case "tradeStream":
-      return { tradeStream: action.payload };
-    case "tickerStream":
-      return { tickerStream: action.payload };
-    case "serverEventsStream":
-      return { serverEventsStream: action.payload };
+      return { data: action.payload };
     default:
       return state;
   }

@@ -3,17 +3,19 @@ import { useSelector } from "react-redux";
 import "./Coin.css";
 
 export const CoinPair = () => {
-  const trade = useSelector((state) => state.socket.tradeStream);
+  //This doesn't need to be rerendered, the only reason i let it
+  // Is to be 100% this is the trade name it is coming from
+  const trade = useSelector((state) => state.tradeStream.data);
   return <div>{trade?.s}</div>;
 };
 
 export const CoinPrice = () => {
-  const trade = useSelector((state) => state.socket.tradeStream);
+  const trade = useSelector((state) => state.tradeStream.data);
   return <div> {parseFloat(trade?.p)}</div>;
 };
 
 export const Change24H = () => {
-  const ticker = useSelector((state) => state.socket.tickerStream);
+  const ticker = useSelector((state) => state.tickerStream.data);
   const config = useSelector((state) => state.config);
 
   return (

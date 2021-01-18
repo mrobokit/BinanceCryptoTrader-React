@@ -6,11 +6,11 @@ const socketMiddleware = () => {
       case "connect":
         // if (socket !== null) {
         //   socket.close();
-        // }
+        // } //Prevents multisocket opening
 
         socket = new WebSocket(action.host);
 
-        socket.onopen = () => console.log("Socket open.");
+        socket.onopen = () => console.log("Socket open.", action.host);
         dispatch({
           type: "connected",
           payload: "Socket is open now.",
@@ -19,7 +19,7 @@ const socketMiddleware = () => {
         socket.onmessage = (event) =>
           dispatch(action.save(JSON.parse(event.data)));
 
-        socket.onclose = () => console.log("Socket closed.");
+        socket.onclose = () => console.log("Socket closed.", action.host);
         dispatch({
           type: "disconnected",
           payload: "Socket has fully closed down.",
