@@ -7,18 +7,19 @@ const initialConfig = {
 };
 
 // eslint-disable-next-line
+// ...state very important, else after just one dispatch, the entire store gets wiped
 export default (state = initialConfig, action) => {
   switch (action.type) {
     case "STORE_SYMBOL":
-      return { symbol: action.payload };
+      return { ...state, symbol: action.payload };
     case "STORE_PAIR":
-      return { pair: action.payload };
+      return { ...state, pair: action.payload };
     case "STORE_FIAT":
-      return { fiat: action.payload };
+      return { ...state, fiat: action.payload };
     case "TRADE_STATUS":
-      return { tradeStatus: action.payload };
+      return { ...state, tradeStatus: action.payload };
     case "TICKER_STATUS":
-      return { tickerStatus: action.payload };
+      return { ...state, tickerStatus: action.payload };
     default:
       return state;
   }
