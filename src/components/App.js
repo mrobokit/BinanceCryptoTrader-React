@@ -5,6 +5,7 @@ import AccountPage from "../pages/AccountPage";
 import Navbar from "../components/Navbar";
 import "./App.css";
 import SymbolPage from "../pages/SymbolPage";
+import SettingsPage from "../pages/SettingsPage";
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
           <Route path="/" exact component={Dashboard} />
           <Route path="/account" exact component={AccountPage} />
           <Route path="/trade/:pair" component={SymbolPage} />
-          {/* // dynamic route here, if i type in bar LINKUSDT, it shall create that page for me */}
+          <Route path="/settings" component={SettingsPage} />
         </div>
       </div>
     </BrowserRouter>

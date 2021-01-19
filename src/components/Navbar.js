@@ -12,7 +12,7 @@ const Navbar = () => {
       </Link>
 
       <div className="right menu">
-        <Link className="ui item" to="/">
+        <Link className="ui item" to="/settings">
           Settings
         </Link>
       </div>
