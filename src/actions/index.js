@@ -50,6 +50,14 @@ export const storePair = (pair) => async (dispatch) => {
   dispatch({ type: `STORE_PAIR`, payload: pair });
   //console.log(response.data);
 };
+export const storeTradeStatus = (state) => async (dispatch) => {
+  dispatch({ type: `TRADE_STATUS`, payload: state });
+  //console.log(state);
+};
+export const storeTickerStatus = (state) => async (dispatch) => {
+  dispatch({ type: `TICKER_STATUS`, payload: state });
+  //console.log(response.data);
+};
 
 // Trade Socket
 export const connectToTrade = (host, save) => ({

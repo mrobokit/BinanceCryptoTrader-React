@@ -8,7 +8,7 @@ const AccountPage = () => {
 
   return (
     <div>
-      {console.log(config)}
+      {/* {console.log(config)} */}
       <div className="ui header">Wallet</div>
       <Wallet
         balance={balance}

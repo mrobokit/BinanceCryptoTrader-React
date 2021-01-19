@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import {
   connectToTrade,
   connectToTicker,
-  disconnectFromTrade,
-  disconnectFromTicker,
   storeTickerStream,
   storeTradeStream,
+  storeTickerStatus,
+  storeTradeStatus,
 } from "../actions";
 import "./SymbolStream.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,42 +19,30 @@ const SymbolStream = () => {
   const connectToTradeStream = () => {
     dispatch(
       connectToTrade(
-        `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@trade`,
+        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@trade`,
         storeTradeStream
       )
     );
   };
-  const disconnectFromTradeStream = () => {
-    dispatch(
-      disconnectFromTrade(
-        `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@trade`,
-        storeTradeStream
-      )
-    );
-  };
-
-  //Ticker
   const connectToTickerStream = () => {
     dispatch(
       connectToTicker(
-        `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@ticker`,
+        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@ticker`,
         storeTickerStream
-      )
-    );
-  };
-  const disconnectFromTickerStream = () => {
-    dispatch(
-      disconnectFromTicker(
-        `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@ticker`
       )
     );
   };
 
   useEffect(() => {
-    console.log("Dobby is a free elf!");
-    // Auto Stream Join
-    // connectToTradeStream();
-    // connectToTickerStream();
+    // Prevents closing the stream
+    if (config.tradeStatus === false) {
+      dispatch(storeTradeStatus(true));
+      connectToTradeStream();
+    }
+    if (config.tickerStatus === false) {
+      connectToTickerStream();
+      dispatch(storeTickerStatus(true));
+    }
 
     // Auto Stream leave on route change
     // return () => {
@@ -89,22 +77,6 @@ const SymbolStream = () => {
           </tr>
         </tbody>
       </table>
-      <button onClick={() => connectToTickerStream()}>
-        Connect To Ticker Stream
-      </button>
-      <br />
-      <button onClick={() => disconnectFromTickerStream()}>
-        Disconnect From Ticker Stream
-      </button>
-      <br />
-      <br />
-      <button onClick={() => connectToTradeStream()}>
-        Connect To Trade Stream
-      </button>
-      <br />
-      <button onClick={() => disconnectFromTradeStream()}>
-        Disconnect From Trade Stream
-      </button>
     </div>
   );
 };

@@ -4,9 +4,10 @@ const tickerStreamMiddleware = () => {
   return ({ dispatch }) => (next) => (action) => {
     switch (action.type) {
       case "connectToTicker":
+        //Prevents multisocket opening, prevents keeping socket
         if (tickerSocket !== null) {
           tickerSocket.close();
-        } //Prevents multisocket opening
+        }
 
         tickerSocket = new WebSocket(action.host);
 
