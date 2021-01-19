@@ -102,7 +102,7 @@ export const storeTradeStream = (data) => async (dispatch) => {
 export const storeTickerStream = (data) => async (dispatch) => {
   dispatch({
     type: `tickerStream`,
-    payload: data,
+    payload: data, //XOOOOOOOXOXOXOXOXOXOXOXOX  - Form your btcusdt: {payload.data} here, so it is ready made
   });
 };
 export const storeEventStream = (data) => async (dispatch) => {

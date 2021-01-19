@@ -4,6 +4,18 @@ const initialConfig = {
   fiat: "USDT",
   tradeStatus: false,
   tickerStatus: false,
+  symbolList: [
+    { name: "ENJ" },
+    { name: "XLM" },
+    { name: "BCH" },
+    { name: "LTC" },
+    { name: "XRP" },
+    { name: "ETH" },
+    { name: "DOT" },
+    { name: "ADA" },
+    { name: "LINK" },
+    { name: "BTC" },
+  ],
 };
 
 // ...state very important, else after just one dispatch, the entire store gets wiped

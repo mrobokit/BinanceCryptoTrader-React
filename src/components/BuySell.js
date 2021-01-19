@@ -8,10 +8,10 @@ import "../css/BuySell.css";
 //Put wallet usdt and symbol here too, above buy sell, like Binance
 const Actions = () => {
   // Internal state, needed only here
-  const [buyPrice, setBuyPrice] = useState(850);
-  const [buyQuantity, setBuyQuantity] = useState(0.12);
-  const [sellPrice, setSellPrice] = useState(850);
-  const [sellQuantity, setSellQuantity] = useState(0.12);
+  const [buyPrice, setBuyPrice] = useState(undefined);
+  const [buyQuantity, setBuyQuantity] = useState(undefined);
+  const [sellPrice, setSellPrice] = useState(undefined);
+  const [sellQuantity, setSellQuantity] = useState(undefined);
   const dispatch = useDispatch();
 
   const wallet = useSelector((state) => state.wallet.balance);
@@ -152,7 +152,9 @@ const Actions = () => {
           </div>
         </div>
 
-        <div class="ui bottom right attached black label">{config.pair}</div>
+        <div className="ui bottom right attached black label">
+          {config.pair}
+        </div>
       </div>
     );
   }

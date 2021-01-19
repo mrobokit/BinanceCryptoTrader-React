@@ -35,7 +35,18 @@ export const tickerSocketReducer = (state = [], action) => {
     case "wipeTicker":
       return action;
     case "tickerStream":
-      return { data: action.payload };
+      // I could form { ...state, btcusdt: action.payload } from the sender, where i have access to config,
+      // and here i just receive it as tickerStream and return { ...state, action.payload }
+      if (action.payload.s === "BTCUSDT") {
+        return { ...state, btcusdt: action.payload };
+      }
+      if (action.payload.s === "ETHUSDT") {
+        return { ...state, ethusdt: action.payload };
+      }
+      if (action.payload.s === "LINKUSDT") {
+        return { ...state, linkusdt: action.payload };
+      }
+
     default:
       return state;
   }
@@ -53,7 +64,19 @@ export const tradeSocketReducer = (state = [], action) => {
     case "wipeTrade":
       return action;
     case "tradeStream":
-      return { data: action.payload };
+      //Then i take these names from config and gg
+      if (action.payload.s === "BTCUSDT") {
+        return { ...state, btcusdt: action.payload };
+      }
+      if (action.payload.s === "ETHUSDT") {
+        return { ...state, ethusdt: action.payload };
+      }
+      if (action.payload.s === "LINKUSDT") {
+        return { ...state, linkusdt: action.payload };
+      }
+
+    //return { ...state, ethusdt: action.payload };;
+
     default:
       return state;
   }
