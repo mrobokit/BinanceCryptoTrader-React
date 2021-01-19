@@ -6,7 +6,6 @@ import Navbar from "../components/Navbar";
 import "../css/App.css";
 import SymbolPage from "../pages/SymbolPage";
 import SettingsPage from "../pages/SettingsPage";
-import "semantic-ui-css/semantic.min.css";
 
 const App = () => {
   return (

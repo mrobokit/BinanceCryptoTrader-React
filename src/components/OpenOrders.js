@@ -1,12 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { activeOrder, cancelOrder } from "../actions";
 import "../css/OpenOrders.css";
+import Placeholder2 from "../components/semantic/Placeholder2";
 
-const OpenOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
+const OpenOrders = () => {
   const dispatch = useDispatch();
-  const [height, setHeight] = useState(0);
-  const ref = useRef(null);
+  const config = useSelector((state) => state.config);
+  const eventStream = useSelector(
+    (state) => state.eventStream.executionReport,
+    shallowEqual
+  );
+  const order = useSelector((state) => state.order.activeOrder, shallowEqual);
 
   const formatDate = (string) => {
     var options = { year: "numeric", month: "short", day: "numeric" };
@@ -15,18 +20,17 @@ const OpenOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
 
   useEffect(
     () => {
-      setHeight(ref.current.clientHeight);
-      dispatch(activeOrder(pair));
+      dispatch(activeOrder(config.pair));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [eventStream]
   );
 
-  const list = ACTIVE_ORDER?.map(
+  const list = order?.map(
     // LET THE ?. in place otherwise i am screwed
     ({ time, type, symbol, origQty, side, executedQty, orderId, price }) => {
       return (
-        <tr key={orderId} data-bound={pair}>
+        <tr key={orderId} data-bound={config.pair}>
           <td data-label="Date">
             <div>{formatDate(time)}</div>
           </td>
@@ -40,10 +44,10 @@ const OpenOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
               <span
                 style={{ marginRight: "5px" }}
                 className="iconify"
-                data-icon={`cryptocurrency:${symbol.toLowerCase()}`}
-                data-inline="false"
+                data-icon={`cryptocurrency:${config.symbol.toLowerCase()}`}
+                data-inline="true"
               ></span>
-              {pair.substring(0, 3)}
+              {config.pair.substring(0, 3)}
             </div>
           </td>
           <td data-label="Price">
@@ -58,14 +62,14 @@ const OpenOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
           <td data-label="Total">
             <span>
               {parseFloat(origQty * price).toFixed(2)}{" "}
-              {pair.slice(pair.length - 4)}
+              {config.pair.slice(config.pair.length - 4)}
             </span>
           </td>
           <td data-label="Action">
             <div>
               <button
                 className="ui button yellow mr"
-                onClick={() => dispatch(cancelOrder(orderId, pair))}
+                onClick={() => dispatch(cancelOrder(orderId, config.pair))}
               >
                 Cancel
               </button>
@@ -76,15 +80,14 @@ const OpenOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
     }
   );
 
-  return (
-    <div ref={ref}>
-      <div className="ui header">
-        Open Orders (
-        {ACTIVE_ORDER ? <span>{ACTIVE_ORDER.length}</span> : <span>0</span>})
-      </div>
-      {list ? (
+  if (order && order !== null) {
+    return (
+      <div>
+        <div className="ui header">
+          Open Orders ({order ? <span>{order.length}</span> : <span>0</span>})
+        </div>
         <table
-          className="ui selectable celled table"
+          className="ui selectable collapsing celled table"
           style={{ maxWidth: "300px" }}
         >
           <thead>
@@ -101,19 +104,11 @@ const OpenOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
           </thead>
           <tbody>{list}</tbody>
         </table>
-      ) : (
-        <div
-          className="ui segment"
-          style={{
-            height: height + "px",
-          }}
-        >
-          <div className="ui active loader"></div>
-          <p></p>
-        </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  } else {
+    return <Placeholder2 />;
+  }
 };
 
 export default OpenOrders;

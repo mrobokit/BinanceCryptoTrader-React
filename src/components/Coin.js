@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../css/Coin.css";
-import Loader1 from "../components/semantic/Loader1";
+import Placeholder from "../components/semantic/Placeholder";
 
 export const CoinPair = () => {
   //This doesn't need to be rerendered, the only reason i let it
@@ -13,7 +13,7 @@ export const CoinPair = () => {
     return <div>{trade?.s}</div>;
   } else {
     //Loading state
-    return <Loader1 />;
+    return <Placeholder />;
   }
 };
 
@@ -25,7 +25,7 @@ export const CoinPrice = () => {
     return <div> {parseFloat(trade?.p)}</div>;
   } else {
     //Loading state
-    return <Loader1 />;
+    return <Placeholder />;
   }
 };
 
@@ -46,6 +46,6 @@ export const Change24H = () => {
     );
   } else {
     //Loading state
-    return <Loader1 />;
+    return <Placeholder />;
   }
 };

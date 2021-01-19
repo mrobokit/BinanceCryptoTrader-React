@@ -20,7 +20,7 @@ const Wallet = ({ balance, executionReport }) => {
                 style={{ marginRight: "5px" }}
                 className="iconify"
                 data-icon={`cryptocurrency:${acc.asset.toLowerCase()}`}
-                data-inline="false"
+                data-inline="true"
               ></span>
               {acc.asset}
             </div>

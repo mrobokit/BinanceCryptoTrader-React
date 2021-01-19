@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { tradeOrder, fetchWallet } from "../actions";
-import Loader1 from "../components/semantic/Loader1";
+import Placeholder from "../components/semantic/Placeholder";
 
 import "../css/BuySell.css";
 
@@ -35,12 +35,12 @@ const Actions = () => {
     if (acc.asset === config.symbol) {
       return (
         <div className="inline" key={acc.asset}>
-          <span>{parseFloat(acc.free)}</span>
+          <span>{parseFloat(acc.free)}</span>{" "}
           <span
             style={{ marginRight: "5px" }}
             className="iconify"
             data-icon={`cryptocurrency:${acc.asset.toLowerCase()}`}
-            data-inline="false"
+            data-inline="true"
           ></span>
           {acc.asset}
         </div>
@@ -54,12 +54,12 @@ const Actions = () => {
     if (acc.asset === config.fiat) {
       return (
         <div className="inline" key={acc.asset}>
-          <span>{parseFloat(acc.free)}</span>
+          <span>{parseFloat(acc.free)}</span>{" "}
           <span
             style={{ marginRight: "5px" }}
             className="iconify"
             data-icon={`cryptocurrency:${acc.asset.toLowerCase()}`}
-            data-inline="false"
+            data-inline="true"
           ></span>
           {acc.asset}
         </div>
@@ -154,7 +154,7 @@ const Actions = () => {
     );
   }
 
-  return <Loader1 />;
+  return <Placeholder />;
 };
 
 export default Actions;
