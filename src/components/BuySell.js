@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { tradeOrder, fetchWallet } from "../actions";
 import Loader1 from "../components/semantic/Loader1";
 
@@ -16,12 +16,16 @@ const Actions = () => {
 
   const wallet = useSelector((state) => state.wallet.balance);
   const config = useSelector((state) => state.config);
+  const eventStream = useSelector(
+    (state) => state.eventStream.executionReport,
+    shallowEqual
+  );
 
   // const execution = report.executionReport;
 
   useEffect(() => {
     dispatch(fetchWallet());
-  }, []);
+  }, [eventStream]);
 
   const symbolBalance = wallet?.map((acc) => {
     if (acc.asset === config.symbol) {
@@ -141,6 +145,14 @@ const Actions = () => {
             <input type="checkbox" name="currentPrice" />
             <label>Current price</label>
           </div>
+
+          <button
+            onClick={() => {
+              console.log(eventStream);
+            }}
+          >
+            Debug Event Stream
+          </button>
         </div>
       </div>
     );

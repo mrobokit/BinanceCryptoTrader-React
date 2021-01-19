@@ -17,8 +17,10 @@ const eventStreamMiddleware = () => {
           payload: "eventStream is open now.",
         });
 
-        eventSocket.onmessage = (event) =>
+        eventSocket.onmessage = (event) => {
           dispatch(action.save(JSON.parse(event.data)));
+          //console.log(JSON.parse(event.data));
+        };
 
         eventSocket.onclose = () =>
           console.log("eventStream closed.", action.host);

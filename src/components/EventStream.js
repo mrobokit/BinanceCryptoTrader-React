@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connectToEvent, storeEventStream } from "../actions";
 import { useSelector, useDispatch } from "react-redux";
 import binance from "../components/api/binance";
+import Events from "../components/Events";
 
 const EventStream = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,11 @@ const EventStream = () => {
     };
   }, []);
 
-  return <div>EVENT STREAM</div>;
+  return (
+    <div>
+      <Events />
+    </div>
+  );
 };
 
 export default EventStream;

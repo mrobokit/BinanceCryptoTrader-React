@@ -11,7 +11,13 @@ export const eventSocketReducer = (state = [], action) => {
     case "wipeEvent":
       return action;
     case "eventStream":
-      return { data: action.payload }; // wiping previous state
+      if (action.payload.e === "executionReport") {
+        console.log("executionReport", action.payload);
+        return { ...state, executionReport: action.payload };
+      } else {
+        console.log("outbound", action.payload);
+        return { ...state, outbound: action.payload };
+      }
     default:
       return state;
   }
