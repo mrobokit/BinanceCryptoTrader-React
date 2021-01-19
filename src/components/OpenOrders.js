@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { activeOrder, cancelOrder } from "../actions";
-import "../css/ActiveOrders.css";
+import "../css/OpenOrders.css";
 
-const ActiveOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
+const OpenOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
   const dispatch = useDispatch();
   const [height, setHeight] = useState(0);
   const ref = useRef(null);
@@ -13,13 +13,14 @@ const ActiveOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
     return new Date(string).toLocaleDateString([], options);
   };
 
-  useEffect(() => {
-    // console.log(pair);
-    setHeight(ref.current.clientHeight);
-    //console.log(height);
-    console.log("From Active Order", "Render");
-    dispatch(activeOrder(pair));
-  }, [dispatch, pair]);
+  useEffect(
+    () => {
+      setHeight(ref.current.clientHeight);
+      dispatch(activeOrder(pair));
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   const list = ACTIVE_ORDER?.map(
     // LET THE ?. in place otherwise i am screwed
@@ -115,4 +116,4 @@ const ActiveOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
   );
 };
 
-export default ActiveOrders;
+export default OpenOrders;

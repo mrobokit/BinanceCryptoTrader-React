@@ -1,7 +1,7 @@
 import React from "react";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 
-export default () => {
+const Events = () => {
   const eventStream = useSelector(
     (state) => state.eventStream.executionReport,
     shallowEqual
@@ -24,3 +24,5 @@ export default () => {
     </div>
   );
 };
+
+export default Events;

@@ -33,23 +33,27 @@ const SymbolStream = () => {
     );
   };
 
-  useEffect(() => {
-    // Prevents closing the stream
-    if (config.tradeStatus === false) {
-      dispatch(storeTradeStatus(true));
-      connectToTradeStream();
-    }
-    if (config.tickerStatus === false) {
-      connectToTickerStream();
-      dispatch(storeTickerStatus(true));
-    }
+  useEffect(
+    () => {
+      // Prevents closing the stream
+      if (config.tradeStatus === false) {
+        dispatch(storeTradeStatus(true));
+        connectToTradeStream();
+      }
+      if (config.tickerStatus === false) {
+        connectToTickerStream();
+        dispatch(storeTickerStatus(true));
+      }
 
-    // Auto Stream leave on route change
-    // return () => {
-    //   disconnectFromTickerStream();
-    //   disconnectFromTradeStream();
-    // };
-  }, []);
+      // Auto Stream leave on route change
+      // return () => {
+      //   disconnectFromTickerStream();
+      //   disconnectFromTradeStream();
+      // };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <div>

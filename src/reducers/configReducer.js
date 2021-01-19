@@ -6,8 +6,8 @@ const initialConfig = {
   tickerStatus: false,
 };
 
-// eslint-disable-next-line
 // ...state very important, else after just one dispatch, the entire store gets wiped
+// eslint-disable-next-line
 export default (state = initialConfig, action) => {
   switch (action.type) {
     case "STORE_SYMBOL":

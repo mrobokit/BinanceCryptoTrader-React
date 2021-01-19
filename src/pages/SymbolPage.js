@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ActiveOrders from "../components/ActiveOrders";
+import OpenOrders from "../components/OpenOrders";
 import SymbolStream from "../components/SymbolStream";
 import Wallet from "../components/Wallet";
 import BuySell from "../components/BuySell";
@@ -123,7 +123,7 @@ const SymbolPage = ({ match, location }) => {
 
         <div className="eleven wide column">
           {trade && ticker ? (
-            <ActiveOrders
+            <OpenOrders
               pair={pair}
               ACTIVE_ORDER={ACTIVE_ORDER}
               executionReport={executionReport}

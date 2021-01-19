@@ -34,7 +34,7 @@ const Dashboard = () => {
 
         {/* <div className="eleven wide column">
           {trade && ticker ? (
-            <ActiveOrders
+            <OpenOrders
               pair={config.pair}
               ACTIVE_ORDER={ACTIVE_ORDER}
               executionReport={report.executionReport}

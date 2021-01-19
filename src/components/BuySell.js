@@ -23,9 +23,13 @@ const Actions = () => {
 
   // const execution = report.executionReport;
 
-  useEffect(() => {
-    dispatch(fetchWallet());
-  }, [eventStream]);
+  useEffect(
+    () => {
+      dispatch(fetchWallet());
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [eventStream]
+  );
 
   const symbolBalance = wallet?.map((acc) => {
     if (acc.asset === config.symbol) {

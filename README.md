@@ -140,8 +140,9 @@ run();
   e.g /ethusdt - it will give you data related to ETH and USDT
   planned feature: type only short version /eth, /btc
 
-# Revamped:
+# Done Revamped:
 
 - Middleware
 - SymbolStream
-- Ongoing Dashboard/ BuySell
+- BuySell
+- EventStream & Event
