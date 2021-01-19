@@ -11,7 +11,7 @@ export const CoinPair = () => {
   if (trade && trade !== null) {
     // when i disconnect socket, i need to set trade to be NULL
     return <div>{trade?.s}</div>;
-  } else if (trade === null) {
+  } else if (!trade || trade === null) {
     //Disconnected state
     return <div>Disconnected</div>;
   } else {
@@ -26,7 +26,7 @@ export const CoinPrice = () => {
   if (trade && trade !== null) {
     // when i disconnect socket, i need to set trade to be NULL
     return <div> {parseFloat(trade?.p)}</div>;
-  } else if (trade === null) {
+  } else if (!trade || trade === null) {
     //Disconnected state
     return <div>Disconnected</div>;
   } else {
@@ -53,7 +53,7 @@ export const Change24H = () => {
         </h2>
       </div>
     );
-  } else if (ticker === null) {
+  } else if (!ticker || ticker === null) {
     //Disconnected state
     return <div>Disconnected</div>;
   } else {

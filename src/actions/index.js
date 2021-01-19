@@ -51,19 +51,29 @@ export const storePair = (pair) => async (dispatch) => {
   //console.log(response.data);
 };
 
-// Socket Actions
-export const connectToSocket = (host, save) => ({
-  type: "connect",
+// Trade Socket
+export const connectToTrade = (host, save) => ({
+  type: "connectToTrade",
   host,
   save,
 });
-export const connectToSocket2 = (host, save) => ({
-  type: "connect",
+export const disconnectFromTrade = (host) => ({
+  type: "disconnectFromTrade",
+  host,
+});
+
+// Ticker Socket
+export const connectToTicker = (host, save) => ({
+  type: "connectToTicker",
   host,
   save,
 });
-export const disconnectFromSocket = (host) => ({ type: "disconnect", host });
-export const disconnectFromSocket2 = (host) => ({ type: "disconnect", host });
+export const disconnectFromTicker = (host) => ({
+  type: "disconnectFromTicker",
+  host,
+});
+
+// Store Trade,Ticker and Events
 export const storeTradeStream = (data) => async (dispatch) => {
   dispatch({
     type: `tradeStream`,

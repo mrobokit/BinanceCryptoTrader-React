@@ -1,10 +1,10 @@
 export const serverEventsStreamReducer = (state = [], action) => {
   switch (action.type) {
-    case "connect":
+    case "connectToServerEvents":
       return action;
     case "connected":
       return action;
-    case "disconnect":
+    case "disconnectFromServerEvents":
       return action;
     case "disconnected":
       return action;
@@ -18,15 +18,15 @@ export const serverEventsStreamReducer = (state = [], action) => {
 };
 export const tickerSocketReducer = (state = [], action) => {
   switch (action.type) {
-    case "connect":
+    case "connectToTicker":
       return action;
-    case "connected":
+    case "connectedToTicker":
       return action;
-    case "disconnect":
+    case "disconnectFromTicker":
       return action;
-    case "disconnected":
+    case "disconnectedFromTicker":
       return action;
-    case "wipe":
+    case "wipeTicker":
       return action;
     case "tickerStream":
       return { data: action.payload };
@@ -36,15 +36,15 @@ export const tickerSocketReducer = (state = [], action) => {
 };
 export const tradeSocketReducer = (state = [], action) => {
   switch (action.type) {
-    case "connect":
+    case "connectToTrade":
       return action;
-    case "connected":
+    case "connectedToTrade":
       return action;
-    case "disconnect":
+    case "disconnectFromTrade":
       return action;
-    case "disconnected":
+    case "disconnectedFromTrade":
       return action;
-    case "wipe":
+    case "wipeTrade":
       return action;
     case "tradeStream":
       return { data: action.payload };
