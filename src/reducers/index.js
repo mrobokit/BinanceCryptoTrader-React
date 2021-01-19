@@ -5,7 +5,7 @@ import orderReducer from "./orderReducer";
 import {
   tradeSocketReducer,
   tickerSocketReducer,
-  serverEventsStreamReducer,
+  eventSocketReducer,
 } from "./socketReducer";
 
 export default combineReducers({
@@ -14,5 +14,5 @@ export default combineReducers({
   config: configReducer,
   tradeStream: tradeSocketReducer,
   tickerStream: tickerSocketReducer,
-  serverEventsStreamReducer: serverEventsStreamReducer,
+  eventStream: eventSocketReducer,
 });

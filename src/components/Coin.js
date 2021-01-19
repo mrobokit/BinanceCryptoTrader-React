@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import "./Coin.css";
+import "../css/Coin.css";
 import Loader1 from "../components/semantic/Loader1";
 
 export const CoinPair = () => {

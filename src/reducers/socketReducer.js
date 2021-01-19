@@ -1,17 +1,17 @@
-export const serverEventsStreamReducer = (state = [], action) => {
+export const eventSocketReducer = (state = [], action) => {
   switch (action.type) {
-    case "connectToServerEvents":
+    case "connectToEvent":
       return action;
-    case "connected":
+    case "connectedToEvent":
       return action;
-    case "disconnectFromServerEvents":
+    case "disconnectFromEvent":
       return action;
-    case "disconnected":
+    case "disconnectedFromEvent":
       return action;
-    case "wipe":
+    case "wipeEvent":
       return action;
-    case "serverEventsStream":
-      return { data: action.payload };
+    case "eventStream":
+      return { data: action.payload }; // wiping previous state
     default:
       return state;
   }

@@ -139,3 +139,8 @@ run();
 - You can visit "/{type_your_pair_here} and dynamically renders a page for that pair
   e.g /ethusdt - it will give you data related to ETH and USDT
   planned feature: type only short version /eth, /btc
+
+# Revamped:
+
+- Middleware
+- SymbolStream

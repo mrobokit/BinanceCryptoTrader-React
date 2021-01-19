@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { tradeOrder, fetchWallet } from "../actions";
 
-import "./BuySell.css";
+import "../css/BuySell.css";
 
 //Put wallet usdt and symbol here too, above buy sell, like Binance
 const Actions = ({ trade, symbol, fiat, pair, balance }) => {
@@ -13,11 +13,11 @@ const Actions = ({ trade, symbol, fiat, pair, balance }) => {
   const dispatch = useDispatch();
 
   const report = useSelector((state) => state.report);
-  const execution = report.executionReport;
+  // const execution = report.executionReport;
 
   useEffect(() => {
     dispatch(fetchWallet());
-  }, [execution, dispatch]);
+  }, []);
 
   const symbolBalance = balance?.map((acc) => {
     if (acc.asset === symbol) {

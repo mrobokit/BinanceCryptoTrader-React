@@ -10,10 +10,18 @@ import thunk from "redux-thunk";
 import reducers from "./reducers";
 import tradeSocketMiddleware from "./middleware/tradeSocketMiddleware";
 import tickerStreamMiddleware from "./middleware/tickerStreamMiddleware";
+import eventStreamMiddleware from "./middleware/eventStreamMiddleware";
 
 const store = createStore(
   reducers,
-  compose(applyMiddleware(thunk, tradeSocketMiddleware, tickerStreamMiddleware))
+  compose(
+    applyMiddleware(
+      thunk,
+      tradeSocketMiddleware,
+      tickerStreamMiddleware,
+      eventStreamMiddleware
+    )
+  )
 );
 
 ReactDOM.render(

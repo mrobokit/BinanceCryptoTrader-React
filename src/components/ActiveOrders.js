@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { formatDate } from "../helpers/general";
 import { useDispatch } from "react-redux";
 import { activeOrder, cancelOrder } from "../actions";
-import "./ActiveOrders.css";
+import "../css/ActiveOrders.css";
 
 const ActiveOrders = ({ pair, executionReport, ACTIVE_ORDER }) => {
   const dispatch = useDispatch();
   const [height, setHeight] = useState(0);
   const ref = useRef(null);
+
+  const formatDate = (string) => {
+    var options = { year: "numeric", month: "short", day: "numeric" };
+    return new Date(string).toLocaleDateString([], options);
+  };
 
   useEffect(() => {
     // console.log(pair);

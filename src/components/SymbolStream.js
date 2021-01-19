@@ -7,7 +7,7 @@ import {
   storeTickerStatus,
   storeTradeStatus,
 } from "../actions";
-import "./SymbolStream.css";
+import "../css/SymbolStream.css";
 import { useSelector, useDispatch } from "react-redux";
 import { CoinPair, CoinPrice, Change24H } from "../components/Coin";
 
