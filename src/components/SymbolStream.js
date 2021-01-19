@@ -52,13 +52,15 @@ const SymbolStream = () => {
 
   useEffect(() => {
     console.log("Dobby is a free elf!");
-    // connectToTicker();
-    // connectToTrade();
+    // Auto Stream Join
+    // connectToTradeStream();
+    // connectToTickerStream();
 
-    return () => {
-      disconnectFromTrade();
-      disconnectFromTicker();
-    };
+    // Auto Stream leave on route change
+    // return () => {
+    //   disconnectFromTickerStream();
+    //   disconnectFromTradeStream();
+    // };
   }, []);
 
   return (
