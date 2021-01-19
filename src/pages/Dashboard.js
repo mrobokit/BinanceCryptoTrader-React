@@ -29,7 +29,6 @@ const Dashboard = () => {
         </div>
 
         <div className="six wide column">
-          <div className="ui header">Event Stream</div>
           <EventStream />
         </div>
 

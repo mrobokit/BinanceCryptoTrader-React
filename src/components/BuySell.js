@@ -145,14 +145,6 @@ const Actions = () => {
             <input type="checkbox" name="currentPrice" />
             <label>Current price</label>
           </div>
-
-          <button
-            onClick={() => {
-              console.log(eventStream);
-            }}
-          >
-            Debug Event Stream
-          </button>
         </div>
       </div>
     );
