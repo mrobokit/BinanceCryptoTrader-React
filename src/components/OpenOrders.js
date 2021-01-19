@@ -6,7 +6,7 @@ import Placeholder2 from "../components/semantic/Placeholder2";
 
 const OpenOrders = () => {
   const dispatch = useDispatch();
-  const config = useSelector((state) => state.config);
+  const config = useSelector((state) => state.config, shallowEqual);
   const eventStream = useSelector(
     (state) => state.eventStream.executionReport,
     shallowEqual
@@ -23,7 +23,7 @@ const OpenOrders = () => {
       dispatch(activeOrder(config.pair));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [eventStream]
+    [eventStream, config.symbol]
   );
 
   const list = order?.map(
@@ -36,7 +36,7 @@ const OpenOrders = () => {
           </td>
           <td data-label="Type/Side">
             <h5
-              className={`ui tiny header ${type == "BUY" ? "red " : "green"}`}
+              className={`ui tiny header ${type === "BUY" ? "red " : "green"}`}
             >
               {" "}
               {side} {type}

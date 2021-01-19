@@ -9,11 +9,16 @@ import {
   storeTickerStatus,
   storeTradeStatus,
 } from "../actions";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
-  const config = useSelector((state) => state.config);
+  const config = useSelector((state) => state.config, shallowEqual);
+
+  const eventStream = useSelector(
+    (state) => state.eventStream.executionReport,
+    shallowEqual
+  );
 
   const connectToTradeStream = () => {
     dispatch(storeTradeStatus(false));
@@ -53,20 +58,44 @@ const SettingsPage = () => {
 
   return (
     <div>
-      <button onClick={() => connectToTickerStream()}>
+      <div className="ui header">Debugers</div>
+      <button className="ui mini button" onClick={() => console.log(config)}>
+        config debug
+      </button>
+
+      <button
+        className="ui mini button"
+        onClick={() => {
+          console.log(eventStream);
+        }}
+      >
+        event debug
+      </button>
+
+      <div className="ui header">On/Off</div>
+      <button
+        className="ui mini button"
+        onClick={() => connectToTickerStream()}
+      >
         Connect To Ticker Stream
       </button>
       <br />
-      <button onClick={() => disconnectFromTickerStream()}>
+      <button
+        className="ui mini button"
+        onClick={() => disconnectFromTickerStream()}
+      >
         Disconnect From Ticker Stream
       </button>
       <br />
       <br />
-      <button onClick={() => connectToTradeStream()}>
+      <button className="ui mini button" onClick={() => connectToTradeStream()}>
         Connect To Trade Stream
       </button>
       <br />
-      <button onClick={() => disconnectFromTradeStream()}>
+      <button
+        className="ui mini button"
+        onClick={() => disconnectFromTradeStream()}
+      >
         Disconnect From Trade Stream
       </button>
     </div>

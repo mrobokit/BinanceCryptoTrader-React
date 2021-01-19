@@ -9,17 +9,7 @@ const Events = () => {
 
   return (
     <div>
-      <div className="ui header">
-        Event Stream{" "}
-        <button
-          className="ui mini button"
-          onClick={() => {
-            console.log(eventStream);
-          }}
-        >
-          console.log
-        </button>
-      </div>
+      <div className="ui header">Event Stream</div>
       <div>{JSON.stringify(eventStream)}</div>
     </div>
   );

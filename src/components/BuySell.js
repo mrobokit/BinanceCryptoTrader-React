@@ -35,7 +35,7 @@ const Actions = () => {
     if (acc.asset === config.symbol) {
       return (
         <div className="inline" key={acc.asset}>
-          <span>{parseFloat(acc.free)}</span>{" "}
+          <span>{parseFloat(acc.free).toFixed(10)}</span>{" "}
           <span
             style={{ marginRight: "5px" }}
             className="iconify"
@@ -81,6 +81,7 @@ const Actions = () => {
               onChange={(e) => setBuyPrice(e.target.value)}
             />
           </div>
+
           <br />
           <div className="ui  mini labeled input m-tb buySell">
             <div className="ui label myLabel">{`Amount (${config.symbol})`}</div>
@@ -150,6 +151,8 @@ const Actions = () => {
             <label>Current price</label>
           </div>
         </div>
+
+        <div class="ui bottom right attached black label">{config.pair}</div>
       </div>
     );
   }

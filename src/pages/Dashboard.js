@@ -3,15 +3,17 @@ import SymbolStream from "../components/SymbolStream";
 import BuySell from "../components/BuySell";
 import EventStream from "../components/EventStream";
 import OpenOrders from "../components/OpenOrders";
+import Searchcrypto from "../components/SearchCrypto";
 
 const Dashboard = () => {
   return (
     <div className="ui container">
       <div className="ui grid">
         <div className="six wide column">
+          <Searchcrypto />
+
           <SymbolStream />
           <div className="ui segment">
-            <div className="ui header">Take Action</div>
             <BuySell />
           </div>
         </div>
