@@ -11,7 +11,8 @@ const tickerStreamMiddleware = () => {
 
         tickerSocket = new WebSocket(action.host);
 
-        tickerSocket.onopen = () => console.log("Socket open.", action.host);
+        tickerSocket.onopen = () =>
+          console.log("tickerStream open.", action.host);
         dispatch({
           type: "connectedToTicker",
           payload: "tickerStream is open now.",

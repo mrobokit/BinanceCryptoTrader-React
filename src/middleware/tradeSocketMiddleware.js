@@ -10,7 +10,8 @@ const tradeSocketMiddleware = () => {
 
         tradeSocket = new WebSocket(action.host);
 
-        tradeSocket.onopen = () => console.log("Socket open.", action.host);
+        tradeSocket.onopen = () =>
+          console.log("tradeStream open.", action.host);
         dispatch({
           type: "connectedToTrade",
           payload: "tradeStream is open now.",

@@ -10,7 +10,8 @@ const eventStreamMiddleware = () => {
 
         eventSocket = new WebSocket(action.host);
 
-        eventSocket.onopen = () => console.log("Socket open.", action.host);
+        eventSocket.onopen = () =>
+          console.log("eventSocket open.", action.host);
         dispatch({
           type: "connectedToEvent",
           payload: "eventStream is open now.",

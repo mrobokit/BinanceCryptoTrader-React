@@ -1,5 +1,7 @@
 import React from "react";
 import SymbolStream from "../components/SymbolStream";
+import BuySell from "../components/BuySell";
+import EventStream from "../components/EventStream";
 
 // Store Server Notifications
 
@@ -18,21 +20,18 @@ const Dashboard = () => {
   return (
     <div className="ui container">
       <div className="ui grid">
-        <div className="five wide column">
+        <div className="six wide column">
           <div className="ui header">Price Tracker</div>
           <SymbolStream />
+
+          <div className="ui header">Take Action</div>
+          <BuySell />
         </div>
-        {/* 
-        <div className="five wide column">
-          <BuySell
-            pair={config.pair}
-            symbol={config.symbol}
-            fiat={config.fiat}
-            trade={trade}
-            balance={balance}
-          />
-    
-        </div> */}
+
+        <div className="six wide column">
+          <div className="ui header">Event Stream</div>
+          <EventStream />
+        </div>
 
         {/* <div className="eleven wide column">
           {trade && ticker ? (

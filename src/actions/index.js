@@ -81,6 +81,17 @@ export const disconnectFromTicker = (host) => ({
   host,
 });
 
+//Event Socket
+export const connectToEvent = (host, save) => ({
+  type: "connectToEvent",
+  host,
+  save,
+});
+export const disconnectFromEvent = (host) => ({
+  type: "disconnectFromEvent",
+  host,
+});
+
 // Store Trade,Ticker and Events
 export const storeTradeStream = (data) => async (dispatch) => {
   dispatch({
@@ -94,9 +105,9 @@ export const storeTickerStream = (data) => async (dispatch) => {
     payload: data,
   });
 };
-export const storeServerEventsStream = (data) => async (dispatch) => {
+export const storeEventStream = (data) => async (dispatch) => {
   dispatch({
-    type: `serverEventsStream`,
+    type: `eventStream`,
     payload: data,
   });
 };

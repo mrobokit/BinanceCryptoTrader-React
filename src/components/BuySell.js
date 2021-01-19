@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { tradeOrder, fetchWallet } from "../actions";
+import Loader1 from "../components/semantic/Loader1";
 
 import "../css/BuySell.css";
 
 //Put wallet usdt and symbol here too, above buy sell, like Binance
-const Actions = ({ trade, symbol, fiat, pair, balance }) => {
+const Actions = () => {
+  // Internal state, needed only here
   const [buyPrice, setBuyPrice] = useState(850);
   const [buyQuantity, setBuyQuantity] = useState(0.12);
   const [sellPrice, setSellPrice] = useState(850);
   const [sellQuantity, setSellQuantity] = useState(0.12);
   const dispatch = useDispatch();
 
-  const report = useSelector((state) => state.report);
+  const wallet = useSelector((state) => state.wallet.balance);
+  const config = useSelector((state) => state.config);
+
   // const execution = report.executionReport;
 
   useEffect(() => {
     dispatch(fetchWallet());
   }, []);
 
-  const symbolBalance = balance?.map((acc) => {
-    if (acc.asset === symbol) {
+  const symbolBalance = wallet?.map((acc) => {
+    if (acc.asset === config.symbol) {
       return (
         <div className="inline" key={acc.asset}>
-          Available <span>{parseFloat(acc.free)}</span>
+          <span>{parseFloat(acc.free)}</span>
           <span
             style={{ marginRight: "5px" }}
             className="iconify"
@@ -38,11 +42,11 @@ const Actions = ({ trade, symbol, fiat, pair, balance }) => {
     return null;
   });
 
-  const fiatBalance = balance?.map((acc) => {
-    if (acc.asset === fiat) {
+  const fiatBalance = wallet?.map((acc) => {
+    if (acc.asset === config.fiat) {
       return (
         <div className="inline" key={acc.asset}>
-          Available <span>{parseFloat(acc.free)}</span>
+          <span>{parseFloat(acc.free)}</span>
           <span
             style={{ marginRight: "5px" }}
             className="iconify"
@@ -57,116 +61,92 @@ const Actions = ({ trade, symbol, fiat, pair, balance }) => {
     return null;
   });
 
-  if (trade) {
+  if (wallet) {
     return (
-      <>
-        <div className="ui  mini labeled input m-tb buySell">
-          <div className="ui label">{`Price (${fiat})`}</div>
-          <input
-            type="text"
-            value={buyPrice}
-            onChange={(e) => setBuyPrice(e.target.value)}
-          />
+      <div className="ui grid">
+        <div className="eight wide column">
+          <div className="ui  mini labeled input m-tb buySell">
+            <div className="ui label myLabel">{`Price (${config.fiat})`}</div>
+            <input
+              type="text"
+              value={buyPrice}
+              onChange={(e) => setBuyPrice(e.target.value)}
+            />
+          </div>
+          <br />
+          <div className="ui  mini labeled input m-tb buySell">
+            <div className="ui label myLabel">{`Amount (${config.symbol})`}</div>
+            <input
+              type="text"
+              value={buyQuantity}
+              onChange={(e) => setBuyQuantity(e.target.value)}
+            />
+          </div>
+          <br />
+          {fiatBalance}
+          <div className="inline" style={{ minWidth: "250px" }}>
+            <button
+              className="ui button positive mr "
+              onClick={() =>
+                dispatch(tradeOrder("BUY", config.pair, buyQuantity, buyPrice))
+              }
+            >
+              Buy
+            </button>
+          </div>
         </div>
-        <br />
-        <div className="ui  mini labeled input m-tb buySell">
-          <div className="ui label">{`Amount (${symbol})`}</div>
-          <input
-            type="text"
-            value={buyQuantity}
-            onChange={(e) => setBuyQuantity(e.target.value)}
-          />
+
+        <div className="eight wide column">
+          <div className="ui mini right labeled input m-tb buySell">
+            <div className="ui label myLabel">{`Price (${config.fiat})`}</div>
+            <input
+              type="text"
+              value={sellPrice}
+              onChange={(e) => setSellPrice(e.target.value)}
+            />
+          </div>
+          <br />
+          <div className="ui mini corner labeled input m-tb buySell">
+            <div className="ui label myLabel">{`Amount (${config.symbol})`}</div>
+            <input
+              type="text"
+              value={sellQuantity}
+              onChange={(e) => setSellQuantity(e.target.value)}
+            />
+          </div>
+          <br />
+          {symbolBalance}
+          <div className="inline" style={{ minWidth: "250px" }}>
+            <button
+              className="ui button negative mr "
+              onClick={() =>
+                dispatch(
+                  tradeOrder("SELL", config.pair, sellQuantity, sellPrice)
+                )
+              }
+            >
+              Sell
+            </button>
+          </div>
+
+          {/* Extra Options */}
         </div>
-        <br />
-        {fiatBalance}
-        <div className="inline" style={{ minWidth: "250px" }}>
-          <button
-            className="ui button positive mr "
-            onClick={() =>
-              dispatch(tradeOrder("BUY", pair, buyQuantity, buyPrice))
-            }
-          >
-            Buy
-          </button>
+        <div>
+          <div className="ui checkbox">
+            <input type="checkbox" name="stopLoss" />
+            <label>Stop loss</label>
+          </div>
+          <br />
+          <div className="ui checkbox ">
+            <input type="checkbox" name="currentPrice" />
+            <label>Current price</label>
+          </div>
         </div>
-        <br />
-        {/*  Sell  */}
-        <div className="ui mini labeled input m-tb buySell">
-          <div className="ui label">PRI</div>
-          <input
-            type="text"
-            value={sellPrice}
-            onChange={(e) => setSellPrice(e.target.value)}
-          />
-        </div>
-        <br />
-        <div className="ui mini labeled input m-tb buySell">
-          <div className="ui label">QTY</div>
-          <input
-            type="text"
-            value={sellQuantity}
-            onChange={(e) => setSellQuantity(e.target.value)}
-          />
-        </div>
-        <br />
-        {symbolBalance}
-        <div className="inline" style={{ minWidth: "250px" }}>
-          <button
-            className="ui button negative mr "
-            onClick={() =>
-              dispatch(tradeOrder("SELL", pair, sellQuantity, sellPrice))
-            }
-          >
-            Sell
-          </button>
-        </div>
-        <br /> <br />
-        {/* Extra Options */}
-        <div className="ui checkbox">
-          <input type="checkbox" name="stopLoss" />
-          <label>Stop loss</label>
-        </div>
-        <br />
-        <div className="ui checkbox ">
-          <input type="checkbox" name="currentPrice" />
-          <label>Current price</label>
-        </div>
-      </>
+      </div>
     );
   }
 
-  return <div>Loading...</div>; // have a spinner instead or smthing :)
+  return <Loader1 />;
 };
 
 export default Actions;
-
-//   return (
-//     <div>
-//       {BALANCE && symbol ? (
-//         <table
-//           className="ui selectable celled table"
-//           style={{ maxWidth: "300px" }}
-//         >
-//           <thead>
-//             <tr>
-//               <th>Name</th>
-//               <th>Ammount</th>
-//               <th>Locked</th>
-//             </tr>
-//           </thead>
-//           <tbody>{renderList}</tbody>
-//         </table>
-//       ) : (
-//         <div
-//           className="ui segment"
-//           style={{ minHeight: "300px", maxWidth: "265px" }}
-//         >
-//           <div className="ui active loader"></div>
-//           <p></p>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Wallet;
