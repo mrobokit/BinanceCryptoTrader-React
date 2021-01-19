@@ -14,6 +14,8 @@ const Dashboard = () => {
             <div className="ui header">Take Action</div>
             <BuySell />
           </div>
+        </div>
+        <div className="sixteen wide column">
           <div className="ui segment">
             <OpenOrders />
           </div>
@@ -21,7 +23,6 @@ const Dashboard = () => {
             <EventStream />
           </div>
         </div>
-        <div className="six wide column"></div>
       </div>
     </div>
   );

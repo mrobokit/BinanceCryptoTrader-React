@@ -28,16 +28,19 @@ const OpenOrders = () => {
 
   const list = order?.map(
     // LET THE ?. in place otherwise i am screwed
-    ({ time, type, symbol, origQty, side, executedQty, orderId, price }) => {
+    ({ time, type, origQty, side, executedQty, orderId, price }) => {
       return (
         <tr key={orderId} data-bound={config.pair}>
           <td data-label="Date">
             <div>{formatDate(time)}</div>
           </td>
           <td data-label="Type/Side">
-            <div>
+            <h5
+              className={`ui tiny header ${type == "BUY" ? "red " : "green"}`}
+            >
+              {" "}
               {side} {type}
-            </div>
+            </h5>
           </td>
           <td data-label="Pair">
             <div>
@@ -51,7 +54,9 @@ const OpenOrders = () => {
             </div>
           </td>
           <td data-label="Price">
-            <div>{parseFloat(price)}</div>
+            <div className="ui tag label">
+              {parseFloat(price)} <span>{config.fiat}</span>
+            </div>
           </td>
           <td data-label="Ammount">
             <div>{parseFloat(origQty).toFixed(3)}</div>
