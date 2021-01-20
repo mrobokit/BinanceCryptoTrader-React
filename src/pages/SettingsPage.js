@@ -8,7 +8,6 @@ import {
   storeTradeStream,
   storeTickerStatus,
   storeTradeStatus,
-  getHistoricalCandlestickData,
   getHistoricalCandlestickDataWidthAxios,
 } from "../actions";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -16,12 +15,12 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 const SettingsPage = () => {
   const dispatch = useDispatch();
   const config = useSelector((state) => state.config, shallowEqual);
-  const [myData, setMyData] = useState([]);
+  // const [myData, setMyData] = useState([]);
 
-  const eventStream = useSelector(
-    (state) => state.eventStream.executionReport,
-    shallowEqual
-  );
+  // const eventStream = useSelector(
+  //   (state) => state.eventStream.executionReport,
+  //   shallowEqual
+  // );
 
   const parseBinanceDataForChart = async () => {
     const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
@@ -67,7 +66,6 @@ const SettingsPage = () => {
   //   );
   // };
 
-  //Ticker
   // const connectToTickerStream = () => {
   //   dispatch(storeTickerStatus(false));
   //   dispatch(
