@@ -18,16 +18,19 @@ const Dashboard = () => {
             <BuySell />
           </div>
         </div>
-        <div id="chartID" className="nine wide column">
-          {" "}
-          <ChartComponent />
-        </div>
+        <div id="chartID" className="nine wide column"></div>
         <div className="sixteen wide column">
           <div className="ui segment">
             <OpenOrders />
           </div>
           <div className="ui segment">
             <EventStream />
+          </div>
+        </div>
+
+        <div className="sixteen wide column">
+          <div className="ui segment">
+            <ChartComponent />
           </div>
         </div>
       </div>

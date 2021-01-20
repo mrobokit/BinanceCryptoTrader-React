@@ -1,26 +1,31 @@
-import { tsvParse } from "d3-dsv";
-import { timeParse } from "d3-time-format";
+import { timeFormat } from "d3-time-format";
+import { getHistoricalCandlestickDataWidthAxios } from "../../actions";
 
-function parseData(parse) {
-  return function (d) {
-    d.date = parse(d.date);
-    d.open = +d.open;
-    d.high = +d.high;
-    d.low = +d.low;
-    d.close = +d.close;
-    d.volume = +d.volume;
+var parse = timeFormat("%Y-%m-%d %H:%M:%S");
 
-    return d;
-  };
-}
+//Debug
+// var time = parse(1509392160);
+// console.log(time);
 
-const parseDate = timeParse("%Y-%m-%d");
+// Proud of this function
+export async function getData() {
+  const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
+    "30m",
+    "LINKUSDT"
+  );
 
-export function getData() {
-  const promiseMSFT = fetch(
-    "https://cdn.rawgit.com/rrag/react-stockcharts/master/docs/data/MSFT.tsv"
-  )
-    .then((response) => response.text())
-    .then((data) => tsvParse(data, parseData(parseDate)));
-  return promiseMSFT;
+  const turnArrayOfArraysIntoAnArrayOfObjects = fetchArrayOfArrays.map(
+    function (x) {
+      return {
+        date: new Date(x[0]),
+        open: x[1],
+        high: x[2],
+        low: x[3],
+        close: x[4],
+        volume: x[5],
+      };
+    }
+  );
+
+  return turnArrayOfArraysIntoAnArrayOfObjects;
 }

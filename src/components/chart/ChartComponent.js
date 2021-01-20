@@ -9,7 +9,8 @@ const ChartComponent = () => {
 
   useEffect(() => {
     getData().then((data) => {
-      setData(data);
+      console.log(data);
+      setData(data); // to this i must write the incoming kline stream. Rerendering it and keeping same data in !
     });
   }, []);
 

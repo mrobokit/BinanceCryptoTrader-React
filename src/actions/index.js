@@ -1,6 +1,7 @@
 import CryptoJS from "crypto-js";
 import binance from "../components/api/binance";
 
+// REST API Calls
 export const fetchWallet = () => async (dispatch) => {
   const query = `timestamp=${Date.now()}`;
   const hash = CryptoJS.HmacSHA256(query, process.env.REACT_APP_API_SECRET);
@@ -35,6 +36,27 @@ export const cancelOrder = (orderId, symbol) => async (dispatch) => {
   const response = await binance.delete(`/order?${query}&signature=${hash}`); // must be DELETE
   dispatch({ type: `CANCEL_ORDER`, payload: response.data });
   //console.log(response.data);
+};
+export const getHistoricalCandlestickData = (interval, startTime, symbol) => {
+  const query = `symbol=${symbol}&interval=${interval}&startTime=${startTime}&endTime=${Date.now()}`;
+
+  fetch(`https://api.binance.com/api/v3/klines?${query}`)
+    .then((response) => response.json())
+    .then((data) => console.log(data));
+};
+
+//Super function
+export const getHistoricalCandlestickDataWidthAxios = async (
+  interval,
+  symbol
+) => {
+  //&startTime=${startTime}&endTime=${Date.now() //startTime,
+  const query = `symbol=${symbol}&interval=${interval}`;
+  const response = await binance.get(
+    `https://api.binance.com/api/v3/klines?${query}`
+  ); // must be DELETE
+
+  return response.data;
 };
 
 // Config Reducer - Actions
