@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SymbolStream from "../components/SymbolStream";
 
 import BuySell from "../components/BuySell";

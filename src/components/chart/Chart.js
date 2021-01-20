@@ -2,30 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { format } from "d3-format";
-import { timeFormat } from "d3-time-format";
 
 import { ChartCanvas, Chart } from "react-stockcharts";
-import {
-  BarSeries,
-  AreaSeries,
-  CandlestickSeries,
-  LineSeries,
-} from "react-stockcharts/lib/series";
+import { CandlestickSeries } from "react-stockcharts/lib/series";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
 import {
   CrossHairCursor,
-  EdgeIndicator,
-  CurrentCoordinate,
-  MouseCoordinateX,
   MouseCoordinateY,
 } from "react-stockcharts/lib/coordinates";
 
 import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
-import {
-  OHLCTooltip,
-  MovingAverageTooltip,
-} from "react-stockcharts/lib/tooltip";
-import { ema, heikinAshi, sma } from "react-stockcharts/lib/indicator";
+
+import { heikinAshi } from "react-stockcharts/lib/indicator";
 import { fitWidth } from "react-stockcharts/lib/helper";
 import { last } from "react-stockcharts/lib/utils";
 
