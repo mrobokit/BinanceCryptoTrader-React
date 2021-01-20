@@ -1,6 +1,6 @@
 import React from "react";
 import SymbolStream from "../components/SymbolStream";
-import MultipleSymbolStream from "../components/MultipleSymbolStream";
+
 import BuySell from "../components/BuySell";
 import EventStream from "../components/EventStream";
 import OpenOrders from "../components/OpenOrders";
@@ -14,7 +14,7 @@ const Dashboard = () => {
           <Searchcrypto />
 
           {/* <SymbolStream /> */}
-          <MultipleSymbolStream />
+          <SymbolStream />
           <div className="ui segment">
             <BuySell />
           </div>

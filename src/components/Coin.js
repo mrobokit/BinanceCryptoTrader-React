@@ -6,7 +6,10 @@ import Placeholder from "../components/semantic/Placeholder";
 export const CoinPair = () => {
   //This doesn't need to be rerendered, the only reason i let it
   // Is to be 100% this is the trade name it is coming from
-  const trade = useSelector((state) => state.tradeStream.data);
+  const config = useSelector((state) => state.config);
+  const trade = useSelector(
+    (state) => state.tradeStream[config.pair.toLowerCase()]
+  );
 
   if (trade && trade !== null) {
     // when i disconnect socket, i need to set trade to be NULL
@@ -18,7 +21,10 @@ export const CoinPair = () => {
 };
 
 export const CoinPrice = () => {
-  const trade = useSelector((state) => state.tradeStream.data);
+  const config = useSelector((state) => state.config);
+  const trade = useSelector(
+    (state) => state.tradeStream[config.pair.toLowerCase()]
+  );
 
   if (trade && trade !== null) {
     // when i disconnect socket, i need to set trade to be NULL
@@ -30,8 +36,10 @@ export const CoinPrice = () => {
 };
 
 export const Change24H = () => {
-  const ticker = useSelector((state) => state.tickerStream.data);
   const config = useSelector((state) => state.config);
+  const ticker = useSelector(
+    (state) => state.tickerStream[config.pair.toLowerCase()]
+  );
 
   //Running & Disconnected & Loading State
   if (ticker && ticker !== null) {
