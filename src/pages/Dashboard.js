@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SymbolStream from "../components/SymbolStream";
 
 import BuySell from "../components/BuySell";
 import EventStream from "../components/EventStream";
 import OpenOrders from "../components/OpenOrders";
 import Searchcrypto from "../components/SearchCrypto";
-import BinanceChart from "../components/BinanceChart";
+import ChartComponent from "../components/chart/ChartComponent";
 
 const Dashboard = () => {
   return (
@@ -13,14 +13,15 @@ const Dashboard = () => {
       <div className="ui grid">
         <div className="six wide column">
           <Searchcrypto />
-
-          {/* <SymbolStream /> */}
           <SymbolStream />
           <div className="ui segment">
             <BuySell />
           </div>
         </div>
-        <div className="nine wide column">{/* <BinanceChart /> */}</div>
+        <div id="chartID" className="nine wide column">
+          {" "}
+          <ChartComponent />
+        </div>
         <div className="sixteen wide column">
           <div className="ui segment">
             <OpenOrders />
