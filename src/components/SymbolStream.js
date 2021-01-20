@@ -63,6 +63,7 @@ const SymbolStream = () => {
             <th>Pair</th>
             <th>Live Trades</th>
             <th>Last 24H Data</th>
+            <th>Alerts</th>
           </tr>
         </thead>
         <tbody>
@@ -77,6 +78,10 @@ const SymbolStream = () => {
 
             <td data-label="Last 24H Change">
               <Change24H />
+            </td>
+
+            <td>
+              <input type="text" name="alert" id="" style={{ width: "70px" }} />
             </td>
           </tr>
         </tbody>

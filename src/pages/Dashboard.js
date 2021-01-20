@@ -5,6 +5,7 @@ import BuySell from "../components/BuySell";
 import EventStream from "../components/EventStream";
 import OpenOrders from "../components/OpenOrders";
 import Searchcrypto from "../components/SearchCrypto";
+import BinanceChart from "../components/BinanceChart";
 
 const Dashboard = () => {
   return (
@@ -19,6 +20,7 @@ const Dashboard = () => {
             <BuySell />
           </div>
         </div>
+        <div className="nine wide column">{/* <BinanceChart /> */}</div>
         <div className="sixteen wide column">
           <div className="ui segment">
             <OpenOrders />

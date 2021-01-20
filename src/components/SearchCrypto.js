@@ -5,7 +5,7 @@ import {
   storeTradeStatus,
   storeTickerStatus,
 } from "../actions";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const SearchCrypto = () => {
   const dispatch = useDispatch();

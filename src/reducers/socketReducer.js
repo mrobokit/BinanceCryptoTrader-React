@@ -39,7 +39,7 @@ export const tickerSocketReducer = (state = [], action) => {
         const name = action.subtype.toLowerCase();
         return { ...state, [name]: action.payload }; // [] is a lifesaver again!
       }
-
+      break;
     default:
       return state;
   }
