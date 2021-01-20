@@ -17,8 +17,13 @@ const tradeSocketMiddleware = () => {
           payload: "tradeStream is open now.",
         });
 
-        tradeSocket.onmessage = (event) =>
-          dispatch(action.save(JSON.parse(event.data)));
+        // Here i need to create bunch of names instead of action.save
+        tradeSocket.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          const subtype = data.s;
+          // console.log(event);
+          dispatch(action.save(data, subtype));
+        };
 
         tradeSocket.onclose = () =>
           console.log("tradeStream closed.", action.host);

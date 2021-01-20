@@ -35,16 +35,9 @@ export const tickerSocketReducer = (state = [], action) => {
     case "wipeTicker":
       return action;
     case "tickerStream":
-      // I could form { ...state, btcusdt: action.payload } from the sender, where i have access to config,
-      // and here i just receive it as tickerStream and return { ...state, action.payload }
-      if (action.payload.s === "BTCUSDT") {
-        return { ...state, btcusdt: action.payload };
-      }
-      if (action.payload.s === "ETHUSDT") {
-        return { ...state, ethusdt: action.payload };
-      }
-      if (action.payload.s === "LINKUSDT") {
-        return { ...state, linkusdt: action.payload };
+      if (action.payload.s === action.subtype) {
+        const name = action.subtype.toLowerCase();
+        return { ...state, [name]: action.payload }; // [] is a lifesaver again!
       }
 
     default:
@@ -65,18 +58,13 @@ export const tradeSocketReducer = (state = [], action) => {
       return action;
     case "tradeStream":
       //Then i take these names from config and gg
-      if (action.payload.s === "BTCUSDT") {
-        return { ...state, btcusdt: action.payload };
-      }
-      if (action.payload.s === "ETHUSDT") {
-        return { ...state, ethusdt: action.payload };
-      }
-      if (action.payload.s === "LINKUSDT") {
-        return { ...state, linkusdt: action.payload };
+      //This shall dynamically create btcusdt, ethusdt etc objects inside tradeStream :)
+      if (action.payload.s === action.subtype) {
+        const name = action.subtype.toLowerCase();
+        return { ...state, [name]: action.payload }; // [] is a lifesaver again!
       }
 
-    //return { ...state, ethusdt: action.payload };;
-
+      break;
     default:
       return state;
   }

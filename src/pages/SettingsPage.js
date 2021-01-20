@@ -20,8 +20,8 @@ const SettingsPage = () => {
     shallowEqual
   );
 
-  const tradeStream = useSelector((state) => state.tradeStream);
-  const tickerStream = useSelector((state) => state.tickerStream);
+  // const tradeStream = useSelector((state) => state.tradeStream);
+  // const tickerStream = useSelector((state) => state.tickerStream);
 
   const connectToTradeStream = () => {
     dispatch(storeTradeStatus(false));
@@ -75,7 +75,7 @@ const SettingsPage = () => {
         event- debug
       </button>
 
-      <button
+      {/* <button
         className="ui mini button"
         onClick={() => {
           console.log(tradeStream);
@@ -91,7 +91,7 @@ const SettingsPage = () => {
         }}
       >
         ticker - debug
-      </button>
+      </button> */}
 
       <div className="ui header">On/Off</div>
       <button

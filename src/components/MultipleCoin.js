@@ -8,9 +8,6 @@ export const CoinPair = ({ data }) => {
   // Is to be 100% this is the trade name it is coming from
   // console.log(data);
   const qr = data + "usdt";
-  // console.log(qr);
-  // console.log(qr);
-
   const trade = useSelector((state) => state.tradeStream[qr], shallowEqual); //state.tradeStream[qr] very important square bracket notation
 
   if (trade && trade !== null) {

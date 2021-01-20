@@ -16,11 +16,18 @@ const SymbolStream = () => {
 
   const config = useSelector((state) => state.config, shallowEqual);
 
+  const tradeStreams = config.symbolList
+    .map((s) => `${(s.name + config.fiat + "@trade").toLowerCase()}`)
+    .join("/");
+  const tickerStreams = config.symbolList
+    .map((s) => `${(s.name + config.fiat + "@ticker").toLowerCase()}`)
+    .join("/");
+
   //Trade
   const connectToTradeStream = () => {
     dispatch(
       connectToTrade(
-        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@trade/btcusdt@trade/linkusdt@trade`,
+        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@trade/${tradeStreams}`,
         storeTradeStream
       )
     );
@@ -28,7 +35,7 @@ const SymbolStream = () => {
   const connectToTickerStream = () => {
     dispatch(
       connectToTicker(
-        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@ticker/btcusdt@ticker/linkusdt@ticker`,
+        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@ticker/${tickerStreams}`,
         storeTickerStream
       )
     );

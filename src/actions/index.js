@@ -93,16 +93,18 @@ export const disconnectFromEvent = (host) => ({
 });
 
 // Store Trade,Ticker and Events
-export const storeTradeStream = (data) => async (dispatch) => {
+export const storeTradeStream = (data, subtype) => async (dispatch) => {
   dispatch({
     type: `tradeStream`,
     payload: data,
+    subtype: subtype,
   });
 };
-export const storeTickerStream = (data) => async (dispatch) => {
+export const storeTickerStream = (data, subtype) => async (dispatch) => {
   dispatch({
     type: `tickerStream`,
-    payload: data, //XOOOOOOOXOXOXOXOXOXOXOXOX  - Form your btcusdt: {payload.data} here, so it is ready made
+    payload: data,
+    subtype: subtype,
   });
 };
 export const storeEventStream = (data) => async (dispatch) => {

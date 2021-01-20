@@ -10,7 +10,6 @@ const initialConfig = {
     { name: "BCH" },
     { name: "LTC" },
     { name: "XRP" },
-    { name: "ETH" },
     { name: "DOT" },
     { name: "ADA" },
     { name: "LINK" },

@@ -18,8 +18,11 @@ const tickerStreamMiddleware = () => {
           payload: "tickerStream is open now.",
         });
 
-        tickerSocket.onmessage = (event) =>
-          dispatch(action.save(JSON.parse(event.data)));
+        tickerSocket.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          const subtype = data.s;
+          dispatch(action.save(data, subtype));
+        };
 
         tickerSocket.onclose = () =>
           console.log("tickerStream closed.", action.host);
