@@ -24,7 +24,7 @@ export async function getData() {
 
   const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
     "5m",
-    "LINKUSDT"
+    "ETHUSDT"
   );
 
   const turnArrayOfArraysIntoAnArrayOfObjects = fetchArrayOfArrays.map(
@@ -35,7 +35,7 @@ export async function getData() {
         high: x[2],
         low: x[3],
         close: x[4],
-        volume: x[5],
+        // volume: x[5], - i need to construct a separate object for this, with just the time and volume ( see volumeData.js)
       };
     }
   );

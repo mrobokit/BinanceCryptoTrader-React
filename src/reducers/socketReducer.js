@@ -86,9 +86,22 @@ export const klineSocketReducer = (state = [], action) => {
     case "wipeKline":
       return action;
     case "klineStream":
+      //Transform the object into lightweight-charts candlestick compatible format (OHLC)
       if (action.payload.k.e === action.subtype) {
-        const name = action.payload.e;
-        return { ...state, [name]: action.payload };
+        const candle = action.payload.k;
+        const name = candle.s;
+        const time = candle.t / 1000;
+
+        return {
+          ...state,
+          [name + `@kline_${action.payload.k.i}`]: {
+            time: time,
+            open: candle.o,
+            high: candle.h,
+            low: candle.l,
+            close: candle.c,
+          },
+        };
       }
       break;
     default:
