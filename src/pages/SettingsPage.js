@@ -21,11 +21,13 @@ const SettingsPage = () => {
   //   (state) => state.eventStream.executionReport,
   //   shallowEqual
   // );
+  // const tradeStream = useSelector((state) => state.tradeStream);
+  //const tickerStream = useSelector((state) => state.tickerStream);
+  const klineStream = useSelector((state) => state.klineStream);
 
   const parseBinanceDataForChart = async () => {
     const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
       "1m",
-      "01012020",
       "LINKUSDT"
     );
 
@@ -45,43 +47,40 @@ const SettingsPage = () => {
     return turnArrayOfArraysIntoAnArrayOfObjects;
   };
 
-  // const tradeStream = useSelector((state) => state.tradeStream);
-  const tickerStream = useSelector((state) => state.tickerStream);
-  const klineStream = useSelector((state) => state.klineStream);
-  // const connectToTradeStream = () => {
-  //   dispatch(storeTradeStatus(false));
-  //   dispatch(
-  //     connectToTrade(
-  //       `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@trade`,
-  //       storeTradeStream
-  //     )
-  //   );
-  // };
-  // const disconnectFromTradeStream = () => {
-  //   dispatch(
-  //     disconnectFromTrade(
-  //       `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@trade`,
-  //       storeTradeStream
-  //     )
-  //   );
-  // };
+  const connectToTradeStream = () => {
+    dispatch(storeTradeStatus(false));
+    dispatch(
+      connectToTrade(
+        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@trade`,
+        storeTradeStream
+      )
+    );
+  };
+  const disconnectFromTradeStream = () => {
+    dispatch(
+      disconnectFromTrade(
+        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@trade`,
+        storeTradeStream
+      )
+    );
+  };
 
-  // const connectToTickerStream = () => {
-  //   dispatch(storeTickerStatus(false));
-  //   dispatch(
-  //     connectToTicker(
-  //       `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@ticker`,
-  //       storeTickerStream
-  //     )
-  //   );
-  // };
-  // const disconnectFromTickerStream = () => {
-  //   dispatch(
-  //     disconnectFromTicker(
-  //       `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@ticker`
-  //     )
-  //   );
-  // };
+  const connectToTickerStream = () => {
+    dispatch(storeTickerStatus(false));
+    dispatch(
+      connectToTicker(
+        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@ticker`,
+        storeTickerStream
+      )
+    );
+  };
+  const disconnectFromTickerStream = () => {
+    dispatch(
+      disconnectFromTicker(
+        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@ticker`
+      )
+    );
+  };
 
   return (
     <div>
@@ -111,14 +110,14 @@ const SettingsPage = () => {
       >
         Debug Historical Candlestick API Data
       </button>
-      <button
+      {/* <button
         className="ui mini button"
         onClick={() => {
           console.log(tickerStream);
         }}
       >
         ticker - debug
-      </button>
+      </button> */}
       <button
         className="ui mini button"
         onClick={() => {
