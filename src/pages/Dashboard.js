@@ -15,12 +15,11 @@ const Dashboard = () => {
         <div className="six wide column">
           <Searchcrypto />
           <SymbolStream />
-          <div className="ui segment">
+          <div className="ui segment" style={{ minHeight: "215px" }}>
             <BuySell />
           </div>
         </div>
         <div id="chartID" className="ten wide column">
-          {" "}
           <MyChart />
         </div>
         <div className="sixteen wide column">

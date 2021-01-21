@@ -12,19 +12,25 @@ export async function getData() {
       "-" +
       ("0" + (m.getUTCMonth() + 1)).slice(-2) +
       "-" +
-      ("0" + m.getUTCDate()).slice(-2)
+      ("0" + m.getUTCDate()).slice(-2) +
+      " " +
+      ("0" + m.getUTCHours()).slice(-2) +
+      ":" +
+      ("0" + m.getUTCMinutes()).slice(-2) +
+      ":" +
+      ("0" + m.getUTCSeconds()).slice(-2)
     );
   };
 
   const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
-    "1m",
+    "30m",
     "LINKUSDT"
   );
 
   const turnArrayOfArraysIntoAnArrayOfObjects = fetchArrayOfArrays.map(
     function (x) {
       return {
-        time: dateString(new Date(x[0])),
+        time: x[0] / 1000,
         open: x[1],
         high: x[2],
         low: x[3],
