@@ -21,7 +21,7 @@ const SettingsPage = () => {
   //   (state) => state.eventStream.executionReport,
   //   shallowEqual
   // );
-  // const tradeStream = useSelector((state) => state.tradeStream);
+  const tradeStream = useSelector((state) => state.tradeStream);
   //const tickerStream = useSelector((state) => state.tickerStream);
   const klineStream = useSelector((state) => state.klineStream);
 
@@ -104,6 +104,16 @@ const SettingsPage = () => {
       >
         trade- debug
       </button> */}
+
+      <button
+        className="ui mini button"
+        onClick={() => {
+          console.log(tradeStream);
+        }}
+      >
+        trade- debug
+      </button>
+
       <button
         className="ui mini button"
         onClick={() => parseBinanceDataForChart()}

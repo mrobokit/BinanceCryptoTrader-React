@@ -12,52 +12,66 @@ import {
 
 const ChartComponent = () => {
   const [historicalData, setHistoricalData] = useState(null);
-  // const [klineTicker, setKLineTicker] = useState(null);
+  const [klineTicker, setKLineTicker] = useState(null);
   const [onceOnly, setOnceOnly] = useState(false);
 
-  const kline = useSelector((state) => state.klineStream.kline, shallowEqual);
+  const kline = useSelector(
+    (state) => state.klineStream.kline?.k,
+    shallowEqual
+  );
   const config = useSelector((state) => state.config);
   const dispatch = useDispatch();
 
   const connectToKlineStream = () => {
     dispatch(
       connectToKline(
-        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@kline_5m`,
+        `wss://stream.binance.com:9443/ws/linkusdt@kline_1m`,
         storeKlineStream
       )
     );
+  };
+
+  const klineStreamObjectIntoModifiedObectIntoArrayOfObjectsChartData = () => {
+    // Must take the JSON object and return it as an array with only the specified options
+    //console.log(kline);
+    if (kline) {
+      return {
+        date: new Date(kline.t),
+        open: kline.o,
+        high: kline.h,
+        low: kline.l,
+        close: kline.c,
+        volume: kline.v,
+      };
+    }
   };
 
   useEffect(() => {
     if (config.klineStatus === false) {
       dispatch(storeKlineStatus(true));
       connectToKlineStream();
+
+      getData().then((data) => {
+        setKLineTicker(data);
+        console.log(data);
+      });
     }
 
-    getData().then((data) => {
-      console.log(data);
-      setHistoricalData(data); // to this i must write the incoming kline stream. Rerendering it and keeping same data in !
-    });
-
-    // if (onceOnly === false) {
-    //   setOnceOnly(true);
-
-    //   getData().then((data) => {
-    //     console.log(data);
-    //     setHistoricalData(data); // to this i must write the incoming kline stream. Rerendering it and keeping same data in !
-    //   });
-    // }
-
-    //setHistoricalData(...historicalData, klineTicker);
-  }, [kline]); //kline
+    if (kline) {
+      setKLineTicker((oldArray) => [
+        ...oldArray,
+        klineStreamObjectIntoModifiedObectIntoArrayOfObjectsChartData(),
+      ]);
+    }
+  }, []); //kline
 
   return (
     <div>
-      {historicalData === null ? (
+      {klineTicker === null ? (
         <div>Loading...</div>
       ) : (
         <TypeChooser>
-          {(type) => <Chart type={type} data={historicalData} />}
+          {(type) => <Chart type={type} data={klineTicker} />}
         </TypeChooser>
       )}
     </div>
