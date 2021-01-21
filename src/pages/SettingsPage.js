@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from "react";
 import {
   connectToTrade,
@@ -21,9 +22,9 @@ const SettingsPage = () => {
   //   (state) => state.eventStream.executionReport,
   //   shallowEqual
   // );
-  const tradeStream = useSelector((state) => state.tradeStream);
+  // const tradeStream = useSelector((state) => state.tradeStream);
   //const tickerStream = useSelector((state) => state.tickerStream);
-  const klineStream = useSelector((state) => state.klineStream);
+  // const klineStream = useSelector((state) => state.klineStream);
 
   const parseBinanceDataForChart = async () => {
     const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
@@ -105,14 +106,14 @@ const SettingsPage = () => {
         trade- debug
       </button> */}
 
-      <button
+      {/* <button
         className="ui mini button"
         onClick={() => {
           console.log(tradeStream);
         }}
       >
         trade- debug
-      </button>
+      </button> */}
 
       <button
         className="ui mini button"
@@ -128,14 +129,14 @@ const SettingsPage = () => {
       >
         ticker - debug
       </button> */}
-      <button
+      {/* <button
         className="ui mini button"
         onClick={() => {
           console.log(klineStream);
         }}
       >
         kline - debug
-      </button>
+      </button> */}
 
       {/* <br />
       <button

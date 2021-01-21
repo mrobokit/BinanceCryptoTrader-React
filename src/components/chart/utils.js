@@ -23,8 +23,8 @@ export async function getData() {
   // };
 
   const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
-    "5m",
-    "ETHUSDT"
+    "1m",
+    "LINKUSDT"
   );
 
   const turnArrayOfArraysIntoAnArrayOfObjects = fetchArrayOfArrays.map(
