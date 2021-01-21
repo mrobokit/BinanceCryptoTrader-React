@@ -1,7 +1,4 @@
-import { timeFormat } from "d3-time-format";
 import { getHistoricalCandlestickDataWidthAxios } from "../../actions";
-
-var parse = timeFormat("%Y-%m-%d %H:%M:%S");
 
 //Debug
 // var time = parse(1509392160);
@@ -9,6 +6,16 @@ var parse = timeFormat("%Y-%m-%d %H:%M:%S");
 
 // Proud of this function
 export async function getData() {
+  const dateString = (m) => {
+    return (
+      m.getUTCFullYear() +
+      "-" +
+      ("0" + (m.getUTCMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + m.getUTCDate()).slice(-2)
+    );
+  };
+
   const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
     "1m",
     "LINKUSDT"
@@ -17,7 +24,7 @@ export async function getData() {
   const turnArrayOfArraysIntoAnArrayOfObjects = fetchArrayOfArrays.map(
     function (x) {
       return {
-        date: new Date(x[0]),
+        time: dateString(new Date(x[0])),
         open: x[1],
         high: x[2],
         low: x[3],
