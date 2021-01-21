@@ -14,16 +14,11 @@ const MyChart = () => {
   const resizeObserver = useRef();
   const [init, setInit] = useState(true);
 
-  const [myData, setMyData] = useState([]);
+  //   const [myData, setMyData] = useState([]);
 
   useEffect(() => {
     if (init) {
       setInit(false);
-
-      getData().then((data) => {
-        //   console.log(data);
-        setMyData(data);
-      });
 
       chart.current = createChart(chartContainerRef.current, {
         width: chartContainerRef.current.clientWidth,
@@ -43,11 +38,27 @@ const MyChart = () => {
         crosshair: {
           mode: CrosshairMode.Normal,
         },
-        priceScale: {
-          borderColor: "#485c7b",
-        },
         timeScale: {
           borderColor: "#485c7b",
+          timeVisible: true, // shows the minutes and secconds <3
+          secondsVisible: false,
+          //   fixLeftEdge: true,
+          //   borderVisible: false,
+          //   lockVisibleTimeRangeOnResize: true,
+        },
+        priceScale: {
+          borderColor: "#485c7b",
+          //   position: "left",
+          //   mode: 2,
+          //   autoScale: false,
+          //   invertScale: true,
+          //   alignLabels: false,
+          //   borderVisible: false,
+          //   borderColor: "#555ffd",
+          //   scaleMargins: {
+          //     top: 0.3,
+          //     bottom: 0.25,
+          //   },
         },
       });
 
@@ -62,7 +73,8 @@ const MyChart = () => {
         wickUpColor: "#838ca1",
       });
       //candleSeries.setData(myData);
-      candleSeries.setData(newData);
+      //candleSeries.setData(newData);
+
       //   candleSeries.update({
       //     time: "2019-09-30",
       //     open: "1.67480000",
@@ -72,15 +84,13 @@ const MyChart = () => {
       //   }); - this is how you update data
 
       //console.log(candleSeries);
+      getData().then((data) => {
+        console.clear();
+        console.log(data);
+        // setMyData(data);
+        candleSeries.setData(data);
+      });
     }
-
-    // chart.current.updateData({
-    //   time: "2019-09-10",
-    //   open: "1.88830000",
-    //   high: "1.93260000",
-    //   low: "1.87300000",
-    //   close: "1.89980000",
-    // });
 
     //candleSeries.setData(newData);
     // const areaSeries = chart.current.addAreaSeries({
@@ -107,8 +117,8 @@ const MyChart = () => {
 
     // volumeSeries.setData(volumeData);
 
-    console.clear();
-    console.log(chart.current);
+    // console.clear();
+    // console.log(chart.current);
 
     //Available Proto Functions
     //chart.current.removeSeries(volumeSeries);

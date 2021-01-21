@@ -6,24 +6,24 @@ import { getHistoricalCandlestickDataWidthAxios } from "../../actions";
 
 // Proud of this function
 export async function getData() {
-  const dateString = (m) => {
-    return (
-      m.getUTCFullYear() +
-      "-" +
-      ("0" + (m.getUTCMonth() + 1)).slice(-2) +
-      "-" +
-      ("0" + m.getUTCDate()).slice(-2) +
-      " " +
-      ("0" + m.getUTCHours()).slice(-2) +
-      ":" +
-      ("0" + m.getUTCMinutes()).slice(-2) +
-      ":" +
-      ("0" + m.getUTCSeconds()).slice(-2)
-    );
-  };
+  // const dateString = (m) => {
+  //   return (
+  //     m.getUTCFullYear() +
+  //     "-" +
+  //     ("0" + (m.getUTCMonth() + 1)).slice(-2) +
+  //     "-" +
+  //     ("0" + m.getUTCDate()).slice(-2) +
+  //     " " +
+  //     ("0" + m.getUTCHours()).slice(-2) +
+  //     ":" +
+  //     ("0" + m.getUTCMinutes()).slice(-2) +
+  //     ":" +
+  //     ("0" + m.getUTCSeconds()).slice(-2)
+  //   );
+  // };
 
   const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
-    "30m",
+    "5m",
     "LINKUSDT"
   );
 
