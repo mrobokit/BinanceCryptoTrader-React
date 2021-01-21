@@ -18,7 +18,9 @@ const Dashboard = () => {
             <BuySell />
           </div>
         </div>
-        <div id="chartID" className="nine wide column"></div>
+        <div id="chartID" className="ten wide column">
+          <ChartComponent />
+        </div>
         <div className="sixteen wide column">
           <div className="ui segment">
             <OpenOrders />
@@ -29,9 +31,7 @@ const Dashboard = () => {
         </div>
 
         <div className="sixteen wide column">
-          <div className="ui segment">
-            <ChartComponent />
-          </div>
+          <div className="ui segment"></div>
         </div>
       </div>
     </div>

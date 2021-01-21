@@ -9,8 +9,6 @@ export default (state = [], action) => {
       return { ...state, activeOrder: action.payload };
     case "CANCEL_ORDER":
       return { ...state, cancel: action.payload };
-    case "HistoricalData":
-      return { ...state, historicalData: action.payload };
     default:
       return state;
   }

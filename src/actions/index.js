@@ -80,6 +80,10 @@ export const storeTickerStatus = (state) => async (dispatch) => {
   dispatch({ type: `TICKER_STATUS`, payload: state });
   //console.log(response.data);
 };
+export const storeKlineStatus = (state) => async (dispatch) => {
+  dispatch({ type: `KLINE_STATUS`, payload: state });
+  //console.log(response.data);
+};
 
 // Trade Socket
 export const connectToTrade = (host, save) => ({
@@ -114,7 +118,17 @@ export const disconnectFromEvent = (host) => ({
   host,
 });
 
-// Store Trade,Ticker and Events
+export const connectToKline = (host, save) => ({
+  type: "connectToKline",
+  host,
+  save,
+});
+export const disconnectFromKline = (host) => ({
+  type: "disconnectFromKline",
+  host,
+});
+
+// Store Trade,Ticker,Events, and Kline
 export const storeTradeStream = (data, subtype) => async (dispatch) => {
   dispatch({
     type: `tradeStream`,
@@ -133,5 +147,12 @@ export const storeEventStream = (data) => async (dispatch) => {
   dispatch({
     type: `eventStream`,
     payload: data,
+  });
+};
+export const storeKlineStream = (data, subtype) => async (dispatch) => {
+  dispatch({
+    type: `klineStream`,
+    payload: data,
+    subtype: subtype,
   });
 };

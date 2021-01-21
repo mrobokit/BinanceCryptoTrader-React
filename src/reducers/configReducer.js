@@ -4,6 +4,7 @@ const initialConfig = {
   fiat: "USDT",
   tradeStatus: false,
   tickerStatus: false,
+  klineStatus: false,
   symbolList: [
     { name: "ENJ" },
     { name: "XLM" },
@@ -31,6 +32,8 @@ export default (state = initialConfig, action) => {
       return { ...state, tradeStatus: action.payload };
     case "TICKER_STATUS":
       return { ...state, tickerStatus: action.payload };
+    case "KLINE_STATUS":
+      return { ...state, klineStatus: action.payload };
     default:
       return state;
   }

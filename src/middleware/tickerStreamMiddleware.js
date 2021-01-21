@@ -20,6 +20,7 @@ const tickerStreamMiddleware = () => {
 
         tickerSocket.onmessage = (event) => {
           const data = JSON.parse(event.data);
+          //console.log(data);  - DEBUG ticker
           const subtype = data.s;
           dispatch(action.save(data, subtype));
         };

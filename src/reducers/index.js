@@ -7,6 +7,7 @@ import {
   tradeSocketReducer,
   tickerSocketReducer,
   eventSocketReducer,
+  klineSocketReducer,
 } from "./socketReducer";
 
 export default combineReducers({
@@ -16,4 +17,5 @@ export default combineReducers({
   tradeStream: tradeSocketReducer,
   tickerStream: tickerSocketReducer,
   eventStream: eventSocketReducer,
+  klineStream: klineSocketReducer,
 });

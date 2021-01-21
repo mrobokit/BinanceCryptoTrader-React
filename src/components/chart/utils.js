@@ -10,8 +10,8 @@ var parse = timeFormat("%Y-%m-%d %H:%M:%S");
 // Proud of this function
 export async function getData() {
   const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
-    "30m",
-    "LINKUSDT"
+    "5m",
+    "ETHUSDT"
   );
 
   const turnArrayOfArraysIntoAnArrayOfObjects = fetchArrayOfArrays.map(

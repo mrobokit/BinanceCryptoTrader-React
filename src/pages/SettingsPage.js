@@ -46,8 +46,8 @@ const SettingsPage = () => {
   };
 
   // const tradeStream = useSelector((state) => state.tradeStream);
-  // const tickerStream = useSelector((state) => state.tickerStream);
-
+  const tickerStream = useSelector((state) => state.tickerStream);
+  const klineStream = useSelector((state) => state.klineStream);
   // const connectToTradeStream = () => {
   //   dispatch(storeTradeStatus(false));
   //   dispatch(
@@ -105,15 +105,12 @@ const SettingsPage = () => {
       >
         trade- debug
       </button> */}
-
       <button
         className="ui mini button"
         onClick={() => parseBinanceDataForChart()}
       >
-        Debug Historical Candlestick Data
+        Debug Historical Candlestick API Data
       </button>
-
-      {/* 
       <button
         className="ui mini button"
         onClick={() => {
@@ -121,15 +118,16 @@ const SettingsPage = () => {
         }}
       >
         ticker - debug
-      </button>{" "}
-    
-      <div className="ui header">On/Off</div>
+      </button>
       <button
         className="ui mini button"
-        onClick={() => connectToTickerStream()}
+        onClick={() => {
+          console.log(klineStream);
+        }}
       >
-        Connect To Ticker Stream
-      </button> */}
+        kline - debug
+      </button>
+
       {/* <br />
       <button
         className="ui mini button"

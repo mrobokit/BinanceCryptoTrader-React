@@ -39,6 +39,10 @@ export const tickerSocketReducer = (state = [], action) => {
         const name = action.subtype.toLowerCase();
         return { ...state, [name]: action.payload }; // [] is a lifesaver again!
       }
+      // if (action.payload.k.s === action.subtype) {
+      //   const name = action.payload.k.e;
+      //   return { ...state, [name]: action.payload };
+      // }
       break;
     default:
       return state;
@@ -64,6 +68,28 @@ export const tradeSocketReducer = (state = [], action) => {
         return { ...state, [name]: action.payload }; // [] is a lifesaver again!
       }
 
+      break;
+    default:
+      return state;
+  }
+};
+export const klineSocketReducer = (state = [], action) => {
+  switch (action.type) {
+    case "connectToKline":
+      return action;
+    case "connectedToKline":
+      return action;
+    case "disconnectFromKline":
+      return action;
+    case "disconnectedFromKline":
+      return action;
+    case "wipeKline":
+      return action;
+    case "klineStream":
+      if (action.payload.k.e === action.subtype) {
+        const name = action.payload.e;
+        return { ...state, [name]: action.payload };
+      }
       break;
     default:
       return state;
