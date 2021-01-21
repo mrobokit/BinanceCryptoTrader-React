@@ -4,14 +4,18 @@ import Chart from "./Chart";
 import { getData } from "./utils";
 import { TypeChooser } from "react-stockcharts/lib/helper";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { connectToKline, storeKlineStream } from "../../actions";
+import {
+  connectToKline,
+  storeKlineStream,
+  storeKlineStatus,
+} from "../../actions";
 
 const ChartComponent = () => {
   const [historicalData, setHistoricalData] = useState(null);
   // const [klineTicker, setKLineTicker] = useState(null);
   const [onceOnly, setOnceOnly] = useState(false);
 
-  // const kline = useSelector((state) => state.klineStream.kline, shallowEqual);
+  const kline = useSelector((state) => state.klineStream.kline, shallowEqual);
   const config = useSelector((state) => state.config);
   const dispatch = useDispatch();
 
@@ -25,23 +29,27 @@ const ChartComponent = () => {
   };
 
   useEffect(() => {
-    connectToKlineStream();
-
-    // if (config.klineStatus === false) {
-    //   dispatch(storeKlineStatus(true));
-    // }
-
-    if (onceOnly === false) {
-      setOnceOnly(true);
-
-      getData().then((data) => {
-        console.log(data);
-        setHistoricalData(data); // to this i must write the incoming kline stream. Rerendering it and keeping same data in !
-      });
+    if (config.klineStatus === false) {
+      dispatch(storeKlineStatus(true));
+      connectToKlineStream();
     }
 
+    getData().then((data) => {
+      console.log(data);
+      setHistoricalData(data); // to this i must write the incoming kline stream. Rerendering it and keeping same data in !
+    });
+
+    // if (onceOnly === false) {
+    //   setOnceOnly(true);
+
+    //   getData().then((data) => {
+    //     console.log(data);
+    //     setHistoricalData(data); // to this i must write the incoming kline stream. Rerendering it and keeping same data in !
+    //   });
+    // }
+
     //setHistoricalData(...historicalData, klineTicker);
-  }, []); //kline
+  }, [kline]); //kline
 
   return (
     <div>
