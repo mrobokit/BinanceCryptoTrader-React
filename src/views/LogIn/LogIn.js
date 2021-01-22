@@ -52,7 +52,6 @@ export const LogIn = () => {
 
   return (
     <>
-      <Header name={"Log in"} />
       <Container>
         <AuthOption>
           <AuthText>Log in with email:</AuthText>

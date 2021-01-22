@@ -56,7 +56,6 @@ export const CreateAccount = () => {
 
   return (
     <>
-      <Header name={"Create account"} />
       <Container>
         <AuthOption>
           <AuthText>Sign up with email:</AuthText>

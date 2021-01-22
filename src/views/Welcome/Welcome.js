@@ -7,7 +7,7 @@ import { Button, Container } from "../../components";
 export const Welcome = () => {
   return (
     <>
-      <Container between partial>
+      <Container between partial style={{ marginTop: "80px" }}>
         <Intro>Crypto Trader Tools</Intro>
         <p>
           This is made with: React, Redux, Redux-Thunk, Netlify, Axios,

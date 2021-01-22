@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
-// import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar";
 import Dashboard from "../pages/Dashboard";
 import AccountPage from "../pages/AccountPage";
 // import SymbolPage from "../pages/SymbolPage";
-// import SettingsPage from "../pages/SettingsPage";
+import SettingsPage from "../pages/SettingsPage";
 
 import "../css/App.css";
 
@@ -15,11 +15,11 @@ import {
 } from "react-netlify-identity";
 
 import { GlobalStyles } from "../components";
-import { CreateAccount, Home, LogIn, Welcome } from "../views";
+import { CreateAccount, LogIn, Welcome } from "../views";
 
 const PublicRoute = (props) => {
   const { isLoggedIn } = useIdentityContext();
-  return isLoggedIn ? <Redirect to="/home" /> : <Route {...props} />;
+  return isLoggedIn ? <Redirect to="/dashboard" /> : <Route {...props} />;
 };
 
 const PrivateRoute = (props) => {
@@ -41,25 +41,22 @@ const App = () => {
         <BrowserRouter>
           <Switch>
             <div className="ui container container-style hundredvh">
-              {/* <Navbar />
-            <div
-              className="ui segment "
-              style={{ height: "calc(100% - 65px)" }}
-            > */}
-              <PublicRoute exact path="/" component={Welcome} />
-              <PublicRoute path="/welcome" component={Welcome} />
-              <PublicRoute path="/createaccount" component={CreateAccount} />
-              <PublicRoute path="/login" component={LogIn} />
+              <Navbar />
+              <div style={{ height: "calc(100% - 65px)" }}>
+                <PublicRoute exact path="/" component={Welcome} />
+                <PublicRoute path="/welcome" component={Welcome} />
+                <PublicRoute path="/createaccount" component={CreateAccount} />
+                <PublicRoute path="/login" component={LogIn} />
 
-              <PrivateRoute path="/home" component={Home} />
-              <PrivateRoute path="/dashboard" component={Dashboard} />
-              <PrivateRoute path="/wallet" component={AccountPage} />
-              {/* <Route path="/" exact component={AuthStatusView} />
+                <PrivateRoute path="/dashboard" component={Dashboard} />
+                <PrivateRoute path="/wallet" component={AccountPage} />
+                <PrivateRoute path="/settings" component={SettingsPage} />
+                {/* />
               <Route path="/dashboard" exact component={Dashboard} />
               <Route path="/account" exact component={AccountPage} />
               <Route path="/trade/:pair" component={SymbolPage} />
               <Route path="/settings" component={SettingsPage} /> */}
-              {/* </div> */}
+              </div>
             </div>
           </Switch>
         </BrowserRouter>

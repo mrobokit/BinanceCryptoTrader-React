@@ -142,7 +142,7 @@ const MyChart = () => {
     return () => {
       binanceSocket.close();
       dispatch(storeCandleStreamNoReload(false));
-      chart.current.remove();
+      if (chart) chart?.current?.remove();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config.pair]);

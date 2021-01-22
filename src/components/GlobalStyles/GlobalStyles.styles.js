@@ -27,7 +27,7 @@ export const GlobalStyles = createGlobalStyle`
     color: var(--color-dark);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-size: var(--font-size-s);
-    padding-top: 80px;
+    // padding-top: 40px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
 

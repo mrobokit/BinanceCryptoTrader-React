@@ -10,7 +10,7 @@ import MyChart from "../components/chart/MyChart";
 
 const Dashboard = () => {
   return (
-    <div className="ui container">
+    <div className="ui container segment">
       <div className="ui grid">
         <div className="six wide column">
           <Searchcrypto />
