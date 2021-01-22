@@ -1,28 +1,68 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
-import AccountPage from "../pages/AccountPage";
-import Navbar from "../components/Navbar";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+// import Navbar from "../components/Navbar";
+// import Dashboard from "../pages/Dashboard";
+// import AccountPage from "../pages/AccountPage";
+// import SymbolPage from "../pages/SymbolPage";
+// import SettingsPage from "../pages/SettingsPage";
+
 import "../css/App.css";
-import SymbolPage from "../pages/SymbolPage";
-import SettingsPage from "../pages/SettingsPage";
-// import { IdentityContextProvider } from "react-netlify-identity";
+
+//react-netlify-identity-widget
+import {
+  IdentityContextProvider,
+  useIdentityContext,
+} from "react-netlify-identity";
+
+import { GlobalStyles } from "../components";
+import { CreateAccount, Home, LogIn, Welcome } from "../views";
+
+const PublicRoute = (props) => {
+  const { isLoggedIn } = useIdentityContext();
+  return isLoggedIn ? <Redirect to="/home" /> : <Route {...props} />;
+};
+
+const PrivateRoute = (props) => {
+  const { isLoggedIn } = useIdentityContext();
+  return isLoggedIn ? <Route {...props} /> : <Redirect to="/welcome" />;
+};
 
 const App = () => {
-  //const url = "https://your-identity-instance.netlify.com/"; // supply the url of your Netlify site instance with Identity enabled. VERY IMPORTANT
+  const url = "https://cryptotradingtools.netlify.app/";
 
+  if (!url)
+    throw new Error(
+      "process.env.REACT_APP_NETLIFY_IDENTITY_URL is blank2, which means you probably forgot to set it in your Netlify environment variables"
+    );
   return (
-    <BrowserRouter>
-      <div className="ui container container-style hundredvh">
-        <Navbar />
-        <div className="ui segment " style={{ height: "calc(100% - 65px)" }}>
-          <Route path="/" exact component={Dashboard} />
-          <Route path="/account" exact component={AccountPage} />
-          <Route path="/trade/:pair" component={SymbolPage} />
-          <Route path="/settings" component={SettingsPage} />
-        </div>
-      </div>
-    </BrowserRouter>
+    <>
+      <GlobalStyles />
+      <IdentityContextProvider url={url}>
+        <BrowserRouter>
+          <Switch>
+            <div className="ui container container-style hundredvh">
+              {/* <Navbar />
+            <div
+              className="ui segment "
+              style={{ height: "calc(100% - 65px)" }}
+            > */}
+              <PublicRoute exact path="/" component={Welcome} />
+              <PublicRoute path="/welcome" component={Welcome} />
+              <PublicRoute path="/createaccount" component={CreateAccount} />
+              <PublicRoute path="/login" component={LogIn} />
+              <PrivateRoute path="/home" component={Home} />
+
+              {/* <Route path="/" exact component={AuthStatusView} />
+              <Route path="/dashboard" exact component={Dashboard} />
+              <Route path="/account" exact component={AccountPage} />
+              <Route path="/trade/:pair" component={SymbolPage} />
+              <Route path="/settings" component={SettingsPage} /> */}
+              {/* </div> */}
+            </div>
+          </Switch>
+        </BrowserRouter>
+      </IdentityContextProvider>
+    </>
   );
 };
 

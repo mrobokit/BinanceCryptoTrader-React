@@ -5,6 +5,9 @@ const Navbar = () => {
   return (
     <div className="ui secondary pointing menu">
       <Link className="item" to="/">
+        Home
+      </Link>
+      <Link className="item" to="/dashboard">
         Dashboard
       </Link>
       <Link className="item" to="/account">
