@@ -72,6 +72,10 @@ export const storePair = (pair) => async (dispatch) => {
   dispatch({ type: `STORE_PAIR`, payload: pair });
   //console.log(response.data);
 };
+export const storeCurrentPrice = (pair) => async (dispatch) => {
+  dispatch({ type: `STORE_CURRENT_PRICE`, payload: pair });
+  //console.log(response.data);
+};
 
 //Store NoReload for Streams
 export const storeCandleStreamNoReload = (state) => async (dispatch) => {

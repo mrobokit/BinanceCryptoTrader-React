@@ -1,7 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "../css/Coin.css";
 import Placeholder from "../components/semantic/Placeholder";
+import { storeCurrentPrice } from "../actions";
 
 export const CoinPair = () => {
   //This doesn't need to be rerendered, the only reason i let it
@@ -20,6 +21,7 @@ export const CoinPair = () => {
   }
 };
 
+//Reponsible of app-wide current price state
 export const CoinPrice = () => {
   const config = useSelector((state) => state.config);
   const trade = useSelector(
@@ -27,8 +29,10 @@ export const CoinPrice = () => {
   );
 
   if (trade && trade !== null) {
-    // when i disconnect socket, i need to set trade to be NULL
-    return <div> {parseFloat(trade?.p)}</div>;
+    const price = parseFloat(trade?.p);
+    const pair = trade?.s.replace(config.fiat, "");
+    document.title = pair + "-" + price;
+    return <div> {price}</div>;
   } else {
     //Loading state
     return <Placeholder />;

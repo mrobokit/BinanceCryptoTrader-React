@@ -69,6 +69,11 @@ const Actions = () => {
     return null;
   });
 
+  const onChangeSell = (e) => {
+    let value = e.target.value;
+    if (value <= parseFloat(symbolBalance).toFixed(2)) return value;
+  };
+
   if (wallet) {
     return (
       <div className="ui grid">
@@ -109,7 +114,7 @@ const Actions = () => {
           <div className="ui mini right labeled input m-tb buySell">
             <div className="ui label myLabel">{`Price (${config.fiat})`}</div>
             <input
-              type="text"
+              type="number"
               value={sellPrice}
               onChange={(e) => setSellPrice(e.target.value)}
             />
@@ -118,7 +123,8 @@ const Actions = () => {
           <div className="ui mini corner labeled input m-tb buySell">
             <div className="ui label myLabel">{`Amount (${config.symbol})`}</div>
             <input
-              type="text"
+              type="number"
+              onChange={(e) => onChangeSell(e)}
               value={sellQuantity}
               onChange={(e) => setSellQuantity(e.target.value)}
             />

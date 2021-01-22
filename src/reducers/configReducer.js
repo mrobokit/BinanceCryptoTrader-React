@@ -29,6 +29,8 @@ export default (state = initialConfig, action) => {
       return { ...state, pair: action.payload };
     case "STORE_FIAT":
       return { ...state, fiat: action.payload };
+    case "STORE_CURRENT_PRICE":
+      return { ...state, currentPrice: action.payload };
     case "eventStreamNoReload":
       return { ...state, eventStreamNoReload: action.payload };
     case "candleStreamNoReload":

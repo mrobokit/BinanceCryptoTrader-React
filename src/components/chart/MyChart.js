@@ -90,6 +90,14 @@ const MyChart = () => {
           //     bottom: 0.25,
           //   },
         },
+        watermark: {
+          color: "white",
+          visible: true,
+          text: `${config.pair}`,
+          fontSize: 18,
+          horzAlign: "left",
+          vertAlign: "top",
+        },
       });
       candleSeries = chart.current.addCandlestickSeries({
         upColor: "#4bffb5",
