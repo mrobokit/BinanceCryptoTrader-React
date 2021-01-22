@@ -2,9 +2,10 @@ const initialConfig = {
   pair: "LINKUSDT",
   symbol: "LINK",
   fiat: "USDT",
-  tradeStatus: false,
-  tickerStatus: false,
-  klineStatus: false,
+  candleStreamNoReload: false,
+  eventStreamNoReload: false,
+  tradeStreamNoReload: false,
+  tickerStreamNoReload: false,
   symbolList: [
     { name: "ENJ" },
     { name: "XLM" },
@@ -28,12 +29,14 @@ export default (state = initialConfig, action) => {
       return { ...state, pair: action.payload };
     case "STORE_FIAT":
       return { ...state, fiat: action.payload };
-    case "TRADE_STATUS":
-      return { ...state, tradeStatus: action.payload };
-    case "TICKER_STATUS":
-      return { ...state, tickerStatus: action.payload };
-    case "KLINE_STATUS":
-      return { ...state, klineStatus: action.payload };
+    case "eventStreamNoReload":
+      return { ...state, eventStreamNoReload: action.payload };
+    case "candleStreamNoReload":
+      return { ...state, candleStreamNoReload: action.payload };
+    case "tradeStreamNoReload":
+      return { ...state, tradeStreamNoReload: action.payload };
+    case "tickerStreamNoReload":
+      return { ...state, tickerStreamNoReload: action.payload };
     default:
       return state;
   }

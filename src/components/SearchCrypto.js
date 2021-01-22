@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import {
   storePair,
   storeSymbol,
-  storeTradeStatus,
-  storeTickerStatus,
+  storeTradeStreamNoReload,
+  storeEventStreamNoReload,
 } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -24,8 +24,8 @@ const SearchCrypto = () => {
           }}
           onKeyDown={(ev) => {
             if (ev.key === "Enter") {
-              dispatch(storeTradeStatus(false));
-              dispatch(storeTickerStatus(false));
+              dispatch(storeTradeStreamNoReload(false)); //They needto be reload-able in order to change
+              dispatch(storeEventStreamNoReload(false));
               dispatch(storePair(search + config.fiat));
               dispatch(storeSymbol(search));
             }

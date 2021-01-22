@@ -7,8 +7,8 @@ import {
   disconnectFromTicker,
   storeTickerStream,
   storeTradeStream,
-  storeTickerStatus,
-  storeTradeStatus,
+  storeTradeStreamNoReload,
+  storeTickerStreamNoReload,
   getHistoricalCandlestickDataWidthAxios,
 } from "../actions";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -49,7 +49,7 @@ const SettingsPage = () => {
   };
 
   const connectToTradeStream = () => {
-    dispatch(storeTradeStatus(false));
+    dispatch(storeTradeStreamNoReload(false));
     dispatch(
       connectToTrade(
         `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@trade`,
@@ -67,7 +67,7 @@ const SettingsPage = () => {
   };
 
   const connectToTickerStream = () => {
-    dispatch(storeTickerStatus(false));
+    dispatch(storeTickerStreamNoReload(false));
     dispatch(
       connectToTicker(
         `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@ticker`,
@@ -86,6 +86,9 @@ const SettingsPage = () => {
   return (
     <div>
       <div className="ui header">Debugers</div>
+      <button className="ui mini button" onClick={() => console.log(config)}>
+        config - debug
+      </button>
       {/* <button className="ui mini button" onClick={() => console.log(config)}>
         config - debug
       </button>

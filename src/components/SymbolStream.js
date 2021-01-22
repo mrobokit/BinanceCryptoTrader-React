@@ -4,8 +4,8 @@ import {
   connectToTicker,
   storeTickerStream,
   storeTradeStream,
-  storeTickerStatus,
-  storeTradeStatus,
+  storeTradeStreamNoReload,
+  storeTickerStreamNoReload,
 } from "../actions";
 import "../css/SymbolStream.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -36,13 +36,13 @@ const SymbolStream = () => {
   useEffect(
     () => {
       // Prevents closing the stream
-      if (config.tradeStatus === false) {
-        dispatch(storeTradeStatus(true));
+      if (config.tradeStreamNoReload === false) {
+        dispatch(storeTradeStreamNoReload(true));
         connectToTradeStream();
       }
-      if (config.tickerStatus === false) {
+      if (config.tickerStreamNoReload === false) {
+        dispatch(storeTickerStreamNoReload(true));
         connectToTickerStream();
-        dispatch(storeTickerStatus(true));
       }
 
       // Auto Stream leave on route change
