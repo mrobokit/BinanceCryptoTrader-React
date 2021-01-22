@@ -1,8 +1,7 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import "../css/Coin.css";
 import Placeholder from "../components/semantic/Placeholder";
-import { storeCurrentPrice } from "../actions";
 
 export const CoinPair = () => {
   //This doesn't need to be rerendered, the only reason i let it

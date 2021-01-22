@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { createChart, CrosshairMode } from "lightweight-charts";
 import "./MyChart.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,10 +11,11 @@ import {
 const MyChart = () => {
   const chartContainerRef = useRef();
   const chart = useRef();
-  const resizeObserver = useRef();
+  // const resizeObserver = useRef();
 
   const config = useSelector((state) => state.config);
   const dispatch = useDispatch();
+
   var candleSeries;
 
   const getData = async () => {
@@ -99,6 +100,8 @@ const MyChart = () => {
           vertAlign: "top",
         },
       });
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       candleSeries = chart.current.addCandlestickSeries({
         upColor: "#4bffb5",
         downColor: "#ff4976",

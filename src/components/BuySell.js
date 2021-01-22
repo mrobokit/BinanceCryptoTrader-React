@@ -69,11 +69,6 @@ const Actions = () => {
     return null;
   });
 
-  const onChangeSell = (e) => {
-    let value = e.target.value;
-    if (value <= parseFloat(symbolBalance).toFixed(2)) return value;
-  };
-
   if (wallet) {
     return (
       <div className="ui grid">
@@ -124,7 +119,6 @@ const Actions = () => {
             <div className="ui label myLabel">{`Amount (${config.symbol})`}</div>
             <input
               type="number"
-              onChange={(e) => onChangeSell(e)}
               value={sellQuantity}
               onChange={(e) => setSellQuantity(e.target.value)}
             />
