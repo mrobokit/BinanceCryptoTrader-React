@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createChart, CrosshairMode } from "lightweight-charts";
 import "./MyChart.css";
-import { getData } from "./utils";
 import { useDispatch, useSelector } from "react-redux";
 import FluidPlaceholder from "../semantic/FluidPlaceholder";
-import { storeCandleStreamNoReload } from "../../actions";
+import {
+  getHistoricalCandlestickDataWidthAxios,
+  storeCandleStreamNoReload,
+} from "../../actions";
 
 const MyChart = () => {
   const chartContainerRef = useRef();
@@ -13,10 +15,33 @@ const MyChart = () => {
 
   const config = useSelector((state) => state.config);
   const dispatch = useDispatch();
+  var candleSeries;
+
+  const getData = async () => {
+    const fetchArrayOfArrays = await getHistoricalCandlestickDataWidthAxios(
+      "1m",
+      `${config.pair}`
+    );
+
+    const turnArrayOfArraysIntoAnArrayOfObjects = fetchArrayOfArrays.map(
+      function (x) {
+        return {
+          time: x[0] / 1000,
+          open: x[1],
+          high: x[2],
+          low: x[3],
+          close: x[4],
+          // volume: x[5], - i need to construct a separate object for this, with just the time and volume ( see volumeData.js)
+        };
+      }
+    );
+
+    return turnArrayOfArraysIntoAnArrayOfObjects;
+  };
 
   useEffect(() => {
     const binanceSocket = new WebSocket(
-      `wss://stream.binance.com:9443/ws/linkusdt@kline_1m`
+      `wss://stream.binance.com:9443/ws/${config.pair.toLowerCase()}@kline_1m`
     );
 
     const run = async () => {
@@ -66,7 +91,7 @@ const MyChart = () => {
           //   },
         },
       });
-      const candleSeries = chart.current.addCandlestickSeries({
+      candleSeries = chart.current.addCandlestickSeries({
         upColor: "#4bffb5",
         downColor: "#ff4976",
         borderDownColor: "#ff4976",
@@ -105,6 +130,8 @@ const MyChart = () => {
 
     return () => {
       binanceSocket.close();
+      dispatch(storeCandleStreamNoReload(false));
+      chart.current.remove();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config.pair]);

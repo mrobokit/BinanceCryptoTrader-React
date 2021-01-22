@@ -37,13 +37,13 @@ export const cancelOrder = (orderId, symbol) => async (dispatch) => {
   dispatch({ type: `CANCEL_ORDER`, payload: response.data });
   //console.log(response.data);
 };
-export const getHistoricalCandlestickData = (interval, startTime, symbol) => {
-  const query = `symbol=${symbol}&interval=${interval}&startTime=${startTime}&endTime=${Date.now()}`;
+// export const getHistoricalCandlestickData = (interval, startTime, symbol) => {
+//   const query = `symbol=${symbol}&interval=${interval}&startTime=${startTime}&endTime=${Date.now()}`;
 
-  fetch(`https://api.binance.com/api/v3/klines?${query}`)
-    .then((response) => response.json())
-    .then((data) => console.log(data));
-};
+//   fetch(`https://api.binance.com/api/v3/klines?${query}`)
+//     .then((response) => response.json())
+//     .then((data) => console.log(data));
+// };
 
 //Super function
 export const getHistoricalCandlestickDataWidthAxios = async (
