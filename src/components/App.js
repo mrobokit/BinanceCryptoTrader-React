@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 // import Navbar from "../components/Navbar";
-// import Dashboard from "../pages/Dashboard";
-// import AccountPage from "../pages/AccountPage";
+import Dashboard from "../pages/Dashboard";
+import AccountPage from "../pages/AccountPage";
 // import SymbolPage from "../pages/SymbolPage";
 // import SettingsPage from "../pages/SettingsPage";
 
@@ -50,8 +50,10 @@ const App = () => {
               <PublicRoute path="/welcome" component={Welcome} />
               <PublicRoute path="/createaccount" component={CreateAccount} />
               <PublicRoute path="/login" component={LogIn} />
-              <PrivateRoute path="/home" component={Home} />
 
+              <PrivateRoute path="/home" component={Home} />
+              <PrivateRoute path="/dashboard" component={Dashboard} />
+              <PrivateRoute path="/wallet" component={AccountPage} />
               {/* <Route path="/" exact component={AuthStatusView} />
               <Route path="/dashboard" exact component={Dashboard} />
               <Route path="/account" exact component={AccountPage} />
