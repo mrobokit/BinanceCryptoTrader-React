@@ -146,3 +146,8 @@ run();
 - SymbolStream
 - BuySell
 - EventStream & Event
+- Authentication - Netlify Identity
+
+# Left to be done before i can add all functionality back and invite others to test:
+
+- Safe way to store API keys.
