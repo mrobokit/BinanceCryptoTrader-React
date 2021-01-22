@@ -42,21 +42,19 @@ const App = () => {
           <Switch>
             <div className="ui container container-style hundredvh">
               <Navbar />
-              <div style={{ height: "calc(100% - 65px)" }}>
-                <PublicRoute exact path="/" component={Welcome} />
-                <PublicRoute path="/welcome" component={Welcome} />
-                <PublicRoute path="/createaccount" component={CreateAccount} />
-                <PublicRoute path="/login" component={LogIn} />
+              <PublicRoute exact path="/" component={Welcome} />
+              <PublicRoute path="/welcome" component={Welcome} />
+              <PublicRoute path="/createaccount" component={CreateAccount} />
+              <PublicRoute path="/login" component={LogIn} />
 
-                <PrivateRoute path="/dashboard" component={Dashboard} />
-                <PrivateRoute path="/wallet" component={AccountPage} />
-                <PrivateRoute path="/settings" component={SettingsPage} />
-                {/* />
+              <PrivateRoute path="/dashboard" component={Dashboard} />
+              <PrivateRoute path="/wallet" component={AccountPage} />
+              <PrivateRoute path="/settings" component={SettingsPage} />
+              {/* />
               <Route path="/dashboard" exact component={Dashboard} />
               <Route path="/account" exact component={AccountPage} />
               <Route path="/trade/:pair" component={SymbolPage} />
               <Route path="/settings" component={SettingsPage} /> */}
-              </div>
             </div>
           </Switch>
         </BrowserRouter>
