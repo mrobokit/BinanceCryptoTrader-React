@@ -1,6 +1,6 @@
 const initialConfig = {
-  pair: "ETHUSDT",
-  symbol: "ETH",
+  pair: "LINKUSDT",
+  symbol: "LINK",
   fiat: "USDT",
   tradeStatus: false,
   tickerStatus: false,

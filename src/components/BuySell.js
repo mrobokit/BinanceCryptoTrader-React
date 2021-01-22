@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { tradeOrder, fetchWallet } from "../actions";
-import Placeholder from "../components/semantic/Placeholder";
+import FluidPlaceholder from "./semantic/FluidPlaceholder";
 
 import "../css/BuySell.css";
 
@@ -159,7 +159,7 @@ const Actions = () => {
     );
   }
 
-  return <Placeholder />;
+  return <FluidPlaceholder />;
 };
 
 export default Actions;

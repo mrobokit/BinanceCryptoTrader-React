@@ -11,7 +11,6 @@ import reducers from "./reducers";
 import tradeSocketMiddleware from "./middleware/tradeSocketMiddleware";
 import tickerStreamMiddleware from "./middleware/tickerStreamMiddleware";
 import eventStreamMiddleware from "./middleware/eventStreamMiddleware";
-import klineStreamMiddleware from "./middleware/klineStreamMiddleware";
 
 const store = createStore(
   reducers,
@@ -20,8 +19,7 @@ const store = createStore(
       thunk,
       tradeSocketMiddleware,
       tickerStreamMiddleware,
-      eventStreamMiddleware,
-      klineStreamMiddleware
+      eventStreamMiddleware
     )
   )
 );

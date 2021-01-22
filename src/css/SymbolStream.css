@@ -17,10 +17,12 @@
 }
 
 .custom-table td {
-  height: 30px !important;
+  height: 50px !important;
+  word-wrap: break-word;
   /* background: red; */
 }
 
-/* .custom-table {
-  width
-} */
+.custom-table {
+  height: 95px !important;
+  table-layout: fixed;
+}
