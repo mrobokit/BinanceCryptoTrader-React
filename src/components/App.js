@@ -28,7 +28,7 @@ const PrivateRoute = (props) => {
 };
 
 const App = () => {
-  const url = "https://cryptotradingtools.netlify.app/";
+  const url = "https://cryptotradingtools.netlify.app";
 
   if (!url)
     throw new Error(
