@@ -15,7 +15,6 @@ const MyChart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if()
     const binanceSocket = new WebSocket(
       `wss://stream.binance.com:9443/ws/linkusdt@kline_1m`
     );
