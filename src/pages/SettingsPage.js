@@ -18,7 +18,7 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 const SettingsPage = () => {
   const dispatch = useDispatch();
   const config = useSelector((state) => state.config, shallowEqual);
-  const { authedFetch } = useIdentityContext();
+  const { user, isLoggedIn, authedFetch } = useIdentityContext();
   // const [myData, setMyData] = useState([]);
 
   // const eventStream = useSelector(
@@ -88,49 +88,72 @@ const SettingsPage = () => {
 
   return (
     <div>
-      <div className="ui header">Netlify/FaunaDB Debug</div>
-      <button
-        className="ui button purple"
-        onClick={() => {
-          // create it!
-          readAll()
-            .then((response) => {
-              console.log("API response", response);
-              // set app state
-            })
-            .catch((error) => {
-              console.log("API error", error);
-            });
-        }}
-      >
-        Fauna DB Create
-      </button>
-      <button
-        className="ui button yellow"
-        onClick={() =>
-          console.log(
-            authedFetch.post("/api/protected", {
-              body: JSON.stringify({
-                payload: "CAKKDSL",
-              }),
-            })
-          )
-        }
-      >
-        authedFetch
-      </button>
-      <button
-        className="ui button black"
-        onClick={() => console.log(authedFetch.get("/api/protected-read-test"))}
-      >
-        fauna protected read test
-      </button>
+      {isLoggedIn && user.app_metadata.roles == "owner" ? (
+        <div>
+          <div className="ui header">Netlify/Fauna DB Debuggers</div>
+          <button
+            className="ui button purple"
+            onClick={() => {
+              // create it!
+              readAll()
+                .then((response) => {
+                  console.log("API response", response);
+                  // set app state
+                })
+                .catch((error) => {
+                  console.log("API error", error);
+                });
+            }}
+          >
+            Fauna DB Create
+          </button>
+          <button
+            className="ui button yellow"
+            onClick={() =>
+              console.log(
+                authedFetch.post("/api/protected", {
+                  body: JSON.stringify({
+                    payload: "CAKKDSL",
+                  }),
+                })
+              )
+            }
+          >
+            authedFetch
+          </button>
+          <button
+            className="ui button black"
+            onClick={() =>
+              console.log(authedFetch.get("/api/protected-read-test"))
+            }
+          >
+            fauna protected read test
+          </button>
+          <div className="ui header">App Debugers</div>
+          <button
+            className="ui mini button"
+            onClick={() => console.log(config)}
+          >
+            config - debug
+          </button>
+          <button
+            className="ui mini button"
+            onClick={() => parseBinanceDataForChart()}
+          >
+            Debug Historical Candlestick API Data
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
+    </div>
+  );
+};
 
-      <div className="ui header">App Debugers</div>
-      <button className="ui mini button" onClick={() => console.log(config)}>
-        config - debug
-      </button>
-      {/* <button className="ui mini button" onClick={() => console.log(config)}>
+export default SettingsPage;
+
+{
+  /* <button className="ui mini button" onClick={() => console.log(config)}>
         config - debug
       </button>
       <button
@@ -148,41 +171,43 @@ const SettingsPage = () => {
         }}
       >
         trade- debug
-      </button> */}
+      </button> */
+}
 
-      {/* <button
+{
+  /* <button
         className="ui mini button"
         onClick={() => {
           console.log(tradeStream);
         }}
       >
         trade- debug
-      </button> */}
+      </button> */
+}
 
-      <button
-        className="ui mini button"
-        onClick={() => parseBinanceDataForChart()}
-      >
-        Debug Historical Candlestick API Data
-      </button>
-      {/* <button
+{
+  /* <button
         className="ui mini button"
         onClick={() => {
           console.log(tickerStream);
         }}
       >
         ticker - debug
-      </button> */}
-      {/* <button
+      </button> */
+}
+{
+  /* <button
         className="ui mini button"
         onClick={() => {
           console.log(klineStream);
         }}
       >
         kline - debug
-      </button> */}
+      </button> */
+}
 
-      {/* <br />
+{
+  /* <br />
       <button
         className="ui mini button"
         onClick={() => disconnectFromTickerStream()}
@@ -200,9 +225,5 @@ const SettingsPage = () => {
         onClick={() => disconnectFromTradeStream()}
       >
         Disconnect From Trade Stream
-      </button> */}
-    </div>
-  );
-};
-
-export default SettingsPage;
+      </button> */
+}
