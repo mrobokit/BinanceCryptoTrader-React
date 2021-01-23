@@ -42,11 +42,13 @@ const App = () => {
           <Switch>
             <div className="ui container container-style hundredvh">
               <Navbar />
+
+              {/* //This is the default entry point, defined in PrivateRoute */}
               <PublicRoute exact path="/" component={Welcome} />
               <PublicRoute path="/welcome" component={Welcome} />
+
               <PublicRoute path="/createaccount" component={CreateAccount} />
               <PublicRoute path="/login" component={LogIn} />
-
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <PrivateRoute path="/wallet" component={AccountPage} />
               <PrivateRoute path="/settings" component={SettingsPage} />

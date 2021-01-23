@@ -24,7 +24,6 @@ const Navbar = () => {
           <Link className="item" to="/wallet">
             Wallet
           </Link>
-
           <div className="right menu">
             <div className="ui item"> Hi, {JSON.stringify(user?.email)}</div>
 

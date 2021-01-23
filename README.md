@@ -151,3 +151,36 @@ run();
 # Left to be done before i can add all functionality back and invite others to test:
 
 - Safe way to store API keys.
+
+# Tools i decided to use for the above :
+
+- Building API Gateway with Cloudflare Workers, store logged in users API keys with KV
+- Managing Authentication with Auth0 or any other
+
+# Cloudflare Workers (Free)
+
+- Go to Cloudflare Workers, create a subdomain (https://test.ctt.workers.dev) in my example.
+- Create a worker and call it test, leave it as is
+- Create a KV, call it kvtest and leave it as is for now
+
+1. Test your Worker
+
+```js
+fetch("https://test.ctt.workers.dev")
+  .then((response) => response.text())
+  .then((data) => console.log(data));
+```
+
+This will console log "hello world". Good.
+
+2. Configure your KV with your worker
+
+3. Retrieve data from the KV using this worker (unsecured)
+
+# Add Auth0 to your Cloudflware Workers
+
+- Configure Auth0, create a free account
+
+- Link it to the Workers
+
+- Retrieve data only if logged in
