@@ -13,10 +13,15 @@ import { useIdentityContext } from "react-netlify-identity";
 const Dashboard = () => {
   const { isLoggedIn } = useIdentityContext();
 
+  //FAUNA DB RELATED
+
+  // Function using fetch to POST to our API endpoint
   return (
     <div className="ui container segment">
       <div className="ui grid">
         <div className="six wide column">
+          {/* DELETED ME AFTER BEING DONE */}
+
           <Searchcrypto />
           <SymbolStream />
 
