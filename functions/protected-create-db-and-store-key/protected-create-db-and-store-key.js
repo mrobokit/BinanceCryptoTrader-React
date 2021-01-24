@@ -76,7 +76,7 @@ const handler = async (event, context) => {
               .then(() => {
                 console.log("Updated the record. Exiting...");
               })
-              .catch((error) => console.log(error));
+              .catch((error) => console.log("Error happened..."));
           }
         });
     })

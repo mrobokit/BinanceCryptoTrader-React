@@ -14,6 +14,7 @@ import {
 
 import { useIdentityContext } from "react-netlify-identity";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import "./Settings.css";
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
@@ -88,8 +89,98 @@ const SettingsPage = () => {
 
   return (
     <div>
-      {console.log(user)} {/* DELETE MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE */}
-      <div id="protected_sudo_only">
+      {isLoggedIn ? (
+        <div id="accessible_to_logged_in_only" className="ui segment small">
+          <div className="ui segment  settings-api">
+            <span className="ui header ">Store API Keys</span>
+
+            <div className="inline">
+              <input
+                className="ui input action  fau-input"
+                type="text"
+                placeholder="Binance API Key"
+              />
+              <button
+                className="ui button green"
+                onClick={() =>
+                  authedFetch
+                    .post("/api/protected-create-db-and-store-key", {
+                      body: JSON.stringify({
+                        BAK: "some_fake_key",
+                        id: 1,
+                      }),
+                    })
+                    .then((response) => console.log(response))
+                    .catch((e) => console.log(e))
+                }
+                disabled
+              >
+                Save
+              </button>
+            </div>
+
+            <div className="inline">
+              <input
+                className="ui input fau-input"
+                type="text"
+                placeholder="Binance API Secret"
+              />
+              <button
+                className="ui button green"
+                onClick={() =>
+                  authedFetch
+                    .post("/api/protected-create-db-and-store-key", {
+                      body: JSON.stringify({
+                        BAS: "some_fake_key",
+                        id: 2,
+                      }),
+                    })
+                    .then((response) => console.log(response))
+                    .catch((e) => console.log(e))
+                }
+                disabled
+              >
+                Save
+              </button>
+            </div>
+
+            <div className="inline">
+              <input
+                className="ui input fau-input"
+                type="text"
+                placeholder="Telegram API Key"
+              />
+              <button
+                className="ui button green"
+                onClick={() =>
+                  authedFetch
+                    .post("/api/protected-create-db-and-store-key", {
+                      body: JSON.stringify({
+                        TAK: "some_fake_key",
+                        id: 3,
+                      }),
+                    })
+                    .then((response) => console.log(response))
+                    .catch((e) => console.log(e))
+                }
+                disabled
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        "Not logged in  user"
+      )}
+    </div>
+  );
+};
+
+export default SettingsPage;
+
+{
+  /* <div id="protected_sudo_only">
         {isLoggedIn && user.app_metadata.roles == "owner" ? (
           <div>
             <div className="ui header">Netlify/Fauna DB Debuggers</div>
@@ -139,40 +230,8 @@ const SettingsPage = () => {
         ) : (
           ""
         )}
-      </div>
-      {isLoggedIn ? (
-        <div id="accessible_to_logged_in_only" className="ui segment small">
-          <span className="ui header ">Store API Keys</span>
-
-          <form name="safeStorage">
-            <input
-              className="ui input"
-              type="text"
-              placeholder="Binance API Key"
-            />
-            <input
-              className="ui input"
-              type="text"
-              placeholder="Binance Secret Key"
-            />
-            <input
-              className="ui input"
-              type="text"
-              placeholder="Telegram API Key"
-            />
-            <button className="ui button green" type="submit" disabled>
-              Send
-            </button>
-          </form>
-        </div>
-      ) : (
-        "Not logged in  user"
-      )}
-    </div>
-  );
-};
-
-export default SettingsPage;
+      </div> */
+}
 
 // <div className="ui header">App Debugers</div>
 // <button
