@@ -88,69 +88,103 @@ const SettingsPage = () => {
 
   return (
     <div>
-      {isLoggedIn && user.app_metadata.roles == "owner" ? (
-        <div>
-          <div className="ui header">Netlify/Fauna DB Debuggers</div>
-          <button
-            className="ui button purple"
-            onClick={() => {
-              // create it!
-              readAll()
-                .then((response) => {
-                  console.log("API response", response);
-                  // set app state
-                })
-                .catch((error) => {
-                  console.log("API error", error);
-                });
-            }}
-          >
-            Fauna DB Create
-          </button>
-          <button
-            className="ui button yellow"
-            onClick={() =>
-              console.log(
-                authedFetch.post("/api/protected", {
-                  body: JSON.stringify({
-                    payload: "CAKKDSL",
-                  }),
-                })
-              )
-            }
-          >
-            authedFetch
-          </button>
-          <button
-            className="ui button black"
-            onClick={() =>
-              console.log(authedFetch.get("/api/protected-read-test"))
-            }
-          >
-            fauna protected read test
-          </button>
-          <div className="ui header">App Debugers</div>
-          <button
-            className="ui mini button"
-            onClick={() => console.log(config)}
-          >
-            config - debug
-          </button>
-          <button
-            className="ui mini button"
-            onClick={() => parseBinanceDataForChart()}
-          >
-            Debug Historical Candlestick API Data
-          </button>
+      {console.log(user)} {/* DELETE MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE */}
+      <div id="protected_sudo_only">
+        {isLoggedIn && user.app_metadata.roles == "owner" ? (
+          <div>
+            <div className="ui header">Netlify/Fauna DB Debuggers</div>
+            <button className="ui button purple" disabled>
+              Empty
+            </button>
+            <button
+              className="ui button yellow"
+              onClick={() =>
+                console.log(
+                  authedFetch.post("/api/protected", {
+                    body: JSON.stringify({
+                      payload: "CAKKDSL",
+                    }),
+                  })
+                )
+              }
+            >
+              authedFetchServerless
+            </button>
+            <button
+              className="ui button black"
+              onClick={() =>
+                console.log(authedFetch.get("/api/protected-read-test"))
+              }
+            >
+              fauna protected read test
+            </button>
+
+            <button
+              className="ui button yellow"
+              onClick={() =>
+                console.log(
+                  authedFetch.post("/api/protected-write-test", {
+                    body: JSON.stringify({
+                      payload: "CAKKDSL",
+                    }),
+                  })
+                )
+              }
+            >
+              fauna protected write test
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+      {isLoggedIn ? (
+        <div id="accessible_to_logged_in_only" className="ui segment small">
+          <span className="ui header ">Store API Keys</span>
+
+          <form name="safeStorage">
+            <input
+              className="ui input"
+              type="text"
+              placeholder="Binance API Key"
+            />
+            <input
+              className="ui input"
+              type="text"
+              placeholder="Binance Secret Key"
+            />
+            <input
+              className="ui input"
+              type="text"
+              placeholder="Telegram API Key"
+            />
+            <button className="ui button green" type="submit" disabled>
+              Send
+            </button>
+          </form>
         </div>
       ) : (
-        ""
+        "Not logged in  user"
       )}
     </div>
   );
 };
 
 export default SettingsPage;
+
+// <div className="ui header">App Debugers</div>
+// <button
+//   className="ui mini button"
+//   onClick={() => console.log(config)}
+// >
+//   config - debug
+// </button>
+// <button
+//   className="ui mini button"
+//   onClick={() => parseBinanceDataForChart()}
+// >
+//   Debug Historical Candlestick API Data
+// </button>
 
 {
   /* <button className="ui mini button" onClick={() => console.log(config)}>
