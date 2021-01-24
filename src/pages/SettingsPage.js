@@ -123,15 +123,15 @@ const SettingsPage = () => {
               className="ui button yellow"
               onClick={() =>
                 console.log(
-                  authedFetch.post("/api/protected-write-test", {
+                  authedFetch.post("/api/protected-create-db", {
                     body: JSON.stringify({
-                      payload: "CAKKDSL",
+                      payload: "sholoooo",
                     }),
                   })
                 )
               }
             >
-              fauna protected write test
+              fauna protected create db userID
             </button>
           </div>
         ) : (

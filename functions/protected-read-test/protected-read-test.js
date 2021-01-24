@@ -8,6 +8,7 @@ const client = new Client({
 const handler = async (event, context) => {
   const claims = context.clientContext && context.clientContext.user;
   console.log("user claims", claims);
+
   // console.log(event.body); - what i get from client
 
   if (!claims) {
