@@ -122,16 +122,18 @@ const SettingsPage = () => {
             <button
               className="ui button yellow"
               onClick={() =>
-                console.log(
-                  authedFetch.post("/api/protected-create-db", {
+                authedFetch
+                  .post("/api/protected-create-db-and-store-key", {
                     body: JSON.stringify({
-                      payload: "sholoooo",
+                      BAK: "some_fake_key",
+                      id: 1,
                     }),
                   })
-                )
+                  .then((response) => console.log(response))
+                  .catch((e) => console.log(e))
               }
             >
-              fauna protected create db userID
+              fauna protected create db and key
             </button>
           </div>
         ) : (

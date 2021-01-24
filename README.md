@@ -184,3 +184,7 @@ This will console log "hello world". Good.
 - Link it to the Workers
 
 - Retrieve data only if logged in
+
+# FaunaDB
+
+- Each field you send must have an id object to it containing a number, otherwise it generates random ones and you can have duplicate objects
