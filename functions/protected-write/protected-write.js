@@ -29,12 +29,7 @@ const handler = async (event, context) => {
     const passphrase = process.env.NETLIFY_SALT;
     return CryptoJS.AES.encrypt(text, passphrase).toString();
   };
-  const decryptWithAES = (ciphertext) => {
-    const passphrase = process.env.NETLIFY_SALT;
-    const bytes = CryptoJS.AES.decrypt(ciphertext, passphrase);
-    const originalText = bytes.toString(CryptoJS.enc.Utf8);
-    return originalText;
-  };
+
   const data = JSON.parse(event.body);
   const item = {
     data,
