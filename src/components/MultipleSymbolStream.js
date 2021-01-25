@@ -1,32 +1,49 @@
+// These shall only refresh on localStorage change
+// Should be limited to 1 or 2 seconds refresh, names should not update, only the coins price and details
+
 import React, { useEffect } from "react";
 import {
   connectToTrade,
   connectToTicker,
-  storeTickerStream,
   storeTradeStream,
-  storeStreamsNoReload,
+  storeTickerStream,
+  storeTradeStreamNoReload,
+  storeTickerStreamNoReload,
 } from "../actions";
 import "../css/SymbolStream.css";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
 import { CoinPair, CoinPrice, Change24H } from "./MultipleCoin";
 
-const SymbolStream = () => {
+const MultipleSymbolStream = () => {
+  const localSymbolList = [
+    { name: "ENJ" },
+    { name: "XLM" },
+    { name: "BCH" },
+    { name: "LTC" },
+    { name: "XRP" },
+    { name: "DOT" },
+    { name: "ADA" },
+    { name: "LINK" },
+    { name: "BTC" },
+  ];
+  const localFiat = "USDT";
+  const tradeStreamNoReload = false;
+  const tickerStreamNoReload = false;
+
   const dispatch = useDispatch();
 
-  const config = useSelector((state) => state.config, shallowEqual);
-
-  const tradeStreams = config.symbolList
-    .map((s) => `${(s.name + config.fiat + "@trade").toLowerCase()}`)
+  const tradeStreams = localSymbolList
+    .map((s) => `${(s.name + localFiat + "@trade").toLowerCase()}`)
     .join("/");
-  const tickerStreams = config.symbolList
-    .map((s) => `${(s.name + config.fiat + "@ticker").toLowerCase()}`)
+  const tickerStreams = localSymbolList
+    .map((s) => `${(s.name + localFiat + "@ticker").toLowerCase()}`)
     .join("/");
 
   //Trade
   const connectToTradeStream = () => {
     dispatch(
       connectToTrade(
-        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@trade/${tradeStreams}`,
+        `wss://stream.binance.com:9443/ws/${tradeStreams}`,
         storeTradeStream
       )
     );
@@ -34,13 +51,13 @@ const SymbolStream = () => {
   const connectToTickerStream = () => {
     dispatch(
       connectToTicker(
-        `wss://stream.binance.com:9443/ws/${config.pair?.toLowerCase()}@ticker/${tickerStreams}`,
+        `wss://stream.binance.com:9443/ws/${tickerStreams}`,
         storeTickerStream
       )
     );
   };
 
-  const list = config.symbolList?.map((s) => {
+  const list = localSymbolList?.map((s) => {
     return (
       <tr key={s.name}>
         <td data-label="Pair">
@@ -58,51 +75,30 @@ const SymbolStream = () => {
     );
   });
 
-  useEffect(
-    () => {
-      // Prevents closing the stream
-      if (config.streamsNoReload === false) {
-        dispatch(storeStreamsNoReload(true));
-        connectToTradeStream();
-        connectToTickerStream();
-      }
+  // useEffect(
+  //   () => {
+  //     // Prevents closing the stream
+  //     if (tradeStreamNoReload === false) {
+  //       dispatch(storeTradeStreamNoReload(true));
+  //       connectToTradeStream();
+  //     }
+  //     if (tickerStreamNoReload === false) {
+  //       dispatch(storeTickerStreamNoReload(true));
+  //       connectToTickerStream();
+  //     }
 
-      // Auto Stream leave on route change
-      // return () => {
-      //   disconnectFromTickerStream();
-      //   disconnectFromTradeStream();
-      // };
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [config]
-  );
+  //     // Auto Stream leave on route change
+  //     // return () => {
+  //     //   disconnectFromTickerStream();
+  //     //   disconnectFromTradeStream();
+  //     // };
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   []
+  // );
 
   return (
     <div>
-      <table className="ui celled table custom-table">
-        <thead>
-          <tr>
-            <th>Pair</th>
-            <th>Live Trades</th>
-            <th>Last 24H Data</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-label="Pair">
-              <CoinPair data={config.symbol.toLowerCase()} />
-            </td>
-
-            <td data-label="Live Trades">
-              <CoinPrice data={config.symbol.toLowerCase()} />
-            </td>
-
-            <td data-label="Last 24H Change">
-              <Change24H data={config.symbol.toLowerCase()} />
-            </td>
-          </tr>
-        </tbody>
-      </table>
       <table>
         <tbody>{list}</tbody>
       </table>
@@ -110,4 +106,4 @@ const SymbolStream = () => {
   );
 };
 
-export default SymbolStream;
+export default MultipleSymbolStream;

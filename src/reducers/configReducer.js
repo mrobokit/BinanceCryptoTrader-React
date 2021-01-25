@@ -6,17 +6,6 @@ const initialConfig = {
   eventStreamNoReload: false,
   tradeStreamNoReload: false,
   tickerStreamNoReload: false,
-  symbolList: [
-    { name: "ENJ" },
-    { name: "XLM" },
-    { name: "BCH" },
-    { name: "LTC" },
-    { name: "XRP" },
-    { name: "DOT" },
-    { name: "ADA" },
-    { name: "LINK" },
-    { name: "BTC" },
-  ],
 };
 
 // ...state very important, else after just one dispatch, the entire store gets wiped

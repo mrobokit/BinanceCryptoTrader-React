@@ -1,6 +1,5 @@
 import React from "react";
 import SymbolStream from "../components/SymbolStream";
-
 import BuySell from "../components/BuySell";
 import EventStream from "../components/EventStream";
 import OpenOrders from "../components/OpenOrders";
@@ -11,6 +10,7 @@ import MyChart from "../components/chart/MyChart";
 import { useIdentityContext } from "react-netlify-identity";
 
 const Dashboard = () => {
+  const savedApiKeys = null;
   const { isLoggedIn } = useIdentityContext();
 
   //FAUNA DB RELATED
@@ -24,14 +24,6 @@ const Dashboard = () => {
 
           <Searchcrypto />
           <SymbolStream />
-
-          {isLoggedIn ? (
-            <div className="ui segment" style={{ height: "215px" }}>
-              <BuySell />
-            </div>
-          ) : (
-            "Log in to to be able to trade on your Binance account"
-          )}
         </div>
 
         <div
@@ -42,22 +34,23 @@ const Dashboard = () => {
           <MyChart />
         </div>
 
-        {isLoggedIn ? (
-          <div className="sixteen wide column">
-            <div className="ui segment">
-              <OpenOrders />
-            </div>
-            <div className="ui segment">
-              <EventStream />
+        {isLoggedIn && savedApiKeys ? (
+          <div data-di="protected-bi-api-calls">
+            <div className="ui segment" style={{ height: "215px" }}>
+              <div className="ui segment">
+                <BuySell />
+              </div>
+              <div className="ui segment">
+                <OpenOrders />
+              </div>
+              <div className="ui segment">
+                <EventStream />
+              </div>
             </div>
           </div>
         ) : (
-          "Log in to see Orders and Events related to your Binance account."
+          "Save your API keys in order to be able to trade."
         )}
-
-        <div className="sixteen wide column">
-          <div className="ui segment"></div>
-        </div>
       </div>
     </div>
   );
