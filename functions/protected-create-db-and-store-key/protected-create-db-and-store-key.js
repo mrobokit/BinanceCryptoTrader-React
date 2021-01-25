@@ -45,7 +45,6 @@ const handler = async (event, context) => {
   const key = Object.keys(item.data)[0]; // e.g "BAK"
   const newValue = Object.values(item.data)[0]; // e.g the new secret
 
-  const encryptedKey = encryptWithAES(key);
   const encryptedValue = encryptWithAES(newValue);
 
   // const decryptedKey = decryptWithAES(encryptedKey);
@@ -55,7 +54,7 @@ const handler = async (event, context) => {
 
   const newItem = {
     data: {
-      [encryptedKey]: encryptedValue,
+      [key]: encryptedValue,
     },
   };
 
@@ -77,13 +76,10 @@ const handler = async (event, context) => {
     );
   };
   const update_record = async () => {
-    const key = Object.keys(item.data)[0]; // e.g "BAK"
-    const newValue = Object.values(item.data)[0]; // e.g the new secret
-
     client.query(
       query.Update(query.Ref(query.Collection(`${hashInHex}`), item.data.id), {
         data: {
-          [key]: newValue,
+          [key]: encryptedValue,
         },
       })
     );
@@ -102,9 +98,12 @@ const handler = async (event, context) => {
 
             update_record()
               .then(() => {
-                rconsole.log("Updated the record. Exiting..");
+                console.log("Updated the record. Exiting..");
               })
-              .catch((error) => console.log("Error happened..."));
+              .catch((error) => {
+                console.log(error);
+                console.log("Error happened...");
+              });
           } else if (e.message === "invalid argument") {
             console.log("invalid argument", e);
 
