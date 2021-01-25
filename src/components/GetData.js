@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useIdentityContext } from "react-netlify-identity";
 
-const GetData = () => {
+const GetData = ({ endpoint }) => {
   const { authedFetch } = useIdentityContext();
 
   return (
@@ -10,12 +10,12 @@ const GetData = () => {
         className="ui button green"
         onClick={() =>
           authedFetch
-            .post("/api/protected-read")
+            .post(`/api/${endpoint}`)
             .then((response) => console.log(response))
             .catch((e) => console.log(e))
         }
       >
-        Read
+        {endpoint}
       </button>
     </div>
   );

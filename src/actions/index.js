@@ -2,6 +2,8 @@ import CryptoJS from "crypto-js";
 import binance from "../components/api/binance";
 
 // REST API Calls
+
+// /account
 export const fetchWallet = () => async (dispatch) => {
   const query = `timestamp=${Date.now()}`;
   const hash = CryptoJS.HmacSHA256(query, process.env.REACT_APP_API_SECRET);
@@ -10,6 +12,8 @@ export const fetchWallet = () => async (dispatch) => {
   dispatch({ type: "FETCH_WALLET", payload: response.data });
   //console.log("Fetched wallet", response.data);
 };
+
+// /order
 export const tradeOrder = (side, symbol, qt, price, type = "LIMIT") => async (
   dispatch
 ) => {
@@ -21,14 +25,6 @@ export const tradeOrder = (side, symbol, qt, price, type = "LIMIT") => async (
   dispatch({ type: `${side}_ORDER`, payload: response.data }); // BUY_ORDER or SELL_ORDER effectively
   console.log(response.data);
 };
-export const activeOrder = (symbol) => async (dispatch) => {
-  const query = `symbol=${symbol}&timestamp=${Date.now()}`;
-  const hash = CryptoJS.HmacSHA256(query, process.env.REACT_APP_API_SECRET);
-
-  const response = await binance.get(`/openOrders?${query}&signature=${hash}`); // must be GET
-  dispatch({ type: `ACTIVE_ORDER`, payload: response.data }); // BUY_ORDER or SELL_ORDER effectively
-  //console.log(response.data);
-};
 export const cancelOrder = (orderId, symbol) => async (dispatch) => {
   const query = `symbol=${symbol}&orderId=${orderId}&timestamp=${Date.now()}`;
   const hash = CryptoJS.HmacSHA256(query, process.env.REACT_APP_API_SECRET);
@@ -37,6 +33,17 @@ export const cancelOrder = (orderId, symbol) => async (dispatch) => {
   dispatch({ type: `CANCEL_ORDER`, payload: response.data });
   //console.log(response.data);
 };
+
+// /openOrders
+export const activeOrder = (symbol) => async (dispatch) => {
+  const query = `symbol=${symbol}&timestamp=${Date.now()}`;
+  const hash = CryptoJS.HmacSHA256(query, process.env.REACT_APP_API_SECRET);
+
+  const response = await binance.get(`/openOrders?${query}&signature=${hash}`); // must be GET
+  dispatch({ type: `ACTIVE_ORDER`, payload: response.data }); // BUY_ORDER or SELL_ORDER effectively
+  //console.log(response.data);
+};
+
 // export const getHistoricalCandlestickData = (interval, startTime, symbol) => {
 //   const query = `symbol=${symbol}&interval=${interval}&startTime=${startTime}&endTime=${Date.now()}`;
 

@@ -106,7 +106,9 @@ const SettingsPage = () => {
             <span className="ui header ">Protected read data </span>
 
             <div>
-              <GetData />
+              <GetData endpoint="protected-read" />
+              <br />
+              <GetData endpoint="fetchWallet" />
             </div>
           </div>
         </div>

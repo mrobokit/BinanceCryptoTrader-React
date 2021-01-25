@@ -62,7 +62,7 @@ const handler = async (event, context) => {
       });
   };
 
-  const endresult = await extractVal(2);
+  // const endresult = await extractVal(2); // DO NOT RETURN THIS DIRECTlY ANYMORE, exposes API KEY!
 
   //Then write this error or success to dom, not console log, not to expose what line of code comes from.
   return {
