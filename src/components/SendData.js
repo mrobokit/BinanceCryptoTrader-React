@@ -21,7 +21,7 @@ const SendData = ({ theKey, id, name }) => {
         className="ui button green"
         onClick={() =>
           authedFetch
-            .post("/api/protected-create-db-and-store-key", {
+            .post("/api/protected-write", {
               body: JSON.stringify({
                 [theKey]: value,
                 id: id,

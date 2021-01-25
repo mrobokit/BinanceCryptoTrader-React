@@ -16,6 +16,7 @@ import { useIdentityContext } from "react-netlify-identity";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import "./Settings.css";
 import SendData from "../components/SendData";
+import GetData from "../components/GetData";
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
@@ -100,6 +101,14 @@ const SettingsPage = () => {
             <SendData theKey="BAS" id="2" name="Binance Api Secret" />
             <SendData theKey="TAK" id="3" name="Telegram Api Key" />
           </div>
+
+          <div className="ui segment  settings-api">
+            <span className="ui header ">Protected read data </span>
+
+            <div>
+              <GetData />
+            </div>
+          </div>
         </div>
       ) : (
         "Not logged in  user"
@@ -109,147 +118,3 @@ const SettingsPage = () => {
 };
 
 export default SettingsPage;
-
-{
-  /* <div id="protected_sudo_only">
-        {isLoggedIn && user.app_metadata.roles == "owner" ? (
-          <div>
-            <div className="ui header">Netlify/Fauna DB Debuggers</div>
-            <button className="ui button purple" disabled>
-              Empty
-            </button>
-            <button
-              className="ui button yellow"
-              onClick={() =>
-                console.log(
-                  authedFetch.post("/api/protected", {
-                    body: JSON.stringify({
-                      payload: "CAKKDSL",
-                    }),
-                  })
-                )
-              }
-            >
-              authedFetchServerless
-            </button>
-            <button
-              className="ui button black"
-              onClick={() =>
-                console.log(authedFetch.get("/api/protected-read-test"))
-              }
-            >
-              fauna protected read test
-            </button>
-
-            <button
-              className="ui button yellow"
-              onClick={() =>
-                authedFetch
-                  .post("/api/protected-create-db-and-store-key", {
-                    body: JSON.stringify({
-                      BAK: "some_fake_key",
-                      id: 1,
-                    }),
-                  })
-                  .then((response) => console.log(response))
-                  .catch((e) => console.log(e))
-              }
-            >
-              fauna protected create db and key
-            </button>
-          </div>
-        ) : (
-          ""
-        )}
-      </div> */
-}
-
-// <div className="ui header">App Debugers</div>
-// <button
-//   className="ui mini button"
-//   onClick={() => console.log(config)}
-// >
-//   config - debug
-// </button>
-// <button
-//   className="ui mini button"
-//   onClick={() => parseBinanceDataForChart()}
-// >
-//   Debug Historical Candlestick API Data
-// </button>
-
-{
-  /* <button className="ui mini button" onClick={() => console.log(config)}>
-        config - debug
-      </button>
-      <button
-        className="ui mini button"
-        onClick={() => {
-          console.log(eventStream);
-        }}
-      >
-        event- debug
-      </button>
-      <button
-        className="ui mini button"
-        onClick={() => {
-          console.log(tradeStream);
-        }}
-      >
-        trade- debug
-      </button> */
-}
-
-{
-  /* <button
-        className="ui mini button"
-        onClick={() => {
-          console.log(tradeStream);
-        }}
-      >
-        trade- debug
-      </button> */
-}
-
-{
-  /* <button
-        className="ui mini button"
-        onClick={() => {
-          console.log(tickerStream);
-        }}
-      >
-        ticker - debug
-      </button> */
-}
-{
-  /* <button
-        className="ui mini button"
-        onClick={() => {
-          console.log(klineStream);
-        }}
-      >
-        kline - debug
-      </button> */
-}
-
-{
-  /* <br />
-      <button
-        className="ui mini button"
-        onClick={() => disconnectFromTickerStream()}
-      >
-        Disconnect From Ticker Stream
-      </button>
-      <br />
-      <br />
-      <button className="ui mini button" onClick={() => connectToTradeStream()}>
-        Connect To Trade Stream
-      </button>
-      <br />
-      <button
-        className="ui mini button"
-        onClick={() => disconnectFromTradeStream()}
-      >
-        Disconnect From Trade Stream
-      </button> */
-}

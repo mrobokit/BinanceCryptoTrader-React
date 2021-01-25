@@ -42,9 +42,7 @@ const handler = async (event, context) => {
   // console.log(item);
 
   const key = Object.keys(item.data)[0]; // e.g "BAK"
-  const hashInHexUserId = CryptoJS.enc.Hex.stringify(
-    CryptoJS.SHA256(claims.sub)
-  ); // Make it HMACSHA256 to make it even saltier :)
+  const userHash = CryptoJS.enc.Hex.stringify(CryptoJS.SHA256(claims.sub)); // Make it HMACSHA256 to make it even saltier :)
   const hashedKey = CryptoJS.enc.Hex.stringify(CryptoJS.SHA256(key));
   const newValue = Object.values(item.data)[0]; // e.g the new secret
 
@@ -62,34 +60,29 @@ const handler = async (event, context) => {
   };
 
   const db_exists = async () => {
-    return await client.query(
-      query.Get(query.Ref(`classes/${hashInHexUserId}`))
-    );
+    return await client.query(query.Get(query.Ref(`classes/${userHash}`)));
   };
   const create_database = async () => {
     return await client.query(
-      query.Create(query.Ref("classes"), { name: hashInHexUserId })
+      query.Create(query.Ref("classes"), { name: userHash })
     );
   };
   const create_record = async () => {
     // This will create it even if there is one identical ( must chech before to see if exists, must provide an id object )
     return await client.query(
       query.Create(
-        query.Ref(query.Collection(`${hashInHexUserId}`), item.data.id),
+        query.Ref(query.Collection(`${userHash}`), item.data.id),
         newItem
       )
     );
   };
   const update_record = async () => {
     client.query(
-      query.Update(
-        query.Ref(query.Collection(`${hashInHexUserId}`), item.data.id),
-        {
-          data: {
-            [hashedKey]: encryptedValue,
-          },
-        }
-      )
+      query.Update(query.Ref(query.Collection(`${userHash}`), item.data.id), {
+        data: {
+          [hashedKey]: encryptedValue,
+        },
+      })
     );
   };
 
