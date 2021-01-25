@@ -15,11 +15,13 @@ import {
 import { useIdentityContext } from "react-netlify-identity";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import "./Settings.css";
+import SendData from "../components/SendData";
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
   const config = useSelector((state) => state.config, shallowEqual);
   const { user, isLoggedIn, authedFetch } = useIdentityContext();
+
   // const [myData, setMyData] = useState([]);
 
   // const eventStream = useSelector(
@@ -94,80 +96,9 @@ const SettingsPage = () => {
           <div className="ui segment  settings-api">
             <span className="ui header ">Store API Keys</span>
 
-            <div className="inline">
-              <input
-                className="ui input action  fau-input"
-                type="text"
-                placeholder="Binance API Key"
-              />
-              <button
-                className="ui button green"
-                onClick={() =>
-                  authedFetch
-                    .post("/api/protected-create-db-and-store-key", {
-                      body: JSON.stringify({
-                        BAK: "some_fake_key",
-                        id: 1,
-                      }),
-                    })
-                    .then((response) => console.log(response))
-                    .catch((e) => console.log(e))
-                }
-                disabled
-              >
-                Save
-              </button>
-            </div>
-
-            <div className="inline">
-              <input
-                className="ui input fau-input"
-                type="text"
-                placeholder="Binance API Secret"
-              />
-              <button
-                className="ui button green"
-                onClick={() =>
-                  authedFetch
-                    .post("/api/protected-create-db-and-store-key", {
-                      body: JSON.stringify({
-                        BAS: "some_fake_key",
-                        id: 2,
-                      }),
-                    })
-                    .then((response) => console.log(response))
-                    .catch((e) => console.log(e))
-                }
-                disabled
-              >
-                Save
-              </button>
-            </div>
-
-            <div className="inline">
-              <input
-                className="ui input fau-input"
-                type="text"
-                placeholder="Telegram API Key"
-              />
-              <button
-                className="ui button green"
-                onClick={() =>
-                  authedFetch
-                    .post("/api/protected-create-db-and-store-key", {
-                      body: JSON.stringify({
-                        TAK: "some_fake_key",
-                        id: 3,
-                      }),
-                    })
-                    .then((response) => console.log(response))
-                    .catch((e) => console.log(e))
-                }
-                disabled
-              >
-                Save
-              </button>
-            </div>
+            <SendData theKey="BAK" id="1" name="Binance Api Key" />
+            <SendData theKey="BAS" id="2" name="Binance Api Secret" />
+            <SendData theKey="TAK" id="3" name="Telegram Api Key" />
           </div>
         </div>
       ) : (

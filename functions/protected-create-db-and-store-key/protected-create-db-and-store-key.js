@@ -25,10 +25,38 @@ const handler = async (event, context) => {
   // User is authenticated, moving on...
 
   // Hashing userID, then outputting a stringified hex that can be stored in DB ( unrecoverable )
+  const encryptWithAES = (text) => {
+    const passphrase = process.env.NETLIFY_SALT;
+    return CryptoJS.AES.encrypt(text, passphrase).toString();
+  };
+  const decryptWithAES = (ciphertext) => {
+    const passphrase = process.env.NETLIFY_SALT;
+    const bytes = CryptoJS.AES.decrypt(ciphertext, passphrase);
+    const originalText = bytes.toString(CryptoJS.enc.Utf8);
+    return originalText;
+  };
   const hashInHex = CryptoJS.enc.Hex.stringify(CryptoJS.SHA256(claims.sub)); // Make it HMACSHA256 to make it even saltier :)
   const data = JSON.parse(event.body);
   const item = {
     data,
+  };
+  // console.log(item);
+
+  const key = Object.keys(item.data)[0]; // e.g "BAK"
+  const newValue = Object.values(item.data)[0]; // e.g the new secret
+
+  const encryptedKey = encryptWithAES(key);
+  const encryptedValue = encryptWithAES(newValue);
+
+  // const decryptedKey = decryptWithAES(encryptedKey);
+  // const decryptedValue = decryptWithAES(encryptedValue);
+
+  // console.log(decryptedKey, decryptedValue);
+
+  const newItem = {
+    data: {
+      [encryptedKey]: encryptedValue,
+    },
   };
 
   const db_exists = async () => {
@@ -44,7 +72,7 @@ const handler = async (event, context) => {
     return await client.query(
       query.Create(
         query.Ref(query.Collection(`${hashInHex}`), item.data.id),
-        item
+        newItem
       )
     );
   };
@@ -74,9 +102,18 @@ const handler = async (event, context) => {
 
             update_record()
               .then(() => {
-                console.log("Updated the record. Exiting...");
+                rconsole.log("Updated the record. Exiting..");
               })
               .catch((error) => console.log("Error happened..."));
+          } else if (e.message === "invalid argument") {
+            console.log("invalid argument", e);
+
+            return {
+              statusCode: 400,
+              body: JSON.stringify("invalid argument"),
+            };
+          } else {
+            console.log("Exception_XX", e);
           }
         });
     })
@@ -103,7 +140,7 @@ const handler = async (event, context) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify("success"),
+    body: JSON.stringify("ok"),
   };
 };
 
