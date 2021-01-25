@@ -46,12 +46,14 @@ export const Change24H = () => {
 
   //Running & Disconnected & Loading State
   if (ticker && ticker !== null) {
+    const priceDiff = parseFloat(ticker?.p).toFixed(2);
+    const percentageDiff = parseFloat(ticker?.P).toFixed(2);
     // when i disconnect socket, i need to set trade to be NULL
     return (
       <div>
         <h2 className={`ui sub header m-tb ${ticker?.p > 0 ? "green" : "red"}`}>
-          <span>{parseFloat(ticker?.p).toFixed(2)} </span>&#32;
-          <span>{config.fiat} </span>/{parseFloat(ticker?.P).toFixed(2)}%
+          <span> {priceDiff} </span>&#32;
+          <span>{config.fiat} </span>/ {percentageDiff}%
         </h2>
       </div>
     );
