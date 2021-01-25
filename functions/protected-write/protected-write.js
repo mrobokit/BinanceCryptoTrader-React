@@ -81,61 +81,105 @@ const handler = async (event, context) => {
     );
   };
 
-  db_exists()
-    .then(() => {
-      console.log("Database exists, creating the record...");
-      create_record()
-        .then(() => {
-          console.log("Successfully created the record. Exiting...");
-        })
-        .catch((e) => {
-          if (e.message === "instance already exists") {
-            console.log("Record exists, updating it...");
-
-            update_record()
-              .then(() => {
-                console.log("Updated the record. Exiting..");
-              })
-              .catch((error) => {
-                console.log(error);
-                console.log("Error happened...");
-              });
-          } else if (e.message === "invalid argument") {
-            console.log("invalid argument", e);
+  const run = async () => {
+    return db_exists()
+      .then(() => {
+        console.log("Database exists, creating the record...");
+        return create_record()
+          .then(() => {
+            console.log("Successfully created the record. Exiting...");
 
             return {
-              statusCode: 400,
-              body: JSON.stringify("invalid argument"),
+              statusCode: 200,
+              response: "Successfully saved.",
             };
-          } else {
-            console.log("Exception_XX", e);
-          }
-        });
-    })
-    .catch((e) => {
-      if (e.message === "invalid ref") {
-        console.log("Database doesn't exist, creating it.");
-
-        create_database()
-          .then(() => {
-            console.log("Created DB, saving record...");
-            // No need for further checks, we`ve just created an empty database and directly saving something in it.
-            create_record()
-              .then(() => console.log("Created record. Exiting..."))
-              .catch(() => console.log("Something bad happened..."));
           })
-          .catch((e) => console.log("Could not create DB.Exiting..."));
-      }
+          .catch((e) => {
+            if (e.message === "instance already exists") {
+              console.log("Record exists, updating it...");
 
-      return {
-        statusCode: 400,
-        body: JSON.stringify("Exception error. Contact your developer."),
-      };
-    });
+              return update_record()
+                .then(() => {
+                  console.log("Updated the record. Exiting..");
+
+                  return {
+                    statusCode: 200,
+                    response: "Successfully updated.",
+                  };
+                })
+                .catch((error) => {
+                  console.log(error);
+                  console.log("Error happened...");
+
+                  return {
+                    statusCode: 400,
+                    response: "Error 100.",
+                  };
+                });
+            } else if (e.message === "invalid argument") {
+              console.log("invalid argument", e);
+
+              return {
+                statusCode: 400,
+                response: "Error 101",
+              };
+            } else {
+              console.log("Exception", e);
+
+              return {
+                statusCode: 400,
+                response: "Error 103",
+              };
+            }
+          });
+      })
+      .catch((e) => {
+        if (e.message === "invalid ref") {
+          console.log("Database doesn't exist, creating it.");
+
+          return create_database()
+            .then(() => {
+              console.log("Created DB, saving record...");
+              // No need for further checks, we`ve just created an empty database and directly saving something in it.
+              return create_record()
+                .then(() => {
+                  console.log("Created record. Exiting...");
+
+                  return {
+                    statusCode: 200,
+                    response: "Successfully saved new value.",
+                  };
+                })
+                .catch(() => {
+                  console.log("Something bad happened...");
+
+                  return {
+                    statusCode: 400,
+                    response: "Error 104",
+                  };
+                });
+            })
+            .catch((e) => {
+              console.log("Could not create DB.Exiting...");
+              return {
+                statusCode: 400,
+                response: "Error 105",
+              };
+            });
+        }
+
+        return {
+          statusCode: 400,
+          response: "Exception error.",
+        };
+      });
+  };
+
+  const endresult = await run();
 
   return {
-    statusCode: 200,
-    body: JSON.stringify("ok"),
+    statusCode: endresult.statusCode,
+    body: JSON.stringify(endresult.response),
   };
 };
 

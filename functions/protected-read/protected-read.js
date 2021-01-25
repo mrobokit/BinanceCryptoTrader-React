@@ -57,12 +57,12 @@ const handler = async (event, context) => {
 
         return {
           statusCode: 400,
-          response: "error",
+          response: "API Key is not properly configured.",
         };
       });
   };
 
-  const endresult = await extractVal(1);
+  const endresult = await extractVal(2);
 
   //Then write this error or success to dom, not console log, not to expose what line of code comes from.
   return {
