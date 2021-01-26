@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useIdentityContext } from "react-netlify-identity";
 
 const GetData = ({ endpoint }) => {
@@ -11,7 +11,7 @@ const GetData = ({ endpoint }) => {
         onClick={() =>
           authedFetch
             .post(`/api/${endpoint}`)
-            .then((response) => console.log(JSON.parse(response)))
+            .then((response) => console.log(response))
             .catch((e) => console.log(e))
         }
       >

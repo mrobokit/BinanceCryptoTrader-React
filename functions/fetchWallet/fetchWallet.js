@@ -128,11 +128,13 @@ const handler = async (event, context) => {
         `/account?${query}&signature=${hash}`
       );
 
-      console.log("ZZZ", response.data.balances);
+      const coins = response.data.balances;
+      const activeCoins = coins.filter((coin) => coin.free > 0);
+      console.log(activeCoins);
 
       return {
         statusCode: 200,
-        response: response.data.balances,
+        response: activeCoins,
       };
     }
   };
