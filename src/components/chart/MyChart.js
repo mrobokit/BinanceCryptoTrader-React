@@ -8,6 +8,8 @@ import {
   storeCandleStreamNoReload,
 } from "../../actions";
 
+// import { heikinAshi } from "./heikinAshi";
+
 const MyChart = () => {
   const chartContainerRef = useRef();
   const chart = useRef();
@@ -119,6 +121,25 @@ const MyChart = () => {
         var candlestick = message.k;
 
         //console.log(candlestick);
+
+        // const heikin = heikinAshi(
+        //   [
+        //     {
+        //       time: candlestick.t / 1000,
+        //       open: candlestick.o,
+        //       high: candlestick.h,
+        //       low: candlestick.l,
+        //       close: candlestick.c,
+        //     },
+        //   ],
+        //   {
+        //     overWrite: true, //overwrites the original data or create a new array
+        //     formatNumbers: false, //formats the numbers and reduces their significant digits based on the values
+        //     decimals: 4, //number of significant digits
+        //     forceExactDecimals: false, //force the number of significant digits or reduce them if the number is high
+        //   }
+        // );
+        // candleSeries.update(heikin[0]);
 
         candleSeries.update({
           time: candlestick.t / 1000,

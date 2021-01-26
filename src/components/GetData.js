@@ -11,7 +11,7 @@ const GetData = ({ endpoint }) => {
         onClick={() =>
           authedFetch
             .post(`/api/${endpoint}`)
-            .then((response) => console.log(response))
+            .then((response) => console.log(JSON.parse(response)))
             .catch((e) => console.log(e))
         }
       >

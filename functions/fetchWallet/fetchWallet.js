@@ -128,11 +128,11 @@ const handler = async (event, context) => {
         `/account?${query}&signature=${hash}`
       );
 
-      console.log("ZZZ", response);
+      console.log("ZZZ", response.data.balances);
 
       return {
         statusCode: 200,
-        response: response,
+        response: response.data.balances,
       };
     }
   };
