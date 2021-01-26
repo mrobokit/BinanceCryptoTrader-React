@@ -101,16 +101,6 @@ const SettingsPage = () => {
             <SendData theKey="BAS" id="2" name="Binance Api Secret" />
             <SendData theKey="TAK" id="3" name="Telegram Api Key" />
           </div>
-
-          <div className="ui segment  settings-api">
-            <span className="ui header ">Protected read data </span>
-
-            <div>
-              <GetData endpoint="protected-read" />
-              <br />
-              <GetData endpoint="fetchWallet" />
-            </div>
-          </div>
         </div>
       ) : (
         "Not logged in  user"
