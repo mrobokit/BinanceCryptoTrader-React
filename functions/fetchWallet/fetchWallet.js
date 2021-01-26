@@ -92,7 +92,7 @@ const handler = async (event, context) => {
       });
   };
 
-  const get_both_keys = async () => {
+  const getBothKeysAndRunQuery = async () => {
     const key1 = await decryptAndReturn(1);
     const key2 = await decryptAndReturn(2);
 
@@ -112,57 +112,32 @@ const handler = async (event, context) => {
         response: "API Secret is not configured.",
       };
     } else {
+      // Both keys are returned, now do the Binance axios thing and return the information to the client.
+
+      const binance = () => {
+        return axios.create({
+          baseURL: "https://api.binance.com/api/v3",
+          headers: { "X-MBX-APIKEY": key1.response },
+        });
+      };
+
+      const query = `timestamp=${Date.now()}`;
+
+      const hash = CryptoJS.HmacSHA256(query, key2.response);
+      const response = await binance().get(
+        `/account?${query}&signature=${hash}`
+      );
+
+      console.log("ZZZ", response);
+
       return {
         statusCode: 200,
-        response: "Both keys configured",
+        response: response,
       };
     }
   };
 
-  const run = async () => {
-    return decryptAndReturn(1)
-      .then((res) => {
-        if (res.statusCode === 400) {
-          return {
-            statusCode: 400,
-            response: "API key is not  configured. XOXOX",
-          };
-        }
-        return decryptAndReturn(2)
-          .then((res) => {
-            if (res.statusCode === 400) {
-              return {
-                statusCode: 400,
-                response: "API Secret is not  configured. YAYA",
-              };
-            }
-
-            // HERE I DO THE BINANCE API RUN
-            console.log("All is well");
-
-            return {
-              statusCode: 200,
-              response: "Got both keys",
-            };
-          })
-          .catch((e) => {
-            console.log(e);
-            return {
-              statusCode: 400,
-              response: "Error 1000x",
-            };
-          });
-      })
-      .catch((e) => {
-        console.log(e);
-        return {
-          statusCode: 400,
-          response: "Error 9283x",
-        };
-      });
-  };
-
-  const endresult = await get_both_keys();
+  const endresult = await getBothKeysAndRunQuery();
 
   //Then write this error or success to dom, not console log, not to expose what line of code comes from.
   return {
@@ -172,8 +147,3 @@ const handler = async (event, context) => {
 };
 
 module.exports = { handler };
-
-// const query = `timestamp=${Date.now()}`;
-// const hash = CryptoJS.HmacSHA256(query, process.env.REACT_APP_API_SECRET);
-
-// const response = await binance.get(`/account?${query}&signature=${hash}`);
