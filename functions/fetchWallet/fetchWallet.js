@@ -41,104 +41,128 @@ const handler = async (event, context) => {
     //2. I always need to see if it is present in the database
     return client
       .query(query.Get(query.Ref(`classes/${userHash}/${pos}`)))
-      .then(() => {
-        console.log("All well.");
+      .then((res) => {
+        const value = Object.values(res.data)[0];
         return {
           statusCode: 200,
-          response: "Got it",
+          response: value,
         };
       })
-      .catch(() => {
-        console.log("ERROR FROM HERE");
+      .catch((e) => {
         return {
           statusCode: 400,
-          response: "Cannot be found",
+          response: e.description,
         };
       });
   };
-  const get_both = async () => {
-    const decryptAndReturn = async (pos) => {
-      return key_value_exists(pos)
-        .then((res) => {
-          const value = Object.values(res.data)[0];
-
-          if (value !== undefined) {
-            const decryptedKey = decryptWithAES(value);
-            return {
-              statusCode: 200,
-              response: decryptedKey,
-            };
-          } else {
-            return {
-              statusCode: 400,
-              response: "API Key is not properly configured.",
-            };
-          }
-
-          //Then decrypt it, and perform w/e with it
-
-          //grab value 2 as well, i need both keys
-        })
-        .catch((error) => {
-          console.log(error);
-
+  const decryptAndReturn = async (pos) => {
+    return key_value_exists(pos)
+      .then((res) => {
+        if (res.statusCode === 400 && pos == 1) {
           return {
             statusCode: 400,
             response: "API Key is not properly configured.",
           };
-        });
-    };
+        } else if (res.statusCode === 400 && pos == 2) {
+          return {
+            statusCode: 400,
+            response: "API Secret is not properly configured.",
+          };
+        } else if (res.statusCode === 200) {
+          const value = res.response;
+          const decryptedKey = decryptWithAES(value);
+          return {
+            statusCode: 200,
+            response: decryptedKey,
+          };
+        } else {
+          return {
+            statusCode: 400,
+            response: "Exception error.",
+          };
+        }
+      })
+      .catch((error) => {
+        console.log(error);
 
-    const first = await decryptAndReturn(1);
-    const second = await decryptAndReturn(2);
+        return {
+          statusCode: 400,
+          response: "Could not find record.",
+        };
+      });
+  };
 
-    if (first.statusCode === 200 && second.statusCode === 200) {
-      return {
-        first: first.response,
-        second: second.response,
-      };
-    } else if (first.statusCode === 400 && second.statusCode === 400) {
-      return {
-        statusCode: 400,
-        response: "API Key & Secret have not been saved yet.",
-      };
-    } else if (first.statusCode === 400) {
+  const get_both_keys = async () => {
+    const key1 = await decryptAndReturn(1);
+    const key2 = await decryptAndReturn(2);
+
+    if (key1.statusCode === 400 && key2.statusCode === 400) {
       return {
         statusCode: 400,
-        response: "API Key has not been saved yet.",
+        response: "API Key & API Secret are not configured.",
       };
-    } else if (second.statusCode === 400) {
+    } else if (key1.statusCode === 400 && key2.statusCode === 200) {
       return {
         statusCode: 400,
-        response: "API Secret has not been saved yet.",
+        response: "API Key is not configured.",
+      };
+    } else if (key1.statusCode === 200 && key2.statusCode === 400) {
+      return {
+        statusCode: 400,
+        response: "API Secret is not configured.",
       };
     } else {
       return {
-        statusCode: 400,
-        response: "Error exception 10000",
+        statusCode: 200,
+        response: "Both keys configured",
       };
     }
   };
 
   const run = async () => {
-    return get_both()
-      .then(() => {
-        // console.log("Hi");
-        return {
-          statusCode: 200,
-          response: "Got both keys.",
-        };
+    return decryptAndReturn(1)
+      .then((res) => {
+        if (res.statusCode === 400) {
+          return {
+            statusCode: 400,
+            response: "API key is not  configured. XOXOX",
+          };
+        }
+        return decryptAndReturn(2)
+          .then((res) => {
+            if (res.statusCode === 400) {
+              return {
+                statusCode: 400,
+                response: "API Secret is not  configured. YAYA",
+              };
+            }
+
+            // HERE I DO THE BINANCE API RUN
+            console.log("All is well");
+
+            return {
+              statusCode: 200,
+              response: "Got both keys",
+            };
+          })
+          .catch((e) => {
+            console.log(e);
+            return {
+              statusCode: 400,
+              response: "Error 1000x",
+            };
+          });
       })
       .catch((e) => {
         console.log(e);
         return {
           statusCode: 400,
-          response: "Error 200",
+          response: "Error 9283x",
         };
       });
   };
 
-  const endresult = await run();
+  const endresult = await get_both_keys();
 
   //Then write this error or success to dom, not console log, not to expose what line of code comes from.
   return {
